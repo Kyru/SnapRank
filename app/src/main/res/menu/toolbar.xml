@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item android:id="@+id/add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="1"
+        android:title="nueva foto"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/title"
+        android:orderInCategory="2"
+        android:title="                   SnapRank                    "
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="filtros"
+        android:orderInCategory="3"
+        app:showAsAction="always"
+        />
+
+</menu>
