@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -19,8 +17,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(this);
 
-        getActionBar().setCustomView(R.layout.custom_actionbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Setting custom ActionBar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         if(fragment==null){
             fragment = new HomeFeedFragment();

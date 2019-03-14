@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/like"
-            android:background="@null"/>
+            android:background="?android:selectableItemBackground"/>
 
         <ImageButton
             android:id="@+id/button3"
@@ -43,8 +43,7 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/next"
-
-            android:background="@null"/>
+            android:background="?android:selectableItemBackground"/>
 
         <ImageButton
             android:id="@+id/button4"
@@ -53,8 +52,7 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/dislike"
-
-            android:background="@null"/>
+            android:background="?android:selectableItemBackground"/>
     </LinearLayout>
 </LinearLayout>
 

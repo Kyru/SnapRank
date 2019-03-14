@@ -1,0 +1,4 @@
+
+TODO:
+
++ Hacer el layout de cuando se clica la foto 
