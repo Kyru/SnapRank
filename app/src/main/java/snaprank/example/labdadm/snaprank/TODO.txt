@@ -1,5 +1,3 @@
 
 TODO:
 
-+ Hacer el layout de cuando se clica la foto
-+ Investigar sobre que es mejor: que la foto que sube aparezca en un imageview o en un imagebutton

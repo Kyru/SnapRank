@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#404040">
+    android:background="#CC404040"
+    >
 
     <ImageButton
         android:id="@+id/floatingActionButton"
@@ -23,19 +24,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#404040"
     android:layout_margin="10dp">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        tools:srcCompat="@tools:sample/avatars[6]" />
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:src="@drawable/like"
+        android:background="#FFF"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp">
 
         <TextView
             android:id="@+id/tv_username"
@@ -56,7 +62,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="3dp">
 
         <TextView
             android:id="@+id/tv_title"
@@ -78,7 +85,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="3dp">
 
         <TextView
             android:id="@+id/tv_category"
@@ -99,7 +107,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="3dp">
 
         <TextView
             android:id="@+id/tv_location"
