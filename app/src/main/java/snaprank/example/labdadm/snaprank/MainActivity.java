@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(fragment==null){
             fragment = new HomeFeedFragment();
         }
+        
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
     }
@@ -37,14 +38,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Fragment fragment = null;
         switch(menuItem.getItemId()){
             case R.id.navigation_home:
-                fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-                if(fragment==null){
-                    fragment = new HomeFeedFragment();
-                }
+                fragment = new HomeFeedFragment();
                 break;
             case R.id.navigation_search:
                 break;
             case R.id.navigation_profile:
+                fragment = new ProfileFragment();
                 break;
         }
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
