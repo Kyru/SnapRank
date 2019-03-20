@@ -1,4 +1,6 @@
 
 TODO:
 
-    - Poner a visible false cuando estemos en otros fragments las opciones de la barra superior
+    - Pop-up "filtros"
+    - Ventana "logros"
+    - Gridview con las fotis
