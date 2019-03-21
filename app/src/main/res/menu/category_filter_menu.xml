@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Mountain" />
+    <item
+        android:title="Sea" />
+    <item
+        android:title="Planets and Satellites" />
+    <item
+        android:title="Friends" />
+    <item
+        android:title="Animals"/>
+    <item
+        android:title="Streets"/>
+    <item
+        android:title="Vehicles" />
+    <item
+        android:title="Food" />
+    <item
+        android:title="People" />
+    <item
+        android:title="Music" />
+    <item
+        android:title="Festivity" />
+    <item
+        android:title="Culture" />
+
+</menu>

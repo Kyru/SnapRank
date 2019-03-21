@@ -1,8 +1,10 @@
 
 TODO:
 
-    - Pop-up "filtros"
+    - Ventana filtros
+        + Añadirle un search
+        + Que el título de las categorias se coja de values/strings
+        + Añadirles ids a las categorias del menu
+        + Tendremos que hacerla custom, para tener más control que con el PopUpMenu default de
+          android
     - Ventana "logros"
-    - Gridview con las fotis
-        + No se puede implementar esto hasta que tengamos la lógica del firebase, ya que sacaremos
-          las imagenes de ahí (imagino)
