@@ -4,3 +4,5 @@ TODO:
     - Pop-up "filtros"
     - Ventana "logros"
     - Gridview con las fotis
+        + No se puede implementar esto hasta que tengamos la lógica del firebase, ya que sacaremos
+          las imagenes de ahí (imagino)
