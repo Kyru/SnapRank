@@ -7,4 +7,9 @@
     <string name="location">Location: </string>
     <string name="category">Category: </string>
     <string name="title">Title: </string>
+
+    <string name="logro_categoria">Category: </string>
+    <string name="logro_fecha_desbloqueo">Month: </string>
+
+
 </resources>
