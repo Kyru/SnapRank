@@ -16,12 +16,12 @@
         android:id="@+id/main_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/like"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="30dp"
         android:clickable="true"
-        android:onClick="gotoViewPic"/>
+        android:onClick="gotoViewPic"
+        app:srcCompat="@drawable/like" />
 
     <LinearLayout
         android:layout_width="wrap_content"
