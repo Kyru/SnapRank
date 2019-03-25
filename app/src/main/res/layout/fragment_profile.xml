@@ -42,7 +42,7 @@
             <ImageView android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:layout_margin="3dp"
+                android:layout_marginBottom="6dp"
                 android:layout_gravity="center"
                 android:src="@drawable/location" />
             </LinearLayout>
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:layout_gravity="center"
                 android:layout_weight="0.4">
 
                 <TextView
@@ -66,7 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_margin="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginBottom="6dp"
                     android:text="LA VILA, ESPAÑA"
                     android:textAlignment="textStart"
                     android:gravity="center"
