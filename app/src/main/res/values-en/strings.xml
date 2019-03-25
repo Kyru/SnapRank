@@ -13,6 +13,11 @@
     <string name="action_logout">Logout</string>
     <string name="logout_message">Are you sure you want to logout?</string>
 
+    <string name="photographer">Photographer: </string>
+    <string name="location">Location: </string>
+    <string name="category">Category: </string>
+    <string name="title">Title: </string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
 </resources>

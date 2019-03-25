@@ -89,15 +89,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new HomeFeedFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.VISIBLE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
+                findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_search:
-                findViewById(R.id.custom_bar_add).setVisibility(View.INVISIBLE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.INVISIBLE);
+                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+                findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
-                findViewById(R.id.custom_bar_add).setVisibility(View.INVISIBLE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.INVISIBLE);
+                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+                findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
                 break;
         }
         if(fragment!=null) getSupportFragmentManager().beginTransaction()

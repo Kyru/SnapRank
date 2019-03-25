@@ -12,6 +12,11 @@
     <string name="action_logout">Cerrar sesión</string>
     <string name="logout_message">¿Está seguro de que desea cerrar sesión?</string>
 
+    <string name="photographer">Fotógrafo: </string>
+    <string name="location">Ubicación: </string>
+    <string name="category">Categoría: </string>
+    <string name="title">Título: </string>
+
     <string name="yes">Sí</string>
     <string name="no">No</string>
 </resources>
