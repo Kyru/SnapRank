@@ -37,7 +37,8 @@ public class HomeFeedFragment extends Fragment {
         ib_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopUpMenuFilter(v, ib_filter);
+                //showPopUpMenuFilter(v, ib_filter);
+                showPopUpFilter(v);
             }
         });
 
@@ -50,6 +51,7 @@ public class HomeFeedFragment extends Fragment {
         startActivity(intent);
     }
 
+    // Metodo hecho cuando funcionaba con el popupmenu, ahora trabajará con un popup window custom
     public void showPopUpMenuFilter(View view, ImageButton filter){
         PopupMenu popupMenu = new PopupMenu(getActivity(), filter);
         popupMenu.getMenuInflater().inflate(R.menu.category_filter_menu, popupMenu.getMenu());
@@ -62,5 +64,10 @@ public class HomeFeedFragment extends Fragment {
         });
 
         popupMenu.show();
+    }
+
+    public void showPopUpFilter(View view){
+        Intent popUpFilter = new Intent(getActivity(), PopUpFilter.class);
+        startActivity(popUpFilter);
     }
 }

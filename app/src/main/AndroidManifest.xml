@@ -24,6 +24,7 @@
         <activity
             android:name=".LogrosActivity">
         </activity>
+        <activity android:name=".PopUpFilter"></activity>
     </application>
 
 </manifest>
