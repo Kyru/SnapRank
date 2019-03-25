@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_search:
+                fragment = new SearchFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
