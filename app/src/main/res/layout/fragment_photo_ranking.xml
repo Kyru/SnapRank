@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/userFirst"
+            android:id="@+id/imageFirst"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
@@ -19,13 +19,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/userSecond"
+            app:layout_constraintEnd_toStartOf="@+id/imageSecond"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <ImageButton
-            android:id="@+id/userSecond"
+            android:id="@+id/imageSecond"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
@@ -33,13 +33,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/userThird"
-            app:layout_constraintStart_toEndOf="@+id/userFirst"
+            app:layout_constraintEnd_toStartOf="@+id/imageThird"
+            app:layout_constraintStart_toEndOf="@+id/imageFirst"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <ImageButton
-            android:id="@+id/userThird"
+            android:id="@+id/imageThird"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
@@ -48,13 +48,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/userSecond"
+            app:layout_constraintStart_toEndOf="@+id/imageSecond"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <GridView
-            android:layout_width="395dp"
-            android:layout_height="420dp"
+            android:id="@+id/_photoRanking"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
@@ -64,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userSecond" />
+            app:layout_constraintTop_toBottomOf="@+id/imageSecond" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
