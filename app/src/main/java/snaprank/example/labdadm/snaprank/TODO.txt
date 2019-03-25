@@ -1,0 +1,10 @@
+
+TODO:
+
+    - Ventana filtros
+        + Añadirle un search (?)
+        + Que el título de las categorias se coja de values/strings
+        + Añadirles ids a las categorias del menu
+        + Tendremos que hacerla custom, para tener más control que con el PopUpMenu default de
+          android
+    - Ventana "logros"
