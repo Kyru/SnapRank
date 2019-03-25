@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
             imagenSubidaList = new ArrayList<ImagenSubida>();
 
             for(int i = 0; i < 10; i++){
-                ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.like);
+                ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.taylor);
                 imagenSubidaList.add(imagenSubida);
             }
 
