@@ -1,15 +1,27 @@
 package snaprank.example.labdadm.snaprank;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    private FirebaseAuth auth;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +35,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
+
+        auth = FirebaseAuth.getInstance();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+        /*updateUI(currentUser);*/
     }
 
 
@@ -43,6 +66,41 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.signout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logoutButton:
+                AlertDialog.Builder logoutDialog = new AlertDialog.Builder(MainActivity.this);
+                logoutDialog.setMessage(R.string.logout_message);
+
+                logoutDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        auth.signOut();
+                        preferences.edit().putBoolean("loggedIn", false).apply();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                logoutDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                logoutDialog.create().show();
+        }
         return true;
     }
 }
