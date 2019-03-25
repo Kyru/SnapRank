@@ -1,18 +1,29 @@
 package snaprank.example.labdadm.snaprank;
 
-import android.drm.DrmStore;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+    private FirebaseAuth auth;
+
+    SharedPreferences preferences;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
 
+        auth = FirebaseAuth.getInstance();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        username = preferences.getString("username", "");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+        Log.d("USERNAME:", username);
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
+
+        currentUser.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Profile updated
+                        }
+                    }
+                });
+
+        /*updateUI(currentUser);*/
     }
 
 
@@ -44,15 +81,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new HomeFeedFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.VISIBLE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
+                findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_search:
-                findViewById(R.id.custom_bar_add).setVisibility(View.INVISIBLE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.INVISIBLE);
+                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+                findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
-                findViewById(R.id.custom_bar_add).setVisibility(View.INVISIBLE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.INVISIBLE);
+                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+                findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
                 break;
         }
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
