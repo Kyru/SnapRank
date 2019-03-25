@@ -88,6 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                     startActivity(intent);
                     // updateUI(user);
                 } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                     // If sign in fails, display a message to the user.
                     Toast.makeText(SignupActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
