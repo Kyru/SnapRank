@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = auth.getCurrentUser();
-        Log.d("USERNAME:", username);
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
