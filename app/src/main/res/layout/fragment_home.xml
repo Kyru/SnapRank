@@ -7,21 +7,31 @@
     android:orientation="vertical">
 
 <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="5dp">
 
-    <ImageView
-        android:id="@+id/main_pic"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        android:onClick="gotoViewPic"
-        app:srcCompat="@drawable/like" />
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="80dp">
+
+        <ImageView
+            android:id="@+id/main_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp"
+            android:clickable="true"
+            android:onClick="gotoViewPic"
+            app:srcCompat="@drawable/like" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

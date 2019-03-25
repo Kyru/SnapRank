@@ -7,7 +7,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class LogrosActivity extends AppCompatActivity {
     public LogroAdapter logroAdapter;
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
+    private TextView text1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,13 @@ public class LogrosActivity extends AppCompatActivity {
 
         logroList = new ArrayList<Logro>();
 
-        for(int i = 0; i < 10; i++){
-            Logro logro = new Logro("Animals", "Marzo 2019", R.drawable.like);
+        for(int i = 0; i < 3; i++){
+            Logro logro = new Logro("Animals", "Marzo 2019", R.drawable.gold_trophy);
             logroList.add(logro);
+            Logro logro1 = new Logro("Animals", "Marzo 2019", R.drawable.silver_trophy);
+            logroList.add(logro1);
+            Logro logro2 = new Logro("Animals", "Marzo 2019", R.drawable.bronze_trophy);
+            logroList.add(logro2);
         }
 
         logroAdapter = new LogroAdapter(this, logroList);

@@ -10,3 +10,6 @@ TODO:
 
     - Grid view
         + La imagen solo se clica si le das a un lado (parte blanca), esto hay que arreglarlo
+
+    - Activity opciones/ajustes:
+        + Para editar profile pic, name, passw...
