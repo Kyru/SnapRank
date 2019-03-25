@@ -1,9 +1,25 @@
 <resources>
     <string name="app_name">SnapRank</string>
-    <string name="title_home">Home</string>
-    <string name="title_search">Search</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_search">Buscar</string>
+    <string name="title_profile">Perfil</string>
+    <string name="email">Correo electrónico</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="register">Crear cuenta</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="logout_message">¿Está seguro de que desea cerrar sesión?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photographer">Fotógrafo: </string>
+    <string name="location">Ubicación: </string>
+    <string name="category">Categoría: </string>
+    <string name="title">Título: </string>
+
+    <string name="logro_categoria">Categoría: </string>
+    <string name="logro_fecha_desbloqueo">Mes: </string>
+
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>

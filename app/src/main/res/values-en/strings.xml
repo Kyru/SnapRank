@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SnapRank</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Sign In</string>
+    <string name="register">Sign up</string>
+    <string name="action_logout">Logout</string>
+    <string name="logout_message">Are you sure you want to logout?</string>
+
+    <string name="photographer">Photographer: </string>
+    <string name="location">Location: </string>
+    <string name="category">Category: </string>
+    <string name="title">Title: </string>
+
+    <string name="logro_categoria">Category: </string>
+    <string name="logro_fecha_desbloqueo">Month: </string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>

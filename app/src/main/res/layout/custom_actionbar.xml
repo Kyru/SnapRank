@@ -1,0 +1,56 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    android:layout_width = "match_parent"
+    android:layout_height = "wrap_content"
+    android:gravity = "center_vertical"
+    android:padding = "10dp"
+    android:weightSum = "1">
+    <LinearLayout
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:layout_weight = "0.5">
+
+        <ImageButton
+            android:id="@+id/custom_bar_add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_add_24"
+            android:background="?android:selectableItemBackground"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id = "@+id/custom_bar_name"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:layout_marginLeft = "10dp"
+            android:text = "SnapRank"
+            android:textSize = "20sp"
+            android:textColor = "#000"
+            android:textStyle = "bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:layout_weight = "0.5"
+        android:gravity = "end">
+        <ImageButton
+            android:id="@+id/custom_bar_filter"
+            android:layout_width = "wrap_content"
+            android:layout_height = "match_parent"
+            android:src = "@drawable/ic_settings_24"
+            android:background="?android:selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:visibility="gone"
+            app:srcCompat="@drawable/logout" />
+    </LinearLayout>
+</LinearLayout>
