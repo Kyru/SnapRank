@@ -30,6 +30,9 @@
             android:name=".ViewPic">
         </activity>
         <activity
+            android:name=".ViewProfile">
+        </activity>
+        <activity
             android:name=".LogrosActivity">
         </activity>
     </application>
