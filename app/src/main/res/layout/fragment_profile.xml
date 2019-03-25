@@ -57,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_margin="3dp"
-                    android:text="Ferran Devesa"
+                    android:text="FERDEMAR"
                     android:gravity="center"
                     android:textAlignment="textStart"
                     android:textColor="#FFF"/>
@@ -67,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_margin="3dp"
-                    android:text="La Vila"
+                    android:text="LA VILA, ESPAÑA"
                     android:textAlignment="textStart"
                     android:gravity="center"
                     android:textColor="#FFF"/>
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="3dp"
-            android:padding="3dp"
+            android:padding="15dp"
             android:text="Logros"
             android:layout_weight="0.4"
             android:drawableLeft="@drawable/award"
