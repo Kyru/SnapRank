@@ -9,8 +9,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
-        android:src="@drawable/like"
-        android:clickable="true"/>
+        android:src="@drawable/like"/>
 
 
 </FrameLayout>
