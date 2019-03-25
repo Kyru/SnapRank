@@ -2,6 +2,7 @@ package snaprank.example.labdadm.snaprank;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     preferences.edit().putBoolean("loggedIn", true).apply();
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = auth.getCurrentUser();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     // updateUI(user);

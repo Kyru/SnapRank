@@ -4,6 +4,7 @@
     <string name="title_search">Buscar</string>
     <string name="title_profile">Perfil</string>
     <string name="email">Correo electrónico</string>
+    <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="login">Iniciar sesión</string>

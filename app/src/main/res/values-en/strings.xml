@@ -5,6 +5,7 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="email">Email</string>
+    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="login">Sign In</string>
