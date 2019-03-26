@@ -32,7 +32,7 @@ public class UserRankingFragment extends Fragment {
         imageRankingList = new ArrayList<ImageRanking>();
 
         for(int i = 0; i < 40; i++){
-            ImageRanking imageRanking = new ImageRanking("id", R.drawable.taylor);
+            ImageRanking imageRanking = new ImageRanking("id", R.drawable.ferran);
             imageRankingList.add(imageRanking);
         }
 
