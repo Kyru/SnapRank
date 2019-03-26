@@ -1,10 +1,10 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.models;
 
-public class ImagenRanking {
+public class ImageRanking {
     private String id;
     private int imageId;
 
-    public ImagenRanking(String id, int imageId) {
+    public ImageRanking(String id, int imageId) {
         this.id = id;
         this.imageId = imageId;
     }
