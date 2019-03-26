@@ -17,9 +17,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ProfileFragment extends Fragment {
     List<ImagenSubida> imagenSubidaList;
     Button bt_logros;
     ImageButton bt_logout;
+    TextView usernameText;
 
     FirebaseAuth auth;
     SharedPreferences preferences;
@@ -43,7 +46,9 @@ public class ProfileFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        username = preferences.getString("username", "");
+
+        usernameText = view.findViewById(R.id.usernameTextView);
+        setUsername();
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
 
@@ -117,4 +122,16 @@ public class ProfileFragment extends Fragment {
 
         logoutDialog.create().show();
     }
+
+    public void setUsername() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                // Name, email address, and profile photo Url
+                username = profile.getDisplayName();
+                usernameText.setText(username);
+            }
+        }
+    }
+
 }

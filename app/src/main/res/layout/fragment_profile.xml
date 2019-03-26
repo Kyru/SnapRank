@@ -54,14 +54,14 @@
                 android:layout_weight="0.4">
 
                 <TextView
+                    android:id="@+id/usernameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_margin="3dp"
-                    android:text="FERDEMAR"
-                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="start"
                     android:textAlignment="textStart"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFF" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                     android:layout_marginBottom="6dp"
                     android:text="LA VILA, ESPAÑA"
                     android:textAlignment="textStart"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:textColor="#FFF"/>
 
             </LinearLayout>
