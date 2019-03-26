@@ -71,7 +71,13 @@ public class SignupActivity extends AppCompatActivity {
     public void createAccount(String email, String password, String confirmPassword) {
 
         if (!validateForm()) {
-            progressBar.setVisibility(View.INVISIBLE);
+            removeProgressBar();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            createToast("Las contraseñas no coinciden.");
+            removeProgressBar();
             return;
         }
 
@@ -79,7 +85,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    removeProgressBar();
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = auth.getCurrentUser();
 
@@ -88,10 +94,9 @@ public class SignupActivity extends AppCompatActivity {
                     startActivity(intent);
                     // updateUI(user);
                 } else {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    removeProgressBar();
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(SignupActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                    createToast("Authentication failed.");
                     // updateUI(null);
                 }
             }
@@ -130,5 +135,14 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void createToast(String message) {
+        Toast.makeText(SignupActivity.this, message,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }
