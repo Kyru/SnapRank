@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
     GridView gridView;
     ImagenSubidaAdapter imagenSubidaAdapter;
     List<ImagenSubida> imagenSubidaList;
-    Button bt_logros;
+    ImageButton bt_logros;
     ImageButton bt_logout;
 
     FirebaseAuth auth;
@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 30; i++){
             ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.taylor);
             imagenSubidaList.add(imagenSubida);
         }

@@ -9,3 +9,7 @@ TODO:
     - Lógica de la app
 
     - Modificar color navigation bar
+
+    - Centrar el texto en el ViewPicActivity
+
+    - Cambiar el profile para que sea CardView en vez de LinearLayout
