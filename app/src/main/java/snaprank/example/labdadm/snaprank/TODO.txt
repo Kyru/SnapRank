@@ -3,8 +3,6 @@ TODO:
 
     - Organizar las clases/carpetas.
 
-    - Strings: usar strings.xml
-
     - Activity opciones/ajustes:
         + Para editar profile pic, name, passw...
 
