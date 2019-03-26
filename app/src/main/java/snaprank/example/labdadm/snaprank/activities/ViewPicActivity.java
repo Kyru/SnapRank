@@ -1,17 +1,17 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 
-public class ViewPic extends AppCompatActivity {
+import snaprank.example.labdadm.snaprank.R;
+
+public class ViewPicActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_pic);
+        setContentView(R.layout.activity_viewpic);
         getSupportActionBar().hide();
 
     }

@@ -1,15 +1,11 @@
 
 TODO:
 
-    - Ventana filtros
-        + Añadirle un search (?)
-        + Que el título de las categorias se coja de values/strings
-        + Añadirles ids a las categorias del menu
-        + Tendremos que hacerla custom, para tener más control que con el PopUpMenu default de
-          android
-
-    - Grid view
-        + La imagen solo se clica si le das a un lado (parte blanca), esto hay que arreglarlo
+    - Organizar las clases/carpetas.
 
     - Activity opciones/ajustes:
         + Para editar profile pic, name, passw...
+
+    - Lógica de la app
+
+    - Modificar color navigation bar

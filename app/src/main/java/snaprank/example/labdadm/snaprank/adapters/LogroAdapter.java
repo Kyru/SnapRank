@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import snaprank.example.labdadm.snaprank.models.Logro;
+import snaprank.example.labdadm.snaprank.R;
 
 public class LogroAdapter extends  RecyclerView.Adapter<LogroAdapter.LogroViewHolder> {
 
@@ -32,11 +35,11 @@ public class LogroAdapter extends  RecyclerView.Adapter<LogroAdapter.LogroViewHo
     @Override
     public void onBindViewHolder(LogroViewHolder holder, int position) {
 
-        // Estos strings pillan el textview para que quede de la siguiente manera:
+        // Estos strings pillan el TextView para que quede de la siguiente manera:
         // Category: ejemploCategory
         // Month: ejemploMonth
-        String categoria = context.getResources().getString(R.string.logro_categoria) + " ";
-        String fechaDesbloqueo = context.getResources().getString(R.string.logro_fecha_desbloqueo) + " ";
+        String categoria = context.getResources().getString(R.string.award_category) + " ";
+        String fechaDesbloqueo = context.getResources().getString(R.string.award_date) + " ";
 
         holder.tv_categoriaLogro.setText(categoria +  logroList.get(position).getCategory());
         holder.tv_fechaDesbloqueoLogro.setText(fechaDesbloqueo + logroList.get(position).getFechaDesbloqueo());

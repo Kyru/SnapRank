@@ -32,7 +32,7 @@
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:src="@drawable/taylor"
-        android:background="#FFF"/>
+        android:background="?android:selectableItemBackground"/>
 
     <LinearLayout
         android:layout_width="match_parent"
