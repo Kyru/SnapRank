@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,26 +8,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import snaprank.example.labdadm.snaprank.models.ImageRanking;
+import snaprank.example.labdadm.snaprank.R;
 import java.util.List;
 
 public class ImageRankingAdapter extends ArrayAdapter {
     private int layout;
 
-    public ImageRankingAdapter(Context context, int layout, List<ImagenRanking> imagenRankingList){
-        super(context, layout, imagenRankingList);
+    public ImageRankingAdapter(Context context, int layout, List<ImageRanking> imageRankingList){
+        super(context, layout, imageRankingList);
         this.layout = layout;
     }
 
     static class ViewHolder {
-        private ImageView iv_imagenRanking;
-        public ViewHolder(ImageView imagenRanking) {
-            this.iv_imagenRanking = imagenRanking;
+        private ImageView iv_imageRanking;
+        public ViewHolder(ImageView imageRanking) {
+            this.iv_imageRanking = imageRanking;
         }
-        public ImageView getImagenRanking() {
-            return iv_imagenRanking;
+        public ImageView getImageRanking() {
+            return iv_imageRanking;
         }
-        public void setImagenRanking(ImageView imagenRanking) {
-            this.iv_imagenRanking = imagenRanking;
+        public void setImageRanking(ImageView imageRanking) {
+            this.iv_imageRanking = imageRanking;
         }
     }
 
@@ -38,16 +40,16 @@ public class ImageRankingAdapter extends ArrayAdapter {
             LayoutInflater layoutInflater = ((Activity) getContext()).getLayoutInflater();
             view = (layoutInflater.inflate(this.layout, null));
 
-            ImageRankingAdapter.ViewHolder viewHolder = new ImageRankingAdapter.ViewHolder((ImageView) view.findViewById(R.id.imagen_ranking));
+            ImageRankingAdapter.ViewHolder viewHolder = new ImageRankingAdapter.ViewHolder((ImageView) view.findViewById(R.id.image_ranking));
 
             view.setTag(viewHolder);
         }
 
         ImageRankingAdapter.ViewHolder resViewHolder = (ImageRankingAdapter.ViewHolder) view.getTag();
-        ImageView iv_imagenRanking = resViewHolder.getImagenRanking();
+        ImageView iv_imageRanking = resViewHolder.getImageRanking();
 
-        ImagenRanking imagenRanking = (ImagenRanking) getItem(position);
-        iv_imagenRanking.setImageResource(imagenRanking.getImageId());
+        ImageRanking imageRanking = (ImageRanking) getItem(position);
+        iv_imageRanking.setImageResource(imageRanking.getImageId());
 
         return view;
     }
