@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:background="#404040"
+        android:background="#303030"
         >
 
         <ImageView
@@ -84,7 +84,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:padding="15dp"
-            android:text="Logros"
+            android:text="@string/awards"
             android:layout_weight="0.4"
             android:drawableLeft="@drawable/award"
             android:background="?android:selectableItemBackground"

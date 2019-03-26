@@ -17,8 +17,9 @@
     <string name="category">Categoría: </string>
     <string name="title">Título: </string>
 
-    <string name="logro_categoria">Categoría: </string>
-    <string name="logro_fecha_desbloqueo">Mes: </string>
+    <string name="award_category">Categoría: </string>
+    <string name="award_date">Mes: </string>
+    <string name="awards">Logros </string>
 
     <string name="yes">Sí</string>
     <string name="no">No</string>
