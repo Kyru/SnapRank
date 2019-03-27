@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class HomeFeedFragment extends Fragment {
+import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
+
+public class HomeFragment extends Fragment {
 
     ImageButton ib_filter;
 
@@ -45,7 +47,7 @@ public class HomeFeedFragment extends Fragment {
     }
 
     public void gotoViewPic(View view){
-        Intent intent = new Intent(getContext(), ViewPic.class);
+        Intent intent = new Intent(getContext(), ViewPicActivity.class);
         startActivity(intent);
     }
 

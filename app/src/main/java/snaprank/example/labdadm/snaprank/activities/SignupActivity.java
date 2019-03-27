@@ -1,8 +1,7 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,101 +18,89 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class LoginActivity extends AppCompatActivity {
+import snaprank.example.labdadm.snaprank.R;
 
+public class SignupActivity extends AppCompatActivity {
+    private EditText fieldUsername;
     private EditText fieldEmail;
     private EditText fieldPassword;
+    private EditText fieldConfirmPassword;
 
-    private Button loginButton;
     private Button signupButton;
 
+    private String username;
     private String email;
     private String password;
+    private String confirmPassword;
 
     private ProgressBar progressBar;
+    SharedPreferences preferences;
 
     private FirebaseAuth auth;
-
-    SharedPreferences preferences;
-    private boolean loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
+        fieldUsername = findViewById(R.id.usernameText);
         fieldEmail = findViewById(R.id.emailEditText);
         fieldPassword = findViewById(R.id.passwordEditText);
+        fieldConfirmPassword = findViewById(R.id.confirmPasswordEditText);
 
-        loginButton = findViewById(R.id.loginButton);
-        signupButton = findViewById(R.id.signupButton);
-
-        progressBar = findViewById(R.id.progressBarLogin);
+        progressBar = findViewById(R.id.progressBarSignup);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        loggedIn = preferences.getBoolean("loggedIn", false);
-        if (loggedIn) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = auth.getCurrentUser();
-        // updateUI(currentUser);
-    }
-
-    private void logIn(String email, String password) {
+    public void createAccount(View view) {
         progressBar.setVisibility(View.VISIBLE);
 
+        username = fieldUsername.getText().toString();
+        email = fieldEmail.getText().toString();
+        password = fieldPassword.getText().toString();
+        confirmPassword = fieldConfirmPassword.getText().toString();
+
+        createAccount(email, password, confirmPassword);
+    }
+
+    public void createAccount(String email, String password, String confirmPassword) {
+
         if (!validateForm()) {
-            progressBar.setVisibility(View.INVISIBLE);
+            removeProgressBar();
             return;
         }
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        if (!password.equals(confirmPassword)) {
+            createToast("Las contraseñas no coinciden.");
+            removeProgressBar();
+            return;
+        }
+
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.INVISIBLE);
-
-                    preferences.edit().putBoolean("loggedIn", true).apply();
+                    removeProgressBar();
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = auth.getCurrentUser();
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    preferences.edit().putString("username", username).apply();
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(intent);
                     // updateUI(user);
                 } else {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    removeProgressBar();
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                    createToast("Authentication failed.");
                     // updateUI(null);
                 }
             }
         });
-    }
-
-    public void logIn(View view) {
-        email = fieldEmail.getText().toString();
-        password = fieldPassword.getText().toString();
-
-        logIn(email, password);
-    }
-
-    public void openSignup(View view) {
-        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -139,6 +126,23 @@ public class LoginActivity extends AppCompatActivity {
             fieldPassword.setError(null);
         }
 
+        confirmPassword = fieldConfirmPassword.getText().toString();
+        if (TextUtils.isEmpty(confirmPassword)) {
+            fieldConfirmPassword.setError("Required.");
+            valid = false;
+        } else {
+            fieldConfirmPassword.setError(null);
+        }
+
         return valid;
+    }
+
+    private void createToast(String message) {
+        Toast.makeText(SignupActivity.this, message,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

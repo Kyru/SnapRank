@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import snaprank.example.labdadm.snaprank.models.Logro;
+import snaprank.example.labdadm.snaprank.R;
 
 public class LogroAdapter extends  RecyclerView.Adapter<LogroAdapter.LogroViewHolder> {
 

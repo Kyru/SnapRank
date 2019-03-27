@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +25,13 @@ import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
+import snaprank.example.labdadm.snaprank.activities.LoginActivity;
+import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
+import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -95,7 +102,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void gotoViewPic(View view, int position){
-        Intent intent = new Intent(getContext(), ViewPic.class);
+        Intent intent = new Intent(getContext(), ViewPicActivity.class);
         startActivity(intent);
     }
 

@@ -9,7 +9,3 @@ TODO:
     - Lógica de la app
 
     - Modificar color navigation bar
-
-    - Cambiar de constraint layout a linear layout de LOGIN
-
-    - Img profile background transparente-escalada

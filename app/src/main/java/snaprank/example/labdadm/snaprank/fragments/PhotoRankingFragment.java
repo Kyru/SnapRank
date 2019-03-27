@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import snaprank.example.labdadm.snaprank.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserRankingFragment.OnFragmentInteractionListener} interface
+ * {@link PhotoRankingFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserRankingFragment#newInstance} factory method to
+ * Use the {@link PhotoRankingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserRankingFragment extends Fragment {
+public class PhotoRankingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class UserRankingFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public UserRankingFragment() {
+    public PhotoRankingFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class UserRankingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserRankingFragment.
+     * @return A new instance of fragment PhotoRankingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserRankingFragment newInstance(String param1, String param2) {
-        UserRankingFragment fragment = new UserRankingFragment();
+    public static PhotoRankingFragment newInstance(String param1, String param2) {
+        PhotoRankingFragment fragment = new PhotoRankingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +66,7 @@ public class UserRankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_ranking, container, false);
+        return inflater.inflate(R.layout.fragment_photo_ranking, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

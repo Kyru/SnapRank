@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.fragments.HomeFragment;
+import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
+import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -38,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         if(fragment==null){
-            fragment = new HomeFeedFragment();
+            fragment = new HomeFragment();
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
@@ -76,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Fragment fragment = null;
         switch(menuItem.getItemId()){
             case R.id.navigation_home:
-                fragment = new HomeFeedFragment();
+                fragment = new HomeFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.VISIBLE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);

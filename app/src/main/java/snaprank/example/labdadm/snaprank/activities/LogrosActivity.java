@@ -1,18 +1,18 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.adapters.LogroAdapter;
+import snaprank.example.labdadm.snaprank.models.Logro;
 
 public class LogrosActivity extends AppCompatActivity {
 
