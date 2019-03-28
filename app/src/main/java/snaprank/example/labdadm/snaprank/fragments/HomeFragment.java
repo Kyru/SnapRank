@@ -15,11 +15,13 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.activities.UploadImageActivity;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
 
 public class HomeFragment extends Fragment {
 
     ImageButton ib_filter;
+    ImageButton ib_upload_image;
 
     @Nullable
     @Override
@@ -39,6 +41,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showPopUpMenuFilter(v, ib_filter);
+            }
+        });
+
+        ib_upload_image = ((AppCompatActivity)getActivity()).findViewById(R.id.custom_bar_add);
+        ib_upload_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadImage();
             }
         });
 
@@ -63,5 +73,10 @@ public class HomeFragment extends Fragment {
         });
 
         popupMenu.show();
+    }
+
+    public void uploadImage() {
+        Intent intent = new Intent(getContext(), UploadImageActivity.class);
+        startActivity(intent);
     }
 }

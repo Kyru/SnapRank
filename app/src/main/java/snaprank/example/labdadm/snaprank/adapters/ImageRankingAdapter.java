@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import java.util.List;
+
+import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.ImagenRanking;
 
 public class ImageRankingAdapter extends ArrayAdapter {
     private int layout;

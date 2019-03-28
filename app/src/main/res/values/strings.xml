@@ -23,4 +23,26 @@
 
     <string name="yes">Sí</string>
     <string name="no">No</string>
+
+    <string name="select_photo">Elegir imagen</string>
+    <string name="upload_photo">Subir imagen</string>
+
+    <string name="image_description">Descripción</string>
+    <string name="image_location">Ubicación</string>
+
+    <string name="mountain">Montaña</string>
+    <string name="sea">Mar</string>
+    <string name="planets">Planetas y satélites</string>
+    <string name="friends">Amigos</string>
+    <string name="animals">Animales</string>
+    <string name="streets">Calles</string>
+    <string name="vehicles">Vehículos</string>
+    <string name="food">Comida</string>
+    <string name="people">Gente</string>
+    <string name="music">Música</string>
+    <string name="festivals">Festivales</string>
+    <string name="culture">Cultura</string>
+
+    <string name="success_upload_photo">Imagen subida correctamente</string>
+    <string name="permissions_denied_message">Necesitas los permisos para hacer uso completo de la aplicación</string>
 </resources>

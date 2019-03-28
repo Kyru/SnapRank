@@ -1,4 +1,4 @@
-package snaprank.example.labdadm.snaprank;
+package snaprank.example.labdadm.snaprank.models;
 
 public class ImagenRanking {
     private String id;

@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,12 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
@@ -32,6 +31,7 @@ import snaprank.example.labdadm.snaprank.activities.LoginActivity;
 import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class ProfileFragment extends Fragment {
 
@@ -42,16 +42,16 @@ public class ProfileFragment extends Fragment {
     ImageButton bt_logout;
     TextView usernameText;
 
-    FirebaseAuth auth;
+    private FirebaseService firebaseService = new FirebaseService();
     SharedPreferences preferences;
     private String username;
+    private JSONObject userInfo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile,container, false);
 
-        auth = FirebaseAuth.getInstance();
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         usernameText = view.findViewById(R.id.usernameTextView);
@@ -71,7 +71,6 @@ public class ProfileFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("aqui", "llego");
                 gotoViewPic(view, position);
             }
         });
@@ -85,7 +84,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        bt_logout = ((AppCompatActivity)getActivity()).findViewById(R.id.logoutButton);
+        bt_logout = ((AppCompatActivity) Objects.requireNonNull(getActivity())).findViewById(R.id.logoutButton);
         bt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,13 +106,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void logout() {
-        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         logoutDialog.setMessage(R.string.logout_message);
 
         logoutDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                auth.signOut();
+                firebaseService.logout();
                 preferences.edit().putBoolean("loggedIn", false).apply();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
@@ -131,14 +130,13 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setUsername() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            for (UserInfo profile : user.getProviderData()) {
-                // Name, email address, and profile photo Url
-                username = profile.getDisplayName();
-                usernameText.setText(username);
-            }
+        userInfo = firebaseService.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        usernameText.setText(username);
     }
 
 }

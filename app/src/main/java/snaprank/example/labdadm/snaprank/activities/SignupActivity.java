@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText fieldUsername;
@@ -38,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     SharedPreferences preferences;
 
     private FirebaseAuth auth;
+    private FirebaseService firebaseService = new FirebaseService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +90,8 @@ public class SignupActivity extends AppCompatActivity {
                     removeProgressBar();
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = auth.getCurrentUser();
+                    firebaseService.updateUser(username);
 
-                    preferences.edit().putString("username", username).apply();
                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(intent);
                     // updateUI(user);
