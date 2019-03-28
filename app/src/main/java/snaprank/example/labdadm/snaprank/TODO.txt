@@ -5,7 +5,3 @@ TODO:
         + Para editar profile pic, name, passw...
 
     - Lógica de la app
-
-    - Modificar color navigation bar (LA MIERDA VERDE)***
-
-    - Centrar el texto en el ViewPicActivity ***
