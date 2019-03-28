@@ -1,6 +1,8 @@
 package snaprank.example.labdadm.snaprank.activities;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+        // Cambiar el color del ActionBar
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
 
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
