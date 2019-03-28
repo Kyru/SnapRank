@@ -38,6 +38,7 @@ public class ProfileFragment extends Fragment {
     ImageButton bt_logros;
     ImageButton bt_logout;
 
+
     FirebaseAuth auth;
     SharedPreferences preferences;
     private String username;
@@ -53,10 +54,14 @@ public class ProfileFragment extends Fragment {
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
 
-        for(int i = 0; i < 30; i++){
-            ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.taylor);
-            imagenSubidaList.add(imagenSubida);
+        ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.ferran);
+        imagenSubidaList.add(imagenSubida);
+        for(int i = 0; i < 10; i++){
+            ImagenSubida imagenSubida2 = new ImagenSubida("id " + i, R.drawable.taylor);
+            imagenSubidaList.add(imagenSubida2);
         }
+
+
 
         imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList);
         gridView = view.findViewById(R.id.profile_grid);
@@ -65,7 +70,6 @@ public class ProfileFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("aqui", "llego");
                 gotoViewPic(view, position);
             }
         });
@@ -97,6 +101,7 @@ public class ProfileFragment extends Fragment {
 
     public void gotoViewPic(View view, int position){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
+        intent.putExtra("imageID", imagenSubidaList.get(position).getImageId());
         startActivity(intent);
     }
 

@@ -20,12 +20,19 @@ import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
 public class HomeFragment extends Fragment {
 
     ImageButton ib_filter;
+    int imageID;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container, false);
+
         ImageView image = view.findViewById(R.id.main_pic);
+
+        // Esto cuando este la lógica del firebase, habrá que sacar la imagen de ahí (con el id
+        // que este en el firebase
+        imageID = R.drawable.taylor;
+        image.setImageResource(imageID);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +55,7 @@ public class HomeFragment extends Fragment {
 
     public void gotoViewPic(View view){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
+        intent.putExtra("imageID", imageID);
         startActivity(intent);
     }
 
