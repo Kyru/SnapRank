@@ -18,6 +18,16 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,6 +54,10 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseService firebaseService = new FirebaseService();
     SharedPreferences preferences;
+    private FirebaseDatabase database;
+    private DatabaseReference dbref_img;
+    private FirebaseStorage firebaseStorage;
+
     private String username;
     private JSONObject userInfo;
 
@@ -54,21 +68,28 @@ public class ProfileFragment extends Fragment {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        imagenSubidaList = new ArrayList<ImagenSubida>();
         usernameText = view.findViewById(R.id.usernameText);
         setUsername();
-/*
-        imagenSubidaList = new ArrayList<ImagenSubida>();
 
-        ImagenSubida imagenSubida = new ImagenSubida("Ferran",);
-        imagenSubidaList.add(imagenSubida);
-        for(int i = 0; i < 10; i++){
-            ImagenSubida imagenSubida2 = new ImagenSubida("id " + i, R.drawable.taylor);
-            imagenSubidaList.add(imagenSubida2);
-        }*/
+        firebaseStorage = FirebaseStorage.getInstance();
+        database = FirebaseDatabase.getInstance();
 
+        dbref_img = database.getReference("images").child(username);
+        dbref_img.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    ImagenSubida imagenSubida = child.getValue(ImagenSubida.class);
+                    imagenSubidaList.add(imagenSubida);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }});
 
-
-        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList);
+        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList, firebaseStorage);
         gridView = view.findViewById(R.id.profile_grid);
         gridView.setAdapter(imagenSubidaAdapter);
 

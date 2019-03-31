@@ -94,23 +94,11 @@ public class UploadImageActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
 
         database = FirebaseDatabase.getInstance();
-        dbref_img = database.getReference("images");
-
-        dbref_img.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ImagenSubida post = dataSnapshot.getValue(ImagenSubida.class);
-                Log.d("DATA",post.getDescription());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("PRRRRR","The read failed: " + databaseError.getCode());
-            }
-        });
+        dbref_img = database.getReference("images").child("noUserName");
 
         if (user != null) {
             username = user.getDisplayName();
+            dbref_img = database.getReference("images").child(username);
         }
 
     }

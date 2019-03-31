@@ -10,3 +10,9 @@ TODO:
 
     - Modificar grid para que haya menos espacio entre columnas y quizá solo 3 columnas
        + Referencia instagram
+
+
+    COSAS IMPORTANTES DE LA ÚLTIMA SESIÓN:
+
+    - Arreglar el imagenSubidaAdapter, para obtener la imagen del firestorage
+    - Averiguar otras implementaciones de imagenSubida para ver si da fallos

@@ -18,6 +18,8 @@ public class ImagenSubida {
         this.dislikes = dislikes;
     }
 
+    public ImagenSubida(){}
+
     public String getDescription() {
         return description;
     }
