@@ -5,3 +5,8 @@ TODO:
         + Para editar profile pic, name, passw...
 
     - Lógica de la app
+
+    - Desde ViewPic al clicar fotógrafo que te lleve al perfil
+
+    - Modificar grid para que haya menos espacio entre columnas y quizá solo 3 columnas
+       + Referencia instagram
