@@ -195,6 +195,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     uploadButton.setEnabled(true);
                     String successMessage = getResources().getString(R.string.success_upload_photo);
                     createToast(successMessage);
+                    onBackPressed();
                 }
             });
         }

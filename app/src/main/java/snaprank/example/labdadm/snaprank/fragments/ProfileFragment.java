@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        usernameText = view.findViewById(R.id.usernameTextView);
+        usernameText = view.findViewById(R.id.usernameText);
         setUsername();
 
         imagenSubidaList = new ArrayList<ImagenSubida>();

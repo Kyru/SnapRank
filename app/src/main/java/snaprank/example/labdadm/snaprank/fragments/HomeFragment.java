@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment {
 
     ImageButton ib_filter;
     ImageButton ib_upload_image;
+    int imageID;
 
     @Nullable
     @Override
