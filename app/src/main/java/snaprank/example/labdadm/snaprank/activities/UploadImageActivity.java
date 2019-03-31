@@ -25,16 +25,22 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 
 public class UploadImageActivity extends AppCompatActivity {
 
@@ -57,6 +63,8 @@ public class UploadImageActivity extends AppCompatActivity {
     };
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseDatabase database;
+    private DatabaseReference dbref_img;
 
     private Uri uri;
 
@@ -72,8 +80,10 @@ public class UploadImageActivity extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories_array, android.R.layout.simple_spinner_item);
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         categorySpinner.setAdapter(adapter);
 
@@ -82,10 +92,29 @@ public class UploadImageActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
+
+        database = FirebaseDatabase.getInstance();
+        dbref_img = database.getReference("images");
+
+        dbref_img.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ImagenSubida post = dataSnapshot.getValue(ImagenSubida.class);
+                Log.d("DATA",post.getDescription());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("PRRRRR","The read failed: " + databaseError.getCode());
+            }
+        });
+
         if (user != null) {
             username = user.getDisplayName();
         }
+
     }
+
 
     public static boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
@@ -184,6 +213,9 @@ public class UploadImageActivity extends AppCompatActivity {
                     .setCustomMetadata("category", category)
                     .setCustomMetadata("user", username)
                     .build();
+
+            ImagenSubida imagenSubida = new ImagenSubida(description,category,location,path,0,0);
+            dbref_img.push().setValue(imagenSubida);
 
             progressBar.setVisibility(View.VISIBLE);
             uploadButton.setEnabled(false);

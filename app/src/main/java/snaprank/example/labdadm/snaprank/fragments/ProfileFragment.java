@@ -56,15 +56,15 @@ public class ProfileFragment extends Fragment {
 
         usernameText = view.findViewById(R.id.usernameText);
         setUsername();
-
+/*
         imagenSubidaList = new ArrayList<ImagenSubida>();
 
-        ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.ferran);
+        ImagenSubida imagenSubida = new ImagenSubida("Ferran",);
         imagenSubidaList.add(imagenSubida);
         for(int i = 0; i < 10; i++){
             ImagenSubida imagenSubida2 = new ImagenSubida("id " + i, R.drawable.taylor);
             imagenSubidaList.add(imagenSubida2);
-        }
+        }*/
 
 
 
@@ -106,7 +106,8 @@ public class ProfileFragment extends Fragment {
 
     public void gotoViewPic(View view, int position){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
-        intent.putExtra("imageID", imagenSubidaList.get(position).getImageId());
+        /*
+        intent.putExtra("imageID", imagenSubidaList.get(position).getImageId());*/
         startActivity(intent);
     }
 

@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.UploadImageActivity;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
@@ -23,6 +26,7 @@ public class HomeFragment extends Fragment {
     ImageButton ib_filter;
     ImageButton ib_upload_image;
     int imageID;
+    FirebaseStorage storage;
 
     @Nullable
     @Override
@@ -30,9 +34,13 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home,container, false);
 
         ImageView image = view.findViewById(R.id.main_pic);
+        storage = FirebaseStorage.getInstance();
+        StorageReference images = storage.getReference().child("images");
 
         // Esto cuando este la lógica del firebase, habrá que sacar la imagen de ahí (con el id
         // que este en el firebase
+
+
         imageID = R.drawable.taylor;
         image.setImageResource(imageID);
         image.setOnClickListener(new View.OnClickListener() {

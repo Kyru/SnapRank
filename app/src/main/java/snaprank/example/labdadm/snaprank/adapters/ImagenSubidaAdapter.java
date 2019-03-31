@@ -56,8 +56,8 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
         ViewHolder resViewHolder = (ViewHolder) view.getTag();
         ImageView iv_imagenSubida = resViewHolder.getImagenSubida();
 
-        ImagenSubida imagenSubida = (ImagenSubida) getItem(position);
-        iv_imagenSubida.setImageResource(imagenSubida.getImageId());
+        ImagenSubida imagenSubida = (ImagenSubida) getItem(position);/*
+        iv_imagenSubida.setImageResource(imagenSubida.getImageId());*/
 
         return view;
     }
