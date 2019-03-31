@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
 
     private int layout;
     private FirebaseStorage storage;
+    private Bitmap bitmap;
 
     public ImagenSubidaAdapter(Context context, int layout, List<ImagenSubida> imagenSubidaList, FirebaseStorage storage){
         super(context, layout, imagenSubidaList);
@@ -76,8 +79,16 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                iv_imagenSubida.setImageBitmap(bitmap);
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                // Para que tenga un pequeño delay, si no peta porque ocurre antes de que se genere el grid
+                iv_imagenSubida.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, iv_imagenSubida.getWidth(),
+                                iv_imagenSubida.getHeight(), false));
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -85,6 +96,7 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
                 // Handle any errors
             }
         });
+
 
         return view;
     }

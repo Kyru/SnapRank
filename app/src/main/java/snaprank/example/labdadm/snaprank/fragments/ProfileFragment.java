@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,16 +84,14 @@ public class ProfileFragment extends Fragment {
                     ImagenSubida imagenSubida = child.getValue(ImagenSubida.class);
                     imagenSubidaList.add(imagenSubida);
                 }
+                initializeGridAdapter();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
             }});
 
-        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList, firebaseStorage);
         gridView = view.findViewById(R.id.profile_grid);
-        gridView.setAdapter(imagenSubidaAdapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,6 +119,11 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void initializeGridAdapter(){
+        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList, firebaseStorage);
+        gridView.setAdapter(imagenSubidaAdapter);
+    }
+
     public void gotoLogroActivity(View view){
         Intent intent = new Intent(getContext(), LogrosActivity.class);
         startActivity(intent);
@@ -127,8 +131,7 @@ public class ProfileFragment extends Fragment {
 
     public void gotoViewPic(View view, int position){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
-        /*
-        intent.putExtra("imageID", imagenSubidaList.get(position).getImageId());*/
+        intent.putExtra("imageURL", imagenSubidaList.get(position).getUrl());
         startActivity(intent);
     }
 

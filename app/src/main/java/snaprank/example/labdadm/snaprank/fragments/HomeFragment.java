@@ -1,6 +1,7 @@
 package snaprank.example.labdadm.snaprank.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,19 +15,34 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.UploadImageActivity;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class HomeFragment extends Fragment {
 
     ImageButton ib_filter;
     ImageButton ib_upload_image;
     int imageID;
-    FirebaseStorage storage;
+
+    private FirebaseService firebaseService = new FirebaseService();
+    SharedPreferences preferences;
+    private FirebaseDatabase database;
+    private DatabaseReference dbref_img;
+    private FirebaseStorage firebaseStorage;
+
+    private String username;
+    private JSONObject userInfo;
+
 
     @Nullable
     @Override
@@ -34,11 +50,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home,container, false);
 
         ImageView image = view.findViewById(R.id.main_pic);
-        storage = FirebaseStorage.getInstance();
-        StorageReference images = storage.getReference().child("images");
+        setUsername();
+        firebaseStorage = FirebaseStorage.getInstance();
+        database = FirebaseDatabase.getInstance();
 
-        // Esto cuando este la lógica del firebase, habrá que sacar la imagen de ahí (con el id
-        // que este en el firebase
+        dbref_img = database.getReference("images").child(username);
+
 
 
         imageID = R.drawable.taylor;
@@ -94,5 +111,14 @@ public class HomeFragment extends Fragment {
     public void uploadImage() {
         Intent intent = new Intent(getContext(), UploadImageActivity.class);
         startActivity(intent);
+    }
+
+    public void setUsername() {
+        userInfo = firebaseService.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
