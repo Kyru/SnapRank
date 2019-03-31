@@ -4,32 +4,29 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.fragments.HomeFragment;
 import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
 import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    private FirebaseAuth auth;
+    FirebaseService firebaseService = new FirebaseService();
 
-    SharedPreferences preferences;
-    private String username;
+    private JSONObject userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,31 +50,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
 
-        auth = FirebaseAuth.getInstance();
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        username = preferences.getString("username", "");
+        try {
+            getUserInfo();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = auth.getCurrentUser();
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(username)
-                .build();
-
-        currentUser.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // Profile updated
-                        }
-                    }
-                });
-
-        /*updateUI(currentUser);*/
+    public void getUserInfo() throws JSONException {
+        userInfo = firebaseService.getCurrentUser();
+        Log.d("User info", userInfo.get("username").toString());
     }
 
 
