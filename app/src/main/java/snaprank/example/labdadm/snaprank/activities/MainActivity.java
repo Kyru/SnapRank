@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_search:
-                fragment = new PhotoRankingFragment();
+                fragment = new SearchFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);

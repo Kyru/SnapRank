@@ -5,77 +5,65 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SearchFragment">
+    tools:context=".SearchFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.SearchActivity">
+        tools:context=".SearchActivity">
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="395dp"
+            android:layout_height="85dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/photos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/photos"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:text="Fotos"
             android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/_dynamic"
-            app:layout_constraintEnd_toStartOf="@+id/users"
+            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintHorizontal_bias="0.182"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
         <TextView
-            android:id="@+id/users"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
             android:text="Usuarios"
             android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/_dynamic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/photos"
             app:layout_constraintTop_toBottomOf="@+id/searchView" />º
 
         <ListView
-            android:id="@+id/_categories"
-            android:layout_width="0dp"
-            android:layout_height="469dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="3dp"
+            android:id="@+id/listviewcat"
+            android:layout_width="match_parent"
+            android:layout_height="594dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photos" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </android.support.constraint.ConstraintLayout>
