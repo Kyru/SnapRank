@@ -19,3 +19,9 @@ TODO:
           falle la clase ViewPic
     - Pasar un budle con el ImagenSubida para rellenar los distintos textviews de ViewPic
     - Implementar threads para que funcionen mejor las cosas que se sacan de la base de datos
+    - Fotos giradas ¿?¿?¿?¿?
+    - Coque achatado ????
+    - Logros cambiarlo para que ponga si es premio a foto o a user???
+
+
+    - CAMBIAR TAmAÑO IMAGENES EN LA SUBIDA
