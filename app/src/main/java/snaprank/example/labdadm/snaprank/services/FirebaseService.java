@@ -9,17 +9,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
+import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+
 public class FirebaseService {
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
-    JSONObject userInfo = new JSONObject();
+    private JSONObject userInfo = new JSONObject();
 
     public FirebaseService() {
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     public JSONObject getCurrentUser() {
@@ -64,5 +71,11 @@ public class FirebaseService {
 
     public void logout() {
         auth.signOut();
+    }
+
+    public void uploadImage(ImagenSubida image, String username) {
+        db.collection("images").add(image);
+        db.collection("users").document(username).set(image);
+        db.collection("categories").document(image.getCategory()).set(image);
     }
 }

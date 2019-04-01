@@ -25,8 +25,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +36,7 @@ import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class UploadImageActivity extends AppCompatActivity {
 
@@ -60,9 +59,8 @@ public class UploadImageActivity extends AppCompatActivity {
     };
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private FirebaseDatabase database;
-    private DatabaseReference dbref_img;
 
+    private FirebaseService firebaseService = new FirebaseService();
     private Uri uri;
 
     @Override
@@ -90,12 +88,8 @@ public class UploadImageActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        database = FirebaseDatabase.getInstance();
-        dbref_img = database.getReference("images").child("noUserName");
-
         if (user != null) {
             username = user.getDisplayName();
-            dbref_img = database.getReference("images").child(username);
         }
 
     }
@@ -200,8 +194,8 @@ public class UploadImageActivity extends AppCompatActivity {
                     .build();
 
             // Subir la información de la imagen tambien a la base de datos
-            ImagenSubida imagenSubida = new ImagenSubida(description,category,location,path,0,0);
-            dbref_img.push().setValue(imagenSubida);
+            ImagenSubida imagenSubida = new ImagenSubida(description, category, location, path,0,0);
+            firebaseService.uploadImage(imagenSubida, username);
 
             progressBar.setVisibility(View.VISIBLE);
             uploadButton.setEnabled(false);
