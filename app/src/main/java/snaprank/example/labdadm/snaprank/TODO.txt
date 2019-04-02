@@ -6,7 +6,7 @@ TODO:
 
     - Lógica de la app
 
-    - Desde ViewPic al clicar fotógrafo que te lleve al perfil
+    - Desde ViewPic al clicar fotógrafo que te lleve al perfil !!!!
 
     - Modificar grid para que haya menos espacio entre columnas y quizá solo 3 columnas
        + Referencia instagram
@@ -14,14 +14,11 @@ TODO:
 
     COSAS IMPORTANTES DE LA ÚLTIMA SESIÓN:
 
-    - Averiguar otras implementaciones de imagenSubida para ver si da fallos
+    - HOME FRAGMENT: Averiguar otras implementaciones de imagenSubida para ver si da fallos
         + Al implementar la lógica del view fragment hay que pasar el url de la imagen que hace se ve, para que no
           falle la clase ViewPic
-    - Pasar un budle con el ImagenSubida para rellenar los distintos textviews de ViewPic
-    - Implementar threads para que funcionen mejor las cosas que se sacan de la base de datos
+
     - Fotos giradas ¿?¿?¿?¿?
     - Coque achatado ????
     - Logros cambiarlo para que ponga si es premio a foto o a user???
 
-
-    - CAMBIAR TAmAÑO IMAGENES EN LA SUBIDA

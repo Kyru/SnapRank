@@ -32,7 +32,7 @@
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:background="?android:selectableItemBackground"
-        android:src="@drawable/taylor"/>
+        android:src="@drawable/arenaclock"/>
 
         <LinearLayout
             android:layout_width="327dp"
@@ -64,7 +64,7 @@
                     android:id="@+id/tv_username_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ferran Devesa"
+                    android:text="..."
                     android:textColor="#FFF" />
             </LinearLayout>
 
@@ -86,7 +86,7 @@
                     android:id="@+id/tv_descripcion_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Taylor Hill"
+                    android:text="..."
                     android:textColor="#FFF" />
             </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:id="@+id/tv_category_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ladies"
+                    android:text="..."
                     android:textColor="#FFF" />
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                     android:id="@+id/tv_location_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="USA"
+                    android:text="..."
                     android:textColor="#FFF" />
             </LinearLayout>
         </LinearLayout>

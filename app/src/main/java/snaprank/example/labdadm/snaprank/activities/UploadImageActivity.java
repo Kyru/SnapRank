@@ -185,13 +185,14 @@ public class UploadImageActivity extends AppCompatActivity {
 
             Bitmap croppedBitmap;
             if(imageHeight > imageWidth){
-                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200 , 500, true);
+                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200 , 400, true);
             } else {
-                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 500 , 200, true);
+                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400 , 200, true);
             }
 
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
-            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 15, baos);
 
 
             imageToUpload.setDrawingCacheEnabled(false);
