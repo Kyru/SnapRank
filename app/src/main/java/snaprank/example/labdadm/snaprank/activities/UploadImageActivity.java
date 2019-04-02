@@ -179,7 +179,21 @@ public class UploadImageActivity extends AppCompatActivity {
             imageToUpload.buildDrawingCache();
             Bitmap bitmap = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+
+            int imageHeight = imageToUpload.getDrawable().getIntrinsicHeight();
+            int imageWidth = imageToUpload.getDrawable().getIntrinsicWidth();
+
+            Bitmap croppedBitmap;
+            if(imageHeight > imageWidth){
+                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200 , 500, true);
+            } else {
+                croppedBitmap = Bitmap.createScaledBitmap(bitmap, 500 , 200, true);
+            }
+
+            //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+
+
             imageToUpload.setDrawingCacheEnabled(false);
             byte[] data = baos.toByteArray();
 
@@ -194,7 +208,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     .build();
 
             // Subir la información de la imagen tambien a la base de datos
-            ImagenSubida imagenSubida = new ImagenSubida(description, category, location, path,0,0);
+            ImagenSubida imagenSubida = new ImagenSubida(username, description, category, location, path,0,0);
             firebaseService.uploadImage(imagenSubida, username);
 
             progressBar.setVisibility(View.VISIBLE);

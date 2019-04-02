@@ -2,6 +2,7 @@ package snaprank.example.labdadm.snaprank.models;
 
 public class ImagenSubida {
 
+    private String username;
     private String description;
     private String category;
     private String location;
@@ -9,7 +10,8 @@ public class ImagenSubida {
     private int likes;
     private int dislikes;
 
-    public ImagenSubida(String description, String category, String location, String url, int likes, int dislikes) {
+    public ImagenSubida(String username, String description, String category, String location, String url, int likes, int dislikes) {
+        this.username = username;
         this.description = description;
         this.category = category;
         this.location = location;
@@ -19,6 +21,14 @@ public class ImagenSubida {
     }
 
     public ImagenSubida(){}
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getDescription() {
         return description;

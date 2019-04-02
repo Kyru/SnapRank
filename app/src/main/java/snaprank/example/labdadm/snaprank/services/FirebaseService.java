@@ -74,8 +74,10 @@ public class FirebaseService {
     }
 
     public void uploadImage(ImagenSubida image, String username) {
+
+        String uuid = "" + UUID.randomUUID();
         db.collection("images").add(image);
-        db.collection("users").document(username).set(image);
+        db.collection("users").document(uuid).set(image);
         db.collection("categories").document(image.getCategory()).set(image);
     }
 }
