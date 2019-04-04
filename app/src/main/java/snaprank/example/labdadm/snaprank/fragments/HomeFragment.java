@@ -107,6 +107,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ib_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagenSubida.setLikes(imagenSubida.getLikes()+1);
+                updateCurrentImage();
+            }
+        });
+
+        ib_dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagenSubida.setDislikes(imagenSubida.getDislikes()+1);
+                updateCurrentImage();
+            }
+        });
+
         iv_imagenSubida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,4 +224,32 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+
+
+    public void updateCurrentImage(){
+
+        firestoreDatabase.collection("images")
+                .whereEqualTo("url", imagenSubida.getUrl())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                firestoreDatabase.collection("images").document(document.getId()).update(
+                                        "likes", imagenSubida.getLikes(),
+                                        "dislikes", imagenSubida.getDislikes()
+                                );
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+        getRandomImage();
+
+    };
 }
