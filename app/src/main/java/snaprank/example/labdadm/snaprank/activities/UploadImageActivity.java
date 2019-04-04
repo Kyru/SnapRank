@@ -46,6 +46,7 @@ public class UploadImageActivity extends AppCompatActivity {
     private EditText locationText;
     private Spinner categorySpinner;
     private ProgressBar progressBar;
+    private boolean hasImageUpload = false;
 
     private FirebaseAuth auth;
     private String username;
@@ -162,6 +163,7 @@ public class UploadImageActivity extends AppCompatActivity {
 
                 ImageView imageView = findViewById(R.id.imageToUpload);
                 imageView.setImageBitmap(bitmap);
+                hasImageUpload = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -174,7 +176,7 @@ public class UploadImageActivity extends AppCompatActivity {
         String category = categorySpinner.getSelectedItem().toString();
         Log.d("DATA", description + location + category);
 
-        if (!description.isEmpty() && !location.isEmpty() && !category.equals("")) {
+        if (!description.isEmpty() && !location.isEmpty() && hasImageUpload) {
             imageToUpload.setDrawingCacheEnabled(true);
             imageToUpload.buildDrawingCache();
             Bitmap bitmap = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
