@@ -63,8 +63,6 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseService firebaseService = new FirebaseService();
     SharedPreferences preferences;
-    private FirebaseDatabase database;
-    private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
 
@@ -83,24 +81,8 @@ public class ProfileFragment extends Fragment {
         setUsername();
 
         firebaseStorage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
+
         firestoreDatabase = FirebaseFirestore.getInstance();
-        /*
-        dbref_img = database.getReference("images").child(username);
-        dbref_img.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()){
-                    ImagenSubida imagenSubida = child.getValue(ImagenSubida.class);
-                    imagenSubidaList.add(imagenSubida);
-                }
-                initializeGridAdapter();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }});
-        */
 
         firestoreDatabase.collection("images")
                 .whereEqualTo("username", username)

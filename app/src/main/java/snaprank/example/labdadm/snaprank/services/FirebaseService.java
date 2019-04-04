@@ -77,7 +77,9 @@ public class FirebaseService {
 
         String uuid = "" + UUID.randomUUID();
         db.collection("images").add(image);
+        /*
         db.collection("users").document(uuid).set(image);
         db.collection("categories").document(image.getCategory()).set(image);
+        */
     }
 }

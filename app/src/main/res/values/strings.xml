@@ -30,6 +30,7 @@
     <string name="image_description">Descripción</string>
     <string name="image_location">Ubicación</string>
 
+    <string name="all">Todo</string>
     <string name="mountain">Montaña</string>
     <string name="sea">Mar</string>
     <string name="planets">Planetas y satélites</string>

@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:title="Mountain" />
+        android:title="@string/all" />
     <item
-        android:title="Sea" />
+        android:title="@string/mountain" />
     <item
-        android:title="Planets and Satellites" />
+        android:title="@string/sea" />
     <item
-        android:title="Friends" />
+        android:title="@string/planets" />
     <item
-        android:title="Animals"/>
+        android:title="@string/friends" />
     <item
-        android:title="Streets"/>
+        android:title="@string/animals"/>
     <item
-        android:title="Vehicles" />
+        android:title="@string/streets"/>
     <item
-        android:title="Food" />
+        android:title="@string/vehicles" />
     <item
-        android:title="People" />
+        android:title="@string/food" />
     <item
-        android:title="Music" />
+        android:title="@string/people" />
     <item
-        android:title="Festivity" />
+        android:title="@string/music" />
     <item
-        android:title="Culture" />
+        android:title="@string/festivals" />
+    <item
+        android:title="@string/culture" />
 
 </menu>

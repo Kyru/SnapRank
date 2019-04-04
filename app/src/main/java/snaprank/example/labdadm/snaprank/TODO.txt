@@ -21,3 +21,5 @@ TODO:
     - Logros cambiarlo para que ponga si es premio a foto o a user???
 
     - Doble click en Perfil antes de que carguen las fotos ---> peta
+
+    - al seleccionar categoria se guarda en el idioma del movil - > universalizar

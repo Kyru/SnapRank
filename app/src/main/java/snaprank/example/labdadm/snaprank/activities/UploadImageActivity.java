@@ -170,10 +170,31 @@ public class UploadImageActivity extends AppCompatActivity {
         }
     }
 
+    public String translateCategory(String category){
+        switch(category){
+            case "Montaña": return "Mountain";
+            case "Mar": return "Sea";
+            case "Planetas y satélites": return "Planets";
+            case "Amigos": return "Friends";
+            case "Animales": return "Animales";
+            case "Calles": return "Streets";
+            case "Vehículos": return "Vehicles";
+            case "Comida": return "Food";
+            case "Gente": return "People";
+            case "Música": return "Music";
+            case "Festivales": return "Festivals";
+            case "Cultura": return "Culture";
+            default: return category;
+        }
+    }
+
     public void uploadImage(View view) {
         String description = descriptionText.getText().toString();
         String location = locationText.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
+
+        category = translateCategory(category);
+
         Log.d("DATA", description + location + category);
 
         if (!description.isEmpty() && !location.isEmpty() && hasImageUpload) {
