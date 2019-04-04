@@ -1,9 +1,14 @@
 package snaprank.example.labdadm.snaprank.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +32,7 @@ public class UserRankingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_user_ranking,container, false);
 
         imageRankingList = new ArrayList<ImageRanking>();
@@ -51,7 +57,6 @@ public class UserRankingFragment extends Fragment {
     }
 
     public void gotoProfile(View view, int position){
-        Intent intent = new Intent(getContext(), ViewProfileActivity.class);
-        startActivity(intent);
+        Fragment fragment = new ProfileFragment();
     }
 }
