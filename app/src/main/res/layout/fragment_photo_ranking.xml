@@ -1,53 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="4dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="#303030"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/imageFirst"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6.3dp"
-            android:layout_weight="0.45"
-            android:background="?android:selectableItemBackground"
-            android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
-
-        <ImageButton
-            android:id="@+id/imageSecond"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6.3dp"
-            android:layout_weight="0.45"
-            android:background="?android:selectableItemBackground"
-            android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
-
-        <ImageButton
-            android:id="@+id/imageThird"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6.3dp"
-            android:layout_weight="0.45"
-            android:background="?android:selectableItemBackground"
-            android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:background="#303030"
         android:orientation="horizontal">
 
@@ -57,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="5dp"
             android:src="@drawable/gold_trophy" />
 
         <ImageView
@@ -64,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="5dp"
             android:src="@drawable/silver_trophy" />
 
         <ImageView
@@ -71,18 +33,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="5dp"
             android:src="@drawable/bronze_trophy" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#303030"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageFirst"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="0.45"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/taylor" />
+
+        <ImageButton
+            android:id="@+id/imageSecond"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="0.45"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/taylor" />
+
+        <ImageButton
+            android:id="@+id/imageThird"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="0.45"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/taylor" />
+
     </LinearLayout>
 
     <GridView
         android:id="@+id/photoRanking_grid"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_weight="0.45"
-        android:numColumns="4"
         android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"  >
+        android:numColumns="4"
+        android:verticalSpacing="10dp">
 
     </GridView>
 
