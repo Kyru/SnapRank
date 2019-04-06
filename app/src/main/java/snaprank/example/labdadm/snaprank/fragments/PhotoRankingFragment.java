@@ -31,8 +31,18 @@ public class PhotoRankingFragment extends Fragment {
 
         imageRankingList = new ArrayList<ImageRanking>();
 
-        for(int i = 0; i < 40; i++){
+        for(int i = 0; i < 10; i++){
             ImageRanking imageRanking = new ImageRanking("id", R.drawable.taylor);
+            imageRankingList.add(imageRanking);
+        }
+
+        for(int i = 0; i < 10; i++){
+            ImageRanking imageRanking = new ImageRanking("id", R.drawable.like);
+            imageRankingList.add(imageRanking);
+        }
+
+        for(int i = 0; i < 10; i++){
+            ImageRanking imageRanking = new ImageRanking("id", R.drawable.gold_trophy);
             imageRankingList.add(imageRanking);
         }
 
