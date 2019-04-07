@@ -19,6 +19,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
@@ -93,7 +96,8 @@ public class SignupActivity extends AppCompatActivity {
                     firebaseService.updateUser(username);
 
                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    goToMainActivity(intent);
+                    //startActivity(intent);
                     // updateUI(user);
                 } else {
                     removeProgressBar();
@@ -103,6 +107,22 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void goToMainActivity(Intent intent){
+        Bundle bundle = new Bundle();
+        FirebaseService service = new FirebaseService();
+        JSONObject userInfo = service.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

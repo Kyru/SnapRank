@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         ((BottomNavigationView) findViewById(R.id.navigation)).setOnNavigationItemSelectedListener(this);
 
+
         // Setting custom ActionBar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -43,19 +44,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
 
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        if(fragment==null){
-            fragment = new HomeFragment();
+        String username = getIntent().getExtras().getString("username");
+        boolean goToProfile = getIntent().getExtras().getBoolean("goToProfile");
+        if(goToProfile){
+            goToProfile(username);
+        } else {
+
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            if(fragment==null){
+                fragment = new HomeFragment();
+            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer,fragment).commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer,fragment).commit();
 
         try {
             getUserInfo();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public void getUserInfo() throws JSONException {
@@ -82,6 +89,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
+                String username = "";
+
+                userInfo = firebaseService.getCurrentUser();
+                try {
+                    username = userInfo.get("username").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                fragment.setArguments(bundle);
+
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
@@ -90,5 +110,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
         return true;
+    }
+
+    public void goToProfile(String username){
+        Fragment fragment = new ProfileFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+        fragment.setArguments(bundle);
+
+        findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+        findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+        findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer,fragment).commit();
     }
 }

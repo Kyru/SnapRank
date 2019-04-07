@@ -216,9 +216,9 @@ public class UploadImageActivity extends AppCompatActivity {
                 croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400 , 200, true);
             }
 
-            //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
 
-            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 15, baos);
+            //croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
 
 
             imageToUpload.setDrawingCacheEnabled(false);

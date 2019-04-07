@@ -78,7 +78,9 @@ public class ProfileFragment extends Fragment {
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
         usernameText = view.findViewById(R.id.usernameText);
-        setUsername();
+        username = getArguments().getString("username");
+        Log.d("username", username);
+        usernameText.setText(username);
 
         firebaseStorage = FirebaseStorage.getInstance();
 
@@ -169,14 +171,5 @@ public class ProfileFragment extends Fragment {
         logoutDialog.create().show();
     }
 
-    public void setUsername() {
-        userInfo = firebaseService.getCurrentUser();
-        try {
-            username = userInfo.get("username").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        usernameText.setText(username);
-    }
 
 }
