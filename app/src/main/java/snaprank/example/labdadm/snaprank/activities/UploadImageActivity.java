@@ -47,6 +47,7 @@ public class UploadImageActivity extends AppCompatActivity {
     private Spinner categorySpinner;
     private ProgressBar progressBar;
     private boolean hasImageUpload = false;
+    Intent intent;
 
     private FirebaseAuth auth;
     private String username;
@@ -92,6 +93,8 @@ public class UploadImageActivity extends AppCompatActivity {
         if (user != null) {
             username = user.getDisplayName();
         }
+
+        intent = new Intent(this, MainActivity.class);
 
     }
 
@@ -221,7 +224,9 @@ public class UploadImageActivity extends AppCompatActivity {
             imageToUpload.setDrawingCacheEnabled(false);
             byte[] data = baos.toByteArray();
 
-            String path = "images/" + UUID.randomUUID() + ".jpeg";
+            UUID id = UUID.randomUUID();
+
+            String path = "images/" + id + ".jpeg";
             StorageReference storageReference = storage.getReference(path);
 
             StorageMetadata metadata = new StorageMetadata.Builder()
@@ -232,7 +237,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     .build();
 
             // Subir la información de la imagen tambien a la base de datos
-            ImagenSubida imagenSubida = new ImagenSubida(username, description, category, location, path,0,0);
+            ImagenSubida imagenSubida = new ImagenSubida(username, description, category, location, path,0,0, ""+id);
             firebaseService.uploadImage(imagenSubida, username);
 
             progressBar.setVisibility(View.VISIBLE);
@@ -245,7 +250,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     uploadButton.setEnabled(true);
                     String successMessage = getResources().getString(R.string.success_upload_photo);
                     createToast(successMessage);
-                    finish();
+                    startActivity(intent);
                 }
             });
         }

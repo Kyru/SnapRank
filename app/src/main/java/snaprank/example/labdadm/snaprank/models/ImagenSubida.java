@@ -9,8 +9,9 @@ public class ImagenSubida {
     private String url;
     private int likes;
     private int dislikes;
+    private String id;
 
-    public ImagenSubida(String username, String description, String category, String location, String url, int likes, int dislikes) {
+    public ImagenSubida(String username, String description, String category, String location, String url, int likes, int dislikes, String id) {
         this.username = username;
         this.description = description;
         this.category = category;
@@ -18,6 +19,7 @@ public class ImagenSubida {
         this.url = url;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.id = id;
     }
 
     public ImagenSubida(){}
@@ -76,5 +78,13 @@ public class ImagenSubida {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

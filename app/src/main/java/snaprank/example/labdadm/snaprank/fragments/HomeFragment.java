@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment {
     Bitmap bitmap;
     ImageView iv_imagenSubida;
 
+
     private FirebaseFirestore firestoreDatabase;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
@@ -63,6 +65,8 @@ public class HomeFragment extends Fragment {
     ImageButton ib_dislike;
     ImageButton ib_next;
 
+    Handler handler;
+
     String category="All";
 
 
@@ -70,6 +74,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container, false);
+
+        handler = new Handler();
 
         iv_imagenSubida = view.findViewById(R.id.main_pic);
 
@@ -207,7 +213,7 @@ public class HomeFragment extends Fragment {
             if (imagenSubida.getCategory().equals(category) || category.equals("All")) break;
         }
 
-        final StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
+        StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
         final long ONE_MEGABYTE = 1024 * 1024;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -229,27 +235,16 @@ public class HomeFragment extends Fragment {
 
     public void updateCurrentImage(){
 
-        firestoreDatabase.collection("images")
-                .whereEqualTo("url", imagenSubida.getUrl())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                firestoreDatabase.collection("images").document(document.getId()).update(
-                                        "likes", imagenSubida.getLikes(),
-                                        "dislikes", imagenSubida.getDislikes()
-                                );
-                            }
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        firestoreDatabase.collection("images").document(imagenSubida.getId())
+                .set(imagenSubida, SetOptions.merge());
 
 
-        getRandomImage();
+        handler.post(new Runnable() {
+                         @Override
+                         public void run() {
+                             getRandomImage();
+                         }
+        });
 
     };
 }
