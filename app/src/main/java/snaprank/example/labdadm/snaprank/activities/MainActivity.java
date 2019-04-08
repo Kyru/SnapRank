@@ -20,7 +20,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.fragments.HomeFragment;
 import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
-import snaprank.example.labdadm.snaprank.fragments.UserRankingFragment;
+import snaprank.example.labdadm.snaprank.fragments.RankingFragment;
 import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
-            case R.id.userRanking_grid:
-                fragment = new UserRankingFragment();
+            case R.id.navigation_ranking:
+                fragment = new RankingFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
