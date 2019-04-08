@@ -24,6 +24,7 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_ranking">Ranking</string>
 
     <string name="select_photo">Choose image</string>
     <string name="upload_photo">Accept</string>
