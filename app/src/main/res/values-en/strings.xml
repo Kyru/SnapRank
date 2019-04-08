@@ -46,4 +46,14 @@
 
     <string name="success_upload_photo">Image correctly uploaded</string>
     <string name="permissions_denied_message">You need the permissions to make full use of the application</string>
+
+    <!-- Settings activity -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="usermane_hint">Name that identifies the user</string>
+
+    <string name="password_category">Security</string>
+    <string name="password_title">Password</string>
+    <string name="password_summary">Change password</string>
+    <string name="password_changed">Password changed successfully</string>
+    <string name="delete_account">Delete account</string>
 </resources>

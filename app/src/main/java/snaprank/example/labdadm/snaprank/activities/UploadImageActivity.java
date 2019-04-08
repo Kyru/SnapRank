@@ -37,6 +37,7 @@ import java.util.UUID;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
+import snaprank.example.labdadm.snaprank.services.GalleryService;
 
 public class UploadImageActivity extends AppCompatActivity {
 
@@ -51,24 +52,27 @@ public class UploadImageActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private String username;
 
-    private static final int REQUEST_CODE = 1;
-
     String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.CAMERA
     };
+    private static final int REQUEST_CODE = 1;
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService;
     private Uri uri;
+
+    private GalleryService galleryService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_image);
 
+        galleryService = new GalleryService(this);
+        firebaseService = new FirebaseService(this);
         imageToUpload = findViewById(R.id.imageToUpload);
         descriptionText = findViewById(R.id.desciptionText);
         locationText = findViewById(R.id.locationText);
@@ -95,59 +99,8 @@ public class UploadImageActivity extends AppCompatActivity {
 
     }
 
-
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public void requestPermissions() {
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    pickPictureFromGallery(findViewById(android.R.id.content));
-
-                } else {
-                    String permissionsDeniedMessage = getResources().getString(R.string.permissions_denied_message);
-                    createToast(permissionsDeniedMessage);
-                }
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
     public void pickPictureFromGallery(View view) {
-        int storagePermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int cameraPermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
-        if (storagePermissions != PackageManager.PERMISSION_GRANTED || cameraPermissions != PackageManager.PERMISSION_GRANTED) {
-            this.requestPermissions();
-        } else {
-            Intent photoPickerIntent = new Intent();
-            photoPickerIntent.setType("image/*");
-            photoPickerIntent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Picture"), REQUEST_CODE);
-        }
-
+        galleryService.pickPictureFromGallery();
     }
 
     @Override

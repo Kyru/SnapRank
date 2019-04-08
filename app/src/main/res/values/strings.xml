@@ -45,4 +45,16 @@
 
     <string name="success_upload_photo">Imagen subida correctamente</string>
     <string name="permissions_denied_message">Necesitas los permisos para hacer uso completo de la aplicación</string>
+
+    <!-- Settings screen -->
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="usermane_hint">Nombre que identifica al usuario</string>
+
+    <string name="password_category">Seguridad</string>
+    <string name="password_title">Contraseña</string>
+    <string name="password_summary">Cambiar contraseña</string>
+    <string name="password_changed">Contraseña cambiada correctamente</string>
+    <string name="delete_account">Borrar cuenta</string>
+
+
 </resources>

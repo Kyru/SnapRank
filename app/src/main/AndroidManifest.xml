@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.ViewProfileActivity"></activity>
+        <activity
             android:name=".activities.UploadImageActivity"
             android:label="@string/upload_photo"
             android:parentActivityName=".activities.MainActivity">
@@ -24,7 +28,8 @@
         <activity android:name=".activities.SearchActivity" />
         <activity
             android:name=".activities.SignupActivity"
-            android:label="@string/register" />
+            android:label="@string/register"
+            android:parentActivityName=".activities.LoginActivity"/>
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name">
@@ -36,10 +41,10 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".activities.ViewPicActivity"></activity>
-        <activity android:name=".activities.ViewProfileActivity"></activity>
-        <activity android:name=".activities.LogrosActivity"></activity>
+            android:label="@string/app_name" />
+        <activity android:name=".activities.ViewPicActivity" />
+        <activity android:name=".activities.ViewProfileActivity" />
+        <activity android:name=".activities.LogrosActivity" />
     </application>
 
 </manifest>

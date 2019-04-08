@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     ImageButton ib_upload_image;
     int imageID;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
@@ -55,8 +55,6 @@ public class HomeFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
 
         dbref_img = database.getReference("images").child(username);
-
-
 
         imageID = R.drawable.taylor;
         image.setImageResource(imageID);

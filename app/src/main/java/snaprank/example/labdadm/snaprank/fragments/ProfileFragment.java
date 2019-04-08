@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import snaprank.example.labdadm.snaprank.activities.SettingsActivity;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
 import snaprank.example.labdadm.snaprank.activities.LoginActivity;
@@ -59,9 +60,10 @@ public class ProfileFragment extends Fragment {
     List<ImagenSubida> imagenSubidaList;
     ImageButton bt_logros;
     ImageButton bt_logout;
+    ImageButton bt_settings;
     TextView usernameText;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
@@ -141,6 +143,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 logout();
+            }
+        });
+
+        bt_settings = ((AppCompatActivity) Objects.requireNonNull(getActivity())).findViewById(R.id.settingsButton);
+        bt_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 

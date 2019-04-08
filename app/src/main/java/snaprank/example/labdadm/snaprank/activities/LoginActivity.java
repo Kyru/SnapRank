@@ -1,5 +1,7 @@
 package snaprank.example.labdadm.snaprank.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -72,8 +75,19 @@ public class LoginActivity extends AppCompatActivity {
         // updateUI(currentUser);
     }
 
+    public static void hideKeyboard(Activity activity) {
+        View view = activity.findViewById(android.R.id.content);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
     private void logIn(String email, String password) {
         progressBar.setVisibility(View.VISIBLE);
+
+        hideKeyboard(this);
 
         if (!validateForm()) {
             progressBar.setVisibility(View.INVISIBLE);

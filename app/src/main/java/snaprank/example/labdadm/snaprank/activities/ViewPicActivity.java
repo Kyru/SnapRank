@@ -44,7 +44,7 @@ public class ViewPicActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getApplicationContext());
     private FirebaseFirestore firestoreDatabase;
     String username;
     private JSONObject userInfo;

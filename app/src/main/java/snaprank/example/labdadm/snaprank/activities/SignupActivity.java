@@ -8,16 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
@@ -28,8 +22,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText fieldPassword;
     private EditText fieldConfirmPassword;
 
-    private Button signupButton;
-
     private String username;
     private String email;
     private String password;
@@ -38,8 +30,7 @@ public class SignupActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     SharedPreferences preferences;
 
-    private FirebaseAuth auth;
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +46,6 @@ public class SignupActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance();
     }
 
     public void createAccount(View view) {
@@ -83,26 +72,10 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    removeProgressBar();
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = auth.getCurrentUser();
-                    firebaseService.updateUser(username);
-
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    // updateUI(user);
-                } else {
-                    removeProgressBar();
-                    // If sign in fails, display a message to the user.
-                    createToast("Authentication failed.");
-                    // updateUI(null);
-                }
-            }
-        });
+        firebaseService.signUp(username, email, password);
+        removeProgressBar();
+        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     /**

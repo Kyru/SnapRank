@@ -24,7 +24,7 @@ import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    FirebaseService firebaseService = new FirebaseService();
+    FirebaseService firebaseService = new FirebaseService(getBaseContext());
 
     private JSONObject userInfo;
 
@@ -73,18 +73,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_add).setVisibility(View.VISIBLE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
+                findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_search:
                 fragment = new SearchFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
+                findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
                 break;
         }
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
