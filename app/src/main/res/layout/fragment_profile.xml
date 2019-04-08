@@ -113,7 +113,8 @@
     android:layout_height="wrap_content"
     android:layout_weight="0.45"
     android:numColumns="4"
-    android:horizontalSpacing="10dp"
-    android:verticalSpacing="10dp"/>
+    android:stretchMode="columnWidth"
+    android:horizontalSpacing="3dp"
+    android:verticalSpacing="2dp"/>
 
 </LinearLayout>

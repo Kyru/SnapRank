@@ -87,6 +87,7 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
                     public void run() {
                         iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, iv_imagenSubida.getWidth(),
                                 iv_imagenSubida.getHeight(), false));
+                        //iv_imagenSubida.setImageBitmap(bitmap);
                     }
                 });
             }
