@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <SearchView
@@ -20,13 +20,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ListView
             android:id="@+id/listviewcat"
             android:layout_width="wrap_content"
-            android:layout_height="531dp"
+            android:layout_height="match_parent"
             android:scrollbars="vertical" />
     </LinearLayout>
 

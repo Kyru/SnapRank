@@ -48,7 +48,7 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
             LayoutInflater layoutInflater = ((Activity) getContext()).getLayoutInflater();
             view = (layoutInflater.inflate(this.layout, null));
 
-            ViewHolder viewHolder = new ViewHolder((ImageView) view.findViewById(R.id.imagen_subida));
+            ViewHolder viewHolder = new ViewHolder((ImageView) view.findViewById(R.id.image_ranking));
 
             view.setTag(viewHolder);
         }

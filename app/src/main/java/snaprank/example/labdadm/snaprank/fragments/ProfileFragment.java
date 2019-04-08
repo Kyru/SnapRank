@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
             imagenSubidaList.add(imagenSubida);
         }
 
-        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList);
+        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.ranking_grid_item, imagenSubidaList);
         gridView = view.findViewById(R.id.profile_grid);
         gridView.setAdapter(imagenSubidaAdapter);
 
