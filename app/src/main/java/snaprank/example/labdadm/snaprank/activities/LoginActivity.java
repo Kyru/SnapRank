@@ -19,7 +19,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     private boolean loggedIn;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         loggedIn = preferences.getBoolean("loggedIn", false);
         if (loggedIn) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            goToMainActivity(intent);
+            //startActivity(intent);
             finish();
         }
 
@@ -91,7 +97,10 @@ public class LoginActivity extends AppCompatActivity {
                     FirebaseUser user = auth.getCurrentUser();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+
+                    goToMainActivity(intent);
+
+                    //startActivity(intent);
                     // updateUI(user);
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -109,6 +118,22 @@ public class LoginActivity extends AppCompatActivity {
         password = fieldPassword.getText().toString();
 
         logIn(email, password);
+    }
+
+    public void goToMainActivity(Intent intent){
+        Bundle bundle = new Bundle();
+        FirebaseService service = new FirebaseService();
+        JSONObject userInfo = service.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void openSignup(View view) {

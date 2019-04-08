@@ -19,7 +19,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText fieldUsername;
@@ -38,6 +42,7 @@ public class SignupActivity extends AppCompatActivity {
     SharedPreferences preferences;
 
     private FirebaseAuth auth;
+    private FirebaseService firebaseService = new FirebaseService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,13 @@ public class SignupActivity extends AppCompatActivity {
     public void createAccount(String email, String password, String confirmPassword) {
 
         if (!validateForm()) {
-            progressBar.setVisibility(View.INVISIBLE);
+            removeProgressBar();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            createToast("Las contraseñas no coinciden.");
+            removeProgressBar();
             return;
         }
 
@@ -79,22 +90,39 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    removeProgressBar();
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = auth.getCurrentUser();
+                    firebaseService.updateUser(username);
 
-                    preferences.edit().putString("username", username).apply();
                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    goToMainActivity(intent);
+                    //startActivity(intent);
                     // updateUI(user);
                 } else {
+                    removeProgressBar();
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(SignupActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                    createToast("Authentication failed.");
                     // updateUI(null);
                 }
             }
         });
+    }
+
+    public void goToMainActivity(Intent intent){
+        Bundle bundle = new Bundle();
+        FirebaseService service = new FirebaseService();
+        JSONObject userInfo = service.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**
@@ -129,5 +157,14 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void createToast(String message) {
+        Toast.makeText(SignupActivity.this, message,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

@@ -19,18 +19,18 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="80dp">
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/main_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="370dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="30dp"
             android:clickable="true"
             android:onClick="gotoViewPic"
-            app:srcCompat="@drawable/like" />
+            app:srcCompat="@drawable/arenaclock" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +41,7 @@
         android:layout_marginEnd="20dp">
 
         <ImageButton
-            android:id="@+id/button2"
+            android:id="@+id/like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,7 +50,7 @@
             android:background="?android:selectableItemBackground"/>
 
         <ImageButton
-            android:id="@+id/button3"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:background="?android:selectableItemBackground"/>
 
         <ImageButton
-            android:id="@+id/button4"
+            android:id="@+id/dislike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

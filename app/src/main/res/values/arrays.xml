@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories_array">
+        <item>@string/mountain</item>
+        <item>@string/sea</item>
+        <item>@string/planets</item>
+        <item>@string/friends</item>
+        <item>@string/animals</item>
+        <item>@string/streets</item>
+        <item>@string/vehicles</item>
+        <item>@string/food</item>
+        <item>@string/people</item>
+        <item>@string/music</item>
+        <item>@string/festivals</item>
+        <item>@string/culture</item>
+    </string-array>
+</resources>

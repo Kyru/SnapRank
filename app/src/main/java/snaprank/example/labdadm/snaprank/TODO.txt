@@ -1,11 +1,27 @@
 
 TODO:
 
-    - Organizar las clases/carpetas.
-
     - Activity opciones/ajustes:
         + Para editar profile pic, name, passw...
 
-    - Lógica de la app
+    - Desde ViewPic al clicar fotógrafo que te lleve al perfil !!!!
 
-    - Modificar color navigation bar
+    - Modificar grid para que haya menos espacio entre columnas y quizá solo 3 columnas
+       + Referencia instagram
+
+
+    COSAS IMPORTANTES DE LA ÚLTIMA SESIÓN:
+
+    - HOME FRAGMENT: Averiguar otras implementaciones de imagenSubida para ver si da fallos
+        + Al implementar la lógica del view fragment hay que pasar el url de la imagen que hace se ve, para que no
+          falle la clase ViewPic
+
+    - Fotos giradas ¿?¿?¿?¿?
+    - Coque achatado ????
+    - Logros cambiarlo para que ponga si es premio a foto o a user???
+
+    - Doble click en Perfil antes de que carguen las fotos ---> peta
+
+    - Fotos duplicadas (en el grid perfil) porque adapter no carga bien
+    - Home fragment foto hacerla más grande porque tenemos espacio sin ocupar (entre los botones y la
+      foto)

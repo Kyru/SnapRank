@@ -15,8 +15,18 @@
             android:id="@+id/custom_bar_add"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_add_24"
-            android:background="?android:selectableItemBackground"/>
+            android:background="?android:selectableItemBackground"
+            android:onClick="uploadImage"
+            android:src="@drawable/ic_add_24" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:visibility="gone"
+            android:src="@drawable/back"
+            android:onClick="back"/>
 
     </LinearLayout>
     <LinearLayout

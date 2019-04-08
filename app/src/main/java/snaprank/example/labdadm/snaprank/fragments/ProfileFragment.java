@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -17,11 +18,31 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
@@ -29,43 +50,63 @@ import snaprank.example.labdadm.snaprank.activities.LoginActivity;
 import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
+import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class ProfileFragment extends Fragment {
 
     GridView gridView;
     ImagenSubidaAdapter imagenSubidaAdapter;
     List<ImagenSubida> imagenSubidaList;
-    Button bt_logros;
+    ImageButton bt_logros;
     ImageButton bt_logout;
+    TextView usernameText;
 
-    FirebaseAuth auth;
+    private FirebaseService firebaseService = new FirebaseService();
     SharedPreferences preferences;
+    private FirebaseStorage firebaseStorage;
+    private FirebaseFirestore firestoreDatabase;
+
     private String username;
+    private JSONObject userInfo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile,container, false);
 
-        auth = FirebaseAuth.getInstance();
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        username = preferences.getString("username", "");
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
+        usernameText = view.findViewById(R.id.usernameText);
+        username = getArguments().getString("username");
+        Log.d("username", username);
+        usernameText.setText(username);
 
-        for(int i = 0; i < 10; i++){
-            ImagenSubida imagenSubida = new ImagenSubida("id", R.drawable.taylor);
-            imagenSubidaList.add(imagenSubida);
-        }
+        firebaseStorage = FirebaseStorage.getInstance();
 
-        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList);
+        firestoreDatabase = FirebaseFirestore.getInstance();
+
+        firestoreDatabase.collection("images")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                imagenSubidaList.add( document.toObject(ImagenSubida.class));
+                            }
+                            initializeGridAdapter();
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
         gridView = view.findViewById(R.id.profile_grid);
-        gridView.setAdapter(imagenSubidaAdapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("aqui", "llego");
                 gotoViewPic(view, position);
             }
         });
@@ -79,7 +120,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        bt_logout = ((AppCompatActivity)getActivity()).findViewById(R.id.logoutButton);
+        bt_logout = ((AppCompatActivity) Objects.requireNonNull(getActivity())).findViewById(R.id.logoutButton);
         bt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +131,11 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void initializeGridAdapter(){
+        imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList, firebaseStorage);
+        gridView.setAdapter(imagenSubidaAdapter);
+    }
+
     public void gotoLogroActivity(View view){
         Intent intent = new Intent(getContext(), LogrosActivity.class);
         startActivity(intent);
@@ -97,17 +143,18 @@ public class ProfileFragment extends Fragment {
 
     public void gotoViewPic(View view, int position){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
+        intent.putExtra("imageURL", imagenSubidaList.get(position).getUrl());
         startActivity(intent);
     }
 
     public void logout() {
-        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         logoutDialog.setMessage(R.string.logout_message);
 
         logoutDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                auth.signOut();
+                firebaseService.logout();
                 preferences.edit().putBoolean("loggedIn", false).apply();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
@@ -123,4 +170,6 @@ public class ProfileFragment extends Fragment {
 
         logoutDialog.create().show();
     }
+
+
 }
