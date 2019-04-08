@@ -6,17 +6,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -47,6 +50,8 @@ public class UploadImageActivity extends AppCompatActivity {
     private Spinner categorySpinner;
     private ProgressBar progressBar;
     private boolean hasImageUpload = false;
+
+    ImageButton back;
     Intent intent;
 
     private FirebaseAuth auth;
@@ -69,6 +74,21 @@ public class UploadImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_image);
+
+        // Setting custom ActionBar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+        findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+        findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+        findViewById(R.id.logoutButton).setVisibility(View.GONE);
+        findViewById(R.id.back).setVisibility(View.VISIBLE);
+
+
+        // Cambiar el color del ActionBar
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
+
 
         imageToUpload = findViewById(R.id.imageToUpload);
         descriptionText = findViewById(R.id.desciptionText);
@@ -94,7 +114,23 @@ public class UploadImageActivity extends AppCompatActivity {
             username = user.getDisplayName();
         }
 
+        Bundle bundle = new Bundle();
         intent = new Intent(this, MainActivity.class);
+
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+
+
+        back = findViewById(R.id.back);
+
+        ((View) back).setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     onBackPressed();
+                 }
+             }
+        );
 
     }
 
@@ -260,4 +296,6 @@ public class UploadImageActivity extends AppCompatActivity {
         Toast.makeText(UploadImageActivity.this, message,
                 Toast.LENGTH_LONG).show();
     }
+
 }
+
