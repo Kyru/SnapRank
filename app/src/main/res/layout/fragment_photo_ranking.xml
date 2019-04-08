@@ -43,7 +43,7 @@
         android:background="#303030"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageFirst"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/taylor" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageSecond"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,7 +63,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/taylor" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageThird"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -77,13 +77,14 @@
 
     <GridView
         android:id="@+id/photoRanking_grid"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_weight="0.45"
-        android:horizontalSpacing="10dp"
         android:numColumns="4"
-        android:verticalSpacing="10dp">
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp">
 
     </GridView>
 

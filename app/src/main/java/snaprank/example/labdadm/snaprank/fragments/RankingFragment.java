@@ -13,12 +13,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import snaprank.example.labdadm.snaprank.R;
 
 public class RankingFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ib_filter;
+
+    String category="All";
 
     @Nullable
     @Override
@@ -59,6 +62,9 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                category = (String) item.getTitle();
+                category = translateCategory(category);
+                Toast.makeText(getActivity(),"You Clicked : " + category, Toast.LENGTH_SHORT).show();
                 Fragment fragment = new PhotoRankingFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer, fragment);
@@ -69,6 +75,25 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
         });
 
         popupMenu.show();
+    }
+
+    public String translateCategory(String category){
+        switch(category){
+            case "Montaña": return "Mountain";
+            case "Mar": return "Sea";
+            case "Planetas y satélites": return "Planets";
+            case "Amigos": return "Friends";
+            case "Animales": return "Animales";
+            case "Calles": return "Streets";
+            case "Vehículos": return "Vehicles";
+            case "Comida": return "Food";
+            case "Gente": return "People";
+            case "Música": return "Music";
+            case "Festivales": return "Festivals";
+            case "Cultura": return "Culture";
+            case "Todo": return "All";
+            default: return category;
+        }
     }
 
     public void onClick(View v) {

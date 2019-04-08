@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_ranking:
                 fragment = new RankingFragment();
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
