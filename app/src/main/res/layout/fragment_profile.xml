@@ -107,14 +107,15 @@
 
 
     <GridView
-    android:id="@+id/profile_grid"
-    android:layout_marginTop="5dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.45"
-    android:numColumns="4"
-    android:stretchMode="columnWidth"
-    android:horizontalSpacing="3dp"
-    android:verticalSpacing="2dp"/>
+        android:id="@+id/profile_grid"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.45"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"/>
+
 
 </LinearLayout>
