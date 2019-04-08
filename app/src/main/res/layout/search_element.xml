@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="393dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#303030"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/avatar_ImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="6.3dp"
+            android:layout_weight="0.45"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/ferran"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:src="@drawable/user" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/location" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="FERDEMAR"
+                    android:textAlignment="textStart"
+                    android:textColor="#FFF" />
+
+                <TextView
+                    android:id="@+id/location_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="LA VILA, ESPAÑA"
+                    android:textAlignment="textStart"
+                    android:textColor="#FFF" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ib_profile_logros"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="0.4"
+            android:background="?android:selectableItemBackground"
+            android:drawableLeft="@drawable/award"
+            android:padding="15dp"
+            android:text="@string/awards"
+            android:textColor="#FFF" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
