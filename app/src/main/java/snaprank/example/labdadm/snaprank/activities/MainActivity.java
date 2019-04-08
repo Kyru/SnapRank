@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.fragments.HomeFragment;
 import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
+import snaprank.example.labdadm.snaprank.fragments.RankingFragment;
 import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
@@ -87,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
+                break;
+            case R.id.navigation_ranking:
+                fragment = new RankingFragment();
+                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
+                findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 findViewById(R.id.back).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
@@ -110,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.back).setVisibility(View.GONE);
                 break;
         }
+
         if(fragment!=null) getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
         return true;

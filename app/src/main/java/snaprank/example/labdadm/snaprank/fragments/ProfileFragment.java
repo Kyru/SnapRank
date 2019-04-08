@@ -170,6 +170,4 @@ public class ProfileFragment extends Fragment {
 
         logoutDialog.create().show();
     }
-
-
 }
