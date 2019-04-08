@@ -13,7 +13,7 @@ import snaprank.example.labdadm.snaprank.R;
 import java.util.List;
 
 import snaprank.example.labdadm.snaprank.R;
-import snaprank.example.labdadm.snaprank.models.ImagenRanking;
+import snaprank.example.labdadm.snaprank.models.ImageRanking;
 
 public class ImageRankingAdapter extends ArrayAdapter {
     private int layout;

@@ -8,7 +8,8 @@ import android.view.View;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
 
-public class ViewProfileActivity extends AppCompatActivity{
+public class ViewProfileActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
