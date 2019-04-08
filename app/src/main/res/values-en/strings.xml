@@ -26,7 +26,7 @@
     <string name="no">No</string>
 
     <string name="select_photo">Choose image</string>
-    <string name="upload_photo">Upload photo</string>
+    <string name="upload_photo">Accept</string>
 
     <string name="image_description">Description</string>
     <string name="image_location">Location</string>
