@@ -173,6 +173,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
+                getRandomImage();
                 return true;
             }
         });

@@ -3,5 +3,4 @@ TODO:
 
     - Logros cambiarlo para que ponga si es premio a foto o a user???
 
-    - Feedback visual para ir la perfil del usuario desde viewpic
     - ViewPic escalar la foto mejor
