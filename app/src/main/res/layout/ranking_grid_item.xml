@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imagen_ranking"
+        android:id="@+id/image_ranking"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"

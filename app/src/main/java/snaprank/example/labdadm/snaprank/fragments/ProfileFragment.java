@@ -56,8 +56,6 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
-    private FirebaseDatabase database;
-    private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
 
@@ -73,27 +71,13 @@ public class ProfileFragment extends Fragment {
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
         usernameText = view.findViewById(R.id.usernameText);
-        setUsername();
+        username = getArguments().getString("username");
+        Log.d("username", username);
+        usernameText.setText(username);
 
         firebaseStorage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
+
         firestoreDatabase = FirebaseFirestore.getInstance();
-        /*
-        dbref_img = database.getReference("images").child(username);
-        dbref_img.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()){
-                    ImagenSubida imagenSubida = child.getValue(ImagenSubida.class);
-                    imagenSubidaList.add(imagenSubida);
-                }
-                initializeGridAdapter();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }});
-        */
 
         firestoreDatabase.collection("images")
                 .whereEqualTo("username", username)
@@ -189,14 +173,5 @@ public class ProfileFragment extends Fragment {
         logoutDialog.create().show();
     }
 
-    public void setUsername() {
-        userInfo = firebaseService.getCurrentUser();
-        try {
-            username = userInfo.get("username").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        usernameText.setText(username);
-    }
 
 }

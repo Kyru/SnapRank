@@ -2,6 +2,7 @@
     <string name="app_name">SnapRank</string>
     <string name="title_home">Inicio</string>
     <string name="title_search">Buscar</string>
+    <string name="title_ranking">Ranking</string>
     <string name="title_profile">Perfil</string>
     <string name="email">Correo electrónico</string>
     <string name="username">Usuario</string>
@@ -25,11 +26,12 @@
     <string name="no">No</string>
 
     <string name="select_photo">Elegir imagen</string>
-    <string name="upload_photo">Subir imagen</string>
+    <string name="upload_photo">Aceptar</string>
 
     <string name="image_description">Descripción</string>
     <string name="image_location">Ubicación</string>
 
+    <string name="all">Todo</string>
     <string name="mountain">Montaña</string>
     <string name="sea">Mar</string>
     <string name="planets">Planetas y satélites</string>

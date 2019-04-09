@@ -6,17 +6,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -49,6 +52,9 @@ public class UploadImageActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private boolean hasImageUpload = false;
 
+    ImageButton back;
+    Intent intent;
+
     private FirebaseAuth auth;
     private String username;
 
@@ -71,6 +77,21 @@ public class UploadImageActivity extends AppCompatActivity {
         firebaseService = new FirebaseService(this);
 
         /* Initialize interface */
+        // Setting custom ActionBar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+        findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+        findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+        findViewById(R.id.logoutButton).setVisibility(View.GONE);
+        findViewById(R.id.back).setVisibility(View.VISIBLE);
+
+
+        // Cambiar el color del ActionBar
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
+
+
         imageToUpload = findViewById(R.id.imageToUpload);
         descriptionText = findViewById(R.id.desciptionText);
         locationText = findViewById(R.id.locationText);
@@ -94,6 +115,24 @@ public class UploadImageActivity extends AppCompatActivity {
         if (user != null) {
             username = user.getDisplayName();
         }
+
+        Bundle bundle = new Bundle();
+        intent = new Intent(this, MainActivity.class);
+
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+
+
+        back = findViewById(R.id.back);
+
+        ((View) back).setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     onBackPressed();
+                 }
+             }
+        );
 
     }
 
@@ -143,10 +182,30 @@ public class UploadImageActivity extends AppCompatActivity {
         }
     }
 
+    public String translateCategory(String category){
+        switch(category){
+            case "Montaña": return "Mountain";
+            case "Mar": return "Sea";
+            case "Planetas y satélites": return "Planets";
+            case "Amigos": return "Friends";
+            case "Animales": return "Animales";
+            case "Calles": return "Streets";
+            case "Vehículos": return "Vehicles";
+            case "Comida": return "Food";
+            case "Gente": return "People";
+            case "Música": return "Music";
+            case "Festivales": return "Festivals";
+            case "Cultura": return "Culture";
+            default: return category;
+        }
+    }
+
     public void uploadImage(View view) {
         String description = descriptionText.getText().toString();
         String location = locationText.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
+
+        category = translateCategory(category);
 
         if (!description.isEmpty() && !location.isEmpty() && hasImageUpload) {
             imageToUpload.setDrawingCacheEnabled(true);
@@ -164,15 +223,17 @@ public class UploadImageActivity extends AppCompatActivity {
                 croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400 , 200, true);
             }
 
-            //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
 
-            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 15, baos);
+            //croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
 
 
             imageToUpload.setDrawingCacheEnabled(false);
             byte[] data = baos.toByteArray();
 
-            String path = "images/" + UUID.randomUUID() + ".jpeg";
+            UUID id = UUID.randomUUID();
+
+            String path = "images/" + id + ".jpeg";
             StorageReference storageReference = storage.getReference(path);
 
             StorageMetadata metadata = new StorageMetadata.Builder()
@@ -183,7 +244,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     .build();
 
             // Subir la información de la imagen tambien a la base de datos
-            ImagenSubida imagenSubida = new ImagenSubida(username, description, category, location, path,0,0);
+            ImagenSubida imagenSubida = new ImagenSubida(username, description, category, location, path,0,0, ""+id);
             firebaseService.uploadImage(imagenSubida, username);
 
             progressBar.setVisibility(View.VISIBLE);
@@ -196,7 +257,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     uploadButton.setEnabled(true);
                     String successMessage = getResources().getString(R.string.success_upload_photo);
                     createToast(successMessage);
-                    onBackPressed();
+                    startActivity(intent);
                 }
             });
         }
@@ -206,4 +267,6 @@ public class UploadImageActivity extends AppCompatActivity {
         Toast.makeText(UploadImageActivity.this, message,
                 Toast.LENGTH_LONG).show();
     }
+
 }
+
