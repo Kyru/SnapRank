@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch(menuItem.getItemId()){
             case R.id.navigation_home:
                 fragment = new HomeFragment();
+                findViewById(R.id.navigation_home).setClickable(false);
+                findViewById(R.id.navigation_search).setClickable(true);
+                findViewById(R.id.navigation_ranking).setClickable(true);
+                findViewById(R.id.navigation_profile).setClickable(true);
                 findViewById(R.id.custom_bar_add).setVisibility(View.VISIBLE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
@@ -83,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_search:
                 fragment = new SearchFragment();
+                findViewById(R.id.navigation_home).setClickable(true);
+                findViewById(R.id.navigation_search).setClickable(false);
+                findViewById(R.id.navigation_ranking).setClickable(true);
+                findViewById(R.id.navigation_profile).setClickable(true);
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
@@ -90,8 +98,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_ranking:
                 fragment = new RankingFragment();
+                findViewById(R.id.navigation_home).setClickable(true);
+                findViewById(R.id.navigation_search).setClickable(true);
+                findViewById(R.id.navigation_ranking).setClickable(false);
+                findViewById(R.id.navigation_profile).setClickable(true);
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.VISIBLE);
+                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 break;
@@ -110,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 bundle.putString("username", username);
                 fragment.setArguments(bundle);
 
+
+                findViewById(R.id.navigation_home).setClickable(true);
+                findViewById(R.id.navigation_search).setClickable(true);
+                findViewById(R.id.navigation_ranking).setClickable(true);
+                findViewById(R.id.navigation_profile).setClickable(false);
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
