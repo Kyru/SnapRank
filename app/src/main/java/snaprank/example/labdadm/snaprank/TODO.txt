@@ -1,14 +1,7 @@
 
 TODO:
 
-    - Activity opciones/ajustes:
-        + Para editar profile pic, name, passw...
-
-    - Home fragment bajar viewpic y botones (demasiado espacio en blanco)
-
-    - Ordenar fotos de perfil (mas likes o orden de subida)
-
-    - Fotos giradas ¿?¿?¿?¿?
-    - Coque achatado ????
     - Logros cambiarlo para que ponga si es premio a foto o a user???
 
+    - Feedback visual para ir la perfil del usuario desde viewpic
+    - ViewPic escalar la foto mejor

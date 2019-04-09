@@ -132,8 +132,23 @@ public class ProfileFragment extends Fragment {
     }
 
     public void initializeGridAdapter(){
+        orderImagenSubida();
         imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenSubidaList, firebaseStorage);
         gridView.setAdapter(imagenSubidaAdapter);
+    }
+
+    public void orderImagenSubida(){
+        for(int i = 0; i < imagenSubidaList.size(); i++){
+            for(int j = i+1; j < imagenSubidaList.size(); j++){
+                int popularityI = imagenSubidaList.get(i).getLikes() - imagenSubidaList.get(i).getDislikes();
+                int popularityJ = imagenSubidaList.get(j).getLikes() - imagenSubidaList.get(j).getDislikes();
+                if(popularityI < popularityJ){
+                    ImagenSubida temp = imagenSubidaList.get(i);
+                    imagenSubidaList.set(i, imagenSubidaList.get(j));
+                    imagenSubidaList.set(j, temp);
+                }
+            }
+        }
     }
 
     public void gotoLogroActivity(View view){
