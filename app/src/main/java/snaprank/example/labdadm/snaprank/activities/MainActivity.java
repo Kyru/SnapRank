@@ -24,7 +24,7 @@ import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    FirebaseService firebaseService = new FirebaseService(getBaseContext());
+    FirebaseService firebaseService;
 
     private JSONObject userInfo;
 
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // Cambiar el color del ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
 
+        firebaseService = new FirebaseService(this);
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         if(fragment==null){
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public void getUserInfo() throws JSONException {
         userInfo = firebaseService.getCurrentUser();
-        Log.d("User info", userInfo.get("username").toString());
     }
 
 

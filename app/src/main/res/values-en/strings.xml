@@ -56,4 +56,10 @@
     <string name="password_summary">Change password</string>
     <string name="password_changed">Password changed successfully</string>
     <string name="delete_account">Delete account</string>
+
+    <string name="delete_accound_message">Are you sure you want to delete your account?</string>
+    <string name="delete_accound_message_confirmation">Account successfully deleted</string>
+    <string name="profile_pic_changed_message">Profile picture updated successfully</string>
+
+
 </resources>

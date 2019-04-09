@@ -52,11 +52,6 @@ public class UploadImageActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private String username;
 
-    String[] PERMISSIONS = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.CAMERA
-    };
     private static final int REQUEST_CODE = 1;
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -71,8 +66,11 @@ public class UploadImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_image);
 
-        galleryService = new GalleryService(this);
+        /* Initialize services */
+        galleryService = new GalleryService(this, this);
         firebaseService = new FirebaseService(this);
+
+        /* Initialize interface */
         imageToUpload = findViewById(R.id.imageToUpload);
         descriptionText = findViewById(R.id.desciptionText);
         locationText = findViewById(R.id.locationText);
@@ -104,6 +102,28 @@ public class UploadImageActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    galleryService.pickPictureFromGallery();
+
+                } else {
+                    String permissionsDeniedMessage = getResources().getString(R.string.permissions_denied_message);
+                    createToast(permissionsDeniedMessage);
+                }
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -127,7 +147,6 @@ public class UploadImageActivity extends AppCompatActivity {
         String description = descriptionText.getText().toString();
         String location = locationText.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
-        Log.d("DATA", description + location + category);
 
         if (!description.isEmpty() && !location.isEmpty() && hasImageUpload) {
             imageToUpload.setDrawingCacheEnabled(true);

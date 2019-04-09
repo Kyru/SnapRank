@@ -56,5 +56,8 @@
     <string name="password_changed">Contraseña cambiada correctamente</string>
     <string name="delete_account">Borrar cuenta</string>
 
+    <string name="delete_accound_message">¿Está seguro de que desea eliminar su cuenta?</string>
+    <string name="delete_accound_message_confirmation">Tu cuenta ha sido eliminada correctamente</string>
+    <string name="profile_pic_changed_message">Foto de perfil cambiada correctamente</string>
 
 </resources>

@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
-import snaprank.example.labdadm.snaprank.R;
-
-public class GalleryService extends Activity {
+public class GalleryService {
     String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -21,9 +18,11 @@ public class GalleryService extends Activity {
 
     // variable to hold context
     private Context context;
+    private Activity activity;
 
-    public GalleryService(Context context) {
+    public GalleryService(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     public static boolean hasPermissions(Context context, String... permissions) {
@@ -39,29 +38,7 @@ public class GalleryService extends Activity {
 
     public void requestPermissions() {
         if (!hasPermissions(context, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    pickPictureFromGallery();
-
-                } else {
-                    String permissionsDeniedMessage = getResources().getString(R.string.permissions_denied_message);
-                    createToast(permissionsDeniedMessage);
-                }
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
+            ActivityCompat.requestPermissions(activity, PERMISSIONS, REQUEST_CODE);
         }
     }
 
@@ -76,16 +53,11 @@ public class GalleryService extends Activity {
             photoPickerIntent.setType("image/*");
             photoPickerIntent.setAction(Intent.ACTION_PICK);
             Intent chooser = Intent.createChooser(photoPickerIntent,"Select picture");
-            if(photoPickerIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(chooser, REQUEST_CODE);
+            if(photoPickerIntent.resolveActivity(context.getPackageManager()) != null) {
+                activity.startActivityForResult(chooser, REQUEST_CODE);
             }
 
         }
 
-    }
-
-    public void createToast(String message) {
-        Toast.makeText(context, message,
-                Toast.LENGTH_LONG).show();
     }
 }

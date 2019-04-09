@@ -1,53 +1,70 @@
 package snaprank.example.labdadm.snaprank.activities;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.UUID;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
+import snaprank.example.labdadm.snaprank.services.GalleryService;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    FirebaseService firebaseService =  new FirebaseService(getApplicationContext());
-    String password = "";
+    FirebaseService firebaseService;
 
-    String[] PERMISSIONS = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.CAMERA
-    };
+    private GalleryService galleryService;
     private static final int REQUEST_CODE = 1;
     private Uri uri;
 
     SharedPreferences preferences;
+
+    private ImageView profilePicture;
+
+    private FirebaseStorage storage;
+    private String URLProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        profilePicture = findViewById(R.id.profilePicture);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        storage = FirebaseStorage.getInstance();
+
+        /* Initialize services */
+        firebaseService =  new FirebaseService(this);
+        galleryService = new GalleryService(this, this);
     }
 
     public void changePassword(View view) {
@@ -56,7 +73,6 @@ public class SettingsActivity extends AppCompatActivity {
         final EditText oldPass = new EditText(SettingsActivity.this);
         final EditText newPass = new EditText(SettingsActivity.this);
         final EditText confirmPass = new EditText(SettingsActivity.this);
-
 
         oldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
         newPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -92,27 +108,31 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void deleteAccount(View view) {
-        firebaseService.deleteAccount();
-        preferences.edit().putBoolean("loggedIn", false).apply();
-        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
+        AlertDialog.Builder deleteAccountDialog = new AlertDialog.Builder(Objects.requireNonNull(this));
+        deleteAccountDialog.setMessage(R.string.delete_accound_message);
 
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
+        deleteAccountDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                firebaseService.deleteAccount();
+                preferences.edit().putBoolean("loggedIn", false).apply();
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
-        }
-        return true;
+        });
+
+        deleteAccountDialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        deleteAccountDialog.create().show();
     }
 
-    public void requestPermissions() {
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE);
-        }
+    public void changeProfilePic(View view) {
+        galleryService.pickPictureFromGallery();
     }
 
     @Override
@@ -124,7 +144,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    changeProfilePic(findViewById(android.R.id.content));
+                    galleryService.pickPictureFromGallery();
 
                 } else {
                     String permissionsDeniedMessage = getResources().getString(R.string.permissions_denied_message);
@@ -137,20 +157,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public void changeProfilePic(View view) {
-        int storagePermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int cameraPermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
-        if (storagePermissions != PackageManager.PERMISSION_GRANTED || cameraPermissions != PackageManager.PERMISSION_GRANTED) {
-            this.requestPermissions();
-        } else {
-            Intent photoPickerIntent = new Intent();
-            photoPickerIntent.setType("image/*");
-            photoPickerIntent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Picture"), REQUEST_CODE);
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -163,12 +170,57 @@ public class SettingsActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
-                ImageView imageView = findViewById(R.id.imageToUpload);
+                ImageView imageView = findViewById(R.id.profilePicture);
                 imageView.setImageBitmap(bitmap);
+                uploadImage();
+                // firebaseService.setProfilePicture(URLProfilePic);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void uploadImage() {
+
+        profilePicture.setDrawingCacheEnabled(true);
+        profilePicture.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) profilePicture.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int imageHeight = profilePicture.getDrawable().getIntrinsicHeight();
+        int imageWidth = profilePicture.getDrawable().getIntrinsicWidth();
+
+        Bitmap croppedBitmap;
+        if(imageHeight > imageWidth){
+            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200 , 400, true);
+        } else {
+            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400 , 200, true);
+        }
+
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+
+        croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 15, baos);
+
+        profilePicture.setDrawingCacheEnabled(false);
+        byte[] data = baos.toByteArray();
+
+        String path = "profile-pics/" + UUID.randomUUID() + ".jpeg";
+        final StorageReference storageReference = storage.getReference(path);
+
+        /*progressBar.setVisibility(View.VISIBLE);
+        uploadButton.setEnabled(false);*/
+        UploadTask uploadTask = storageReference.putBytes(data);
+        uploadTask.addOnSuccessListener(SettingsActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                /*progressBar.setVisibility(View.GONE);
+                uploadButton.setEnabled(true);*/
+
+                String successMessage = getResources().getString(R.string.success_upload_photo);
+                createToast(successMessage);
+            }
+        });
+
     }
 
     public void createToast(String message) {

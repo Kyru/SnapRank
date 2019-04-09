@@ -1,9 +1,10 @@
 package snaprank.example.labdadm.snaprank.services;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.UUID;
+
+import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 
 public class FirebaseService {
@@ -49,7 +52,7 @@ public class FirebaseService {
                 try {
                     userInfo.put("email", email);
                     userInfo.put("username", name);
-                    userInfo.put("uid", photoUrl);
+                    userInfo.put("profilePicture", photoUrl);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -72,6 +75,24 @@ public class FirebaseService {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             // Profile updated
+                        }
+                    }
+                });
+    }
+
+    public void setProfilePicture(String photoUri) {
+        currentUser = auth.getCurrentUser();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(Uri.parse(photoUri))
+                .build();
+
+        currentUser.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            createToast(Resources.getSystem().getString(R.string.profile_pic_changed_message));
                         }
                     }
                 });
@@ -109,7 +130,7 @@ public class FirebaseService {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            // User deleted
+                            createToast(Resources.getSystem().getString(R.string.delete_accound_message_confirmation));
                         }
                     }
                 });

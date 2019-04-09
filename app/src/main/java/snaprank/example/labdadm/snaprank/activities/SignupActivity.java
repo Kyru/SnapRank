@@ -30,7 +30,7 @@ public class SignupActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     SharedPreferences preferences;
 
-    private FirebaseService firebaseService = new FirebaseService(this);
+    private FirebaseService firebaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class SignupActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        firebaseService = new FirebaseService(this);
     }
 
     public void createAccount(View view) {
