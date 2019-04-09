@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -21,8 +18,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 
 public class ImagenSubidaAdapter extends ArrayAdapter {
 
@@ -30,11 +27,10 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
     private FirebaseStorage storage;
     private Bitmap bitmap;
 
-    public ImagenSubidaAdapter(Context context, int layout, List<ImagenSubida> imagenSubidaList, FirebaseStorage storage){
+    public ImagenSubidaAdapter(Context context, int layout, List<ImagenSubida> imagenSubidaList, FirebaseStorage storage) {
         super(context, layout, imagenSubidaList);
         this.layout = layout;
         this.storage = storage;
-
     }
 
     static class ViewHolder {
@@ -56,9 +52,9 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
 
 
     @Override
-    public View getView(int position, View view, ViewGroup parent){
+    public View getView(int position, View view, ViewGroup parent) {
 
-        if(view == null){
+        if (view == null) {
             LayoutInflater layoutInflater = ((Activity) getContext()).getLayoutInflater();
             view = (layoutInflater.inflate(this.layout, null));
 
@@ -80,16 +76,8 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
             @Override
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-                // Para que tenga un pequeño delay, si no peta porque ocurre antes de que se genere el grid
-                iv_imagenSubida.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
-                                250, false));
-                        //iv_imagenSubida.setImageBitmap(bitmap);
-                    }
-                });
+                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
+                        250, false));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -231,13 +231,9 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
     public void updateCurrentImage(){
-
         firestoreDatabase.collection("images").document(imagenSubida.getId())
                 .set(imagenSubida, SetOptions.merge());
-
 
         handler.post(new Runnable() {
                          @Override
@@ -245,6 +241,5 @@ public class HomeFragment extends Fragment {
                              getRandomImage();
                          }
         });
-
     };
 }

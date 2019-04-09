@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragments.PhotoRankingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,7 +53,7 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
         <ImageView
             android:id="@+id/imageSecond"
@@ -61,7 +63,7 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
         <ImageView
             android:id="@+id/imageThird"
@@ -71,7 +73,7 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
     </LinearLayout>
 

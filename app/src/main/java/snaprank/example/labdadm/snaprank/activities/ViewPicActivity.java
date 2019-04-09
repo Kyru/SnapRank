@@ -28,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import snaprank.example.labdadm.snaprank.R;
-import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
-import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class ViewPicActivity extends AppCompatActivity {
@@ -41,7 +39,6 @@ public class ViewPicActivity extends AppCompatActivity {
     TextView tv_category_info;
     TextView tv_location_info;
     TextView tv_descripcion_info;
-    ImagenSubida imagenSubida;
 
 
     private FirebaseDatabase database;
@@ -101,22 +98,12 @@ public class ViewPicActivity extends AppCompatActivity {
         tv_username_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("username", tv_username_info.getText().toString());
                 bundle.putBoolean("goToProfile", true);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
-                /*
-                Fragment fragment = new ProfileFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("username", username);
-                fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer,fragment).commit();
-                        */
             }
 
         });
