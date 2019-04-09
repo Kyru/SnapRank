@@ -1,9 +1,9 @@
 package snaprank.example.labdadm.snaprank.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -54,14 +54,13 @@ public class HomeFragment extends Fragment {
     Bitmap bitmap;
     ImageView iv_imagenSubida;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
     private FirebaseFirestore firestoreDatabase;
-    private FirebaseStorage firebaseStorage;
 
     ImageButton ib_like;
     ImageButton ib_dislike;
@@ -89,7 +88,7 @@ public class HomeFragment extends Fragment {
         ib_next = view.findViewById(R.id.next);
 
         firebaseStorage = FirebaseStorage.getInstance();
-        imagenSubidaList = new ArrayList<ImagenSubida>();
+        imagenSubidaList = new ArrayList<>();
 
         firestoreDatabase = FirebaseFirestore.getInstance();
         storageRef = firebaseStorage.getReference();
@@ -105,7 +104,6 @@ public class HomeFragment extends Fragment {
                             }
                             getRandomImage();
                         } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
@@ -260,5 +258,5 @@ public class HomeFragment extends Fragment {
                          }
         });
 
-    };
+    }
 }

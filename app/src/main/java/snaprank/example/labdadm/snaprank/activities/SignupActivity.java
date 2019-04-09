@@ -83,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void goToMainActivity(Intent intent){
         Bundle bundle = new Bundle();
-        FirebaseService service = new FirebaseService();
+        FirebaseService service = new FirebaseService(this);
         JSONObject userInfo = service.getCurrentUser();
         try {
             username = userInfo.get("username").toString();

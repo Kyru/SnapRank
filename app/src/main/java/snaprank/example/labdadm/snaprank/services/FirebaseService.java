@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
