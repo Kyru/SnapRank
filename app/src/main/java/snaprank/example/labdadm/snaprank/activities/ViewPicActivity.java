@@ -74,7 +74,6 @@ public class ViewPicActivity extends AppCompatActivity {
         tv_location_info = findViewById(R.id.tv_location_info);
         tv_descripcion_info = findViewById(R.id.tv_descripcion_info);
 
-        Log.d("PRINT", imageURL);
         firestoreDatabase.collection("images")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
