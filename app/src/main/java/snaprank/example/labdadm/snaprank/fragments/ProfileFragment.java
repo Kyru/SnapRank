@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment {
         imagenSubidaList = new ArrayList<ImagenSubida>();
         usernameText = view.findViewById(R.id.usernameText);
         username = getArguments().getString("username");
-        Log.d("username", username);
+
         usernameText.setText(username);
 
         firebaseStorage = FirebaseStorage.getInstance();

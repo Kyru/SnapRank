@@ -62,4 +62,9 @@
     <string name="delete_accound_message_confirmation">Tu cuenta ha sido eliminada correctamente</string>
     <string name="profile_pic_changed_message">Foto de perfil cambiada correctamente</string>
 
+    <string name="authentication_failed">Error en la autenticación. Comprueba tus credenciales</string>
+    <string name="fail_getting_profile_pic">Ha habido un error al cargar la foto de perfil. Prueba en unos minutos</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
 </resources>

@@ -8,12 +8,27 @@
     tools:context=".activities.SettingsActivity"
     android:layout_gravity="center">
 
-    <ImageView
-        android:id="@+id/profilePicture"
+
+    <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="128dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="1.2"
         android:layout_gravity="center"
-        android:src="@drawable/arenaclock" />
+        app:cardCornerRadius="50dp"
+        app:cardElevation="10dp"
+        android:layout_marginLeft="10dp">
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="225dp"
+            android:layout_height="194dp"
+            android:layout_gravity="center"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/avatar" />
+
+    </android.support.v7.widget.CardView>
+
 
     <ImageButton
         android:id="@+id/changeProfilePic"
@@ -24,21 +39,30 @@
         android:onClick="changeProfilePic"
         android:src="@android:drawable/ic_menu_edit" />
 
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1.2"
+        android:gravity="center" />
+
     <Button
         android:id="@+id/changePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
         android:onClick="changePassword"
-        android:text="@string/password_summary"
-        android:layout_gravity="center" />
+        android:text="@string/password_summary" />
 
     <Button
         android:id="@+id/deleteAccountButton"
-        android:layout_width="142dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="300dp"
-        android:background="@drawable/roundbutton"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="20dp"
         android:onClick="deleteAccount"
         android:text="@string/delete_account"
         android:textColor="@android:color/black" />

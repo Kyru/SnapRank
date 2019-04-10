@@ -15,7 +15,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class SignupActivity extends AppCompatActivity {
@@ -31,6 +34,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     SharedPreferences preferences;
+
+    Bundle bundle = new Bundle();
 
     private FirebaseService firebaseService;
 
@@ -76,13 +81,18 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         firebaseService.signUp(username, email, password);
+
+        saveUserToDatabase();
+
         removeProgressBar();
         Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void goToMainActivity(Intent intent){
-        Bundle bundle = new Bundle();
         FirebaseService service = new FirebaseService(this);
         JSONObject userInfo = service.getCurrentUser();
         try {
@@ -129,6 +139,14 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void saveUserToDatabase() {
+        /* Save user in database */
+        UUID userID = UUID.randomUUID();
+        String path = "profile-pics/9bd459d9-c305-4a48-9e7b-5aee4c3ad17c.jpeg";
+        Usuario user = new Usuario("" + userID, username, "", path);
+        firebaseService.uploadUser(user);
     }
 
     private void createToast(String message) {

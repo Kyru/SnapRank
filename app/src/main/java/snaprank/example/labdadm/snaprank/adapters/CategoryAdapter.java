@@ -51,16 +51,16 @@ public class CategoryAdapter extends ArrayAdapter{
         TextView textView = (TextView) v.findViewById(R.id.name_textview);
         TextView textView2 = (TextView) v.findViewById(R.id.location_textview);
         ImageButton imageView = (ImageButton) v.findViewById(R.id.avatar_ImageButton);
-        textView.setText(categories.get(position).getNombre());
+        textView.setText(categories.get(position).getUsername());
         textView2.setText(categories.get(position).getLocalizacion());
-        imageView.setImageResource(categories.get(position).getImage());
+        /*imageView.setImageResource(categories.get(position).getImage());
             Button bt_logros=v.findViewById(R.id.ib_profile_logros);
             bt_logros.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), LogrosActivity.class);
                     group.startActivity(intent);                }
-            });
+            });*/
 
         imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

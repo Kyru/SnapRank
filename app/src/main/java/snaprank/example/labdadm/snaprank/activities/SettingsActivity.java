@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -19,21 +21,29 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 import snaprank.example.labdadm.snaprank.services.GalleryService;
 
@@ -51,52 +61,107 @@ public class SettingsActivity extends AppCompatActivity {
 
     private FirebaseStorage storage;
     private String URLProfilePic;
+    private String username;
+    private TextView usernameText;
+    private Bitmap bitmap;
+    private FirebaseFirestore firestoreDatabase;
+    private Object user;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        firestoreDatabase = FirebaseFirestore.getInstance();
+
+        usernameText = findViewById(R.id.usernameText);
         profilePicture = findViewById(R.id.profilePicture);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         storage = FirebaseStorage.getInstance();
-
+        storageRef = storage.getReference();
         /* Initialize services */
         firebaseService =  new FirebaseService(this);
         galleryService = new GalleryService(this, this);
+
+        try {
+            username = firebaseService.getCurrentUser().get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        usernameText.setText(username);
+
+        /* Get profile url */
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("USERTGH", " = ");
+                                URLProfilePic = document.getData().get("profilePicUrl") + "";
+                                user = document.getData();
+                                Log.d("USERTGH", "" + URLProfilePic);
+                                changeProfilePicture(URLProfilePic);
+                            }
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
+
+
+    }
+
+    public void changeProfilePicture(String URLProfilePic) {
+        StorageReference imageRef = storageRef.child(URLProfilePic);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                profilePicture.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
+                        250, false));
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     public void changePassword(View view) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
         alertDialog.setTitle(R.string.password_summary);
-        final EditText oldPass = new EditText(SettingsActivity.this);
         final EditText newPass = new EditText(SettingsActivity.this);
         final EditText confirmPass = new EditText(SettingsActivity.this);
 
-        oldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
         newPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
         confirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        oldPass.setHint("Old Password");
         newPass.setHint("Nueva contraseña");
         confirmPass.setHint("Confirmar contraseña");
         LinearLayout layout = new LinearLayout(SettingsActivity.this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        layout.addView(oldPass);
-
         layout.addView(newPass);
         layout.addView(confirmPass);
         alertDialog.setView(layout);
-        alertDialog.setPositiveButton(R.string.yes,
+        alertDialog.setPositiveButton(R.string.accept,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         firebaseService.changePassword(newPass.getText().toString());
-                        createToast(getResources().getString(R.string.password_changed));
                     }
                 });
-        alertDialog.setNegativeButton(R.string.no,
+        alertDialog.setNegativeButton(R.string.cancel,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -204,8 +269,15 @@ public class SettingsActivity extends AppCompatActivity {
         profilePicture.setDrawingCacheEnabled(false);
         byte[] data = baos.toByteArray();
 
-        String path = "profile-pics/" + UUID.randomUUID() + ".jpeg";
+        UUID userID = UUID.randomUUID();
+        String path = "profile-pics/" + userID + ".jpeg";
         final StorageReference storageReference = storage.getReference(path);
+
+        try {
+            firebaseService.getProfileId(path);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         /*progressBar.setVisibility(View.VISIBLE);
         uploadButton.setEnabled(false);*/

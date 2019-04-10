@@ -4,23 +4,31 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.lang.reflect.Array;
+
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 
 public class FirebaseService {
     private FirebaseAuth auth;
@@ -62,7 +70,7 @@ public class FirebaseService {
     }
 
     public void updateUser(String username) {
-        currentUser = auth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
@@ -78,20 +86,37 @@ public class FirebaseService {
                 });
     }
 
-    public void setProfilePicture(String photoUri) {
-        currentUser = auth.getCurrentUser();
-
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setPhotoUri(Uri.parse(photoUri))
-                .build();
-
-        currentUser.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+    public void getProfileId(final String photoUri) throws JSONException {
+        final String[] id = new String[1];
+        /* Get profile url */
+        db.collection("users")
+                .whereEqualTo("username", getCurrentUser().get("username"))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            createToast(Resources.getSystem().getString(R.string.profile_pic_changed_message));
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("USERTGH", " = " + document.getData());
+                                id[0] = document.getData().get("id") + "";
+                                setProfilePicture(id[0], photoUri);
+                            }
+                        } else {
+                            // Error getting document
                         }
+                    }
+                });
+
+
+    }
+
+    public void setProfilePicture(String id, String photoUri) {
+        DocumentReference docRef = db.collection("users").document(id);
+        docRef.update("profilePicUrl", photoUri)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        /* Photo URL updated */
                     }
                 });
     }
@@ -104,27 +129,31 @@ public class FirebaseService {
         db.collection("images").document(image.getId()).set(image);
     }
 
+    public void uploadUser(Usuario user) {
+        db.collection("users").document(user.getId()).set(user);
+    }
+
     public void changePassword(String newPassword) {
-        currentUser = auth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser.updatePassword(newPassword)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            // Password changed
+                            createToast(context.getString(R.string.password_changed));
                         }
                     }
                 });
     }
 
     public void deleteAccount() {
-        currentUser = auth.getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            createToast(Resources.getSystem().getString(R.string.delete_accound_message_confirmation));
+                            createToast(context.getString(R.string.delete_accound_message_confirmation));
                         }
                     }
                 });
