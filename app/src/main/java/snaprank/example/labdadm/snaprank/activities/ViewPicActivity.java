@@ -129,8 +129,8 @@ public class ViewPicActivity extends AppCompatActivity {
             @Override
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, iv_imagenSubida.getWidth(),
-                        iv_imagenSubida.getHeight(), false));
+                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 400,
+                        400, false));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
