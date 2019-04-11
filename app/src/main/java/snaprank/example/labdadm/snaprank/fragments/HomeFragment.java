@@ -98,7 +98,12 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 imagenSubidaList.add( document.toObject(ImagenSubida.class));
                             }
-                            getRandomImage();
+                            if(imagenSubidaList.size() == 0){
+                                disableButtons();
+                            } else {
+                                enableButtons();
+                                getRandomImage();
+                            }
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
@@ -156,6 +161,18 @@ public class HomeFragment extends Fragment {
 
         return view;
 
+    }
+
+    public void disableButtons(){
+        ib_next.setClickable(false);
+        ib_dislike.setClickable(false);
+        ib_like.setClickable(false);
+    }
+
+    public void enableButtons(){
+        ib_next.setClickable(true);
+        ib_dislike.setClickable(true);
+        ib_like.setClickable(true);
     }
 
     public void gotoViewPic(View view){
