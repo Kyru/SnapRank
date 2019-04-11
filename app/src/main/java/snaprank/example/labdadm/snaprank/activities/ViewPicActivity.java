@@ -111,13 +111,13 @@ public class ViewPicActivity extends AppCompatActivity {
         StorageReference storageRef = firebaseStorage.getReference();
         final StorageReference imageRef = storageRef.child(imageURL);
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, iv_imagenSubida.getWidth(),
-                        iv_imagenSubida.getHeight(), false));
+                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 400,
+                        400, false));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

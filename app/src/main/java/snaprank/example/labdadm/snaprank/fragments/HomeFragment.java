@@ -102,7 +102,12 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 imagenSubidaList.add( document.toObject(ImagenSubida.class));
                             }
-                            getRandomImage();
+                            if(imagenSubidaList.size() == 0){
+                                disableButtons();
+                            } else {
+                                enableButtons();
+                                getRandomImage();
+                            }
                         } else {
                         }
                     }
@@ -161,6 +166,18 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void disableButtons(){
+        ib_next.setClickable(false);
+        ib_dislike.setClickable(false);
+        ib_like.setClickable(false);
+    }
+
+    public void enableButtons(){
+        ib_next.setClickable(true);
+        ib_dislike.setClickable(true);
+        ib_like.setClickable(true);
+    }
+
     public void gotoViewPic(View view){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
         intent.putExtra("imageURL",imagenSubida.getUrl());
@@ -176,6 +193,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
+                getRandomImage();
                 return true;
             }
         });
@@ -227,7 +245,7 @@ public class HomeFragment extends Fragment {
 
         StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -242,8 +260,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-
 
     public void updateCurrentImage(){
 

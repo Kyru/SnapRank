@@ -67,4 +67,6 @@
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
 
+    <string name="passwords_do_not_match">Las contraseñas introducidas no coinciden. Prueba otra vez.</string>
+
 </resources>
