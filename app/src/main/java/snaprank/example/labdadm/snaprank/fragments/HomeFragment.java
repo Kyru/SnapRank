@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment {
 
         StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -260,8 +260,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-
 
     public void updateCurrentImage(){
 
