@@ -63,7 +63,7 @@ public class CategoryAdapter extends ArrayAdapter{
             TextView textView = (TextView) v.findViewById(R.id.name_textview);
             TextView textView2 = (TextView) v.findViewById(R.id.location_textview);
             textView.setText(categories.get(position).getUsername());
-            textView2.setText(categories.get(position).getLocalizacion());
+            textView2.setText(categories.get(position).getLocation());
         StorageReference storageRef = storage.getReference();
 
         final StorageReference imageRef = storageRef.child(categories.get(position).getProfilePicUrl());
@@ -93,13 +93,7 @@ public class CategoryAdapter extends ArrayAdapter{
 
         final Context group=parent.getContext();
 
-            Button bt_logros=v.findViewById(R.id.ib_profile_logros);
-            bt_logros.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), LogrosActivity.class);
-                    group.startActivity(intent);                }
-            });
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

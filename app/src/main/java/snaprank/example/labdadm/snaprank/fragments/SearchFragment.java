@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment  {
                         }
                     }
                 });
-        myAdapter=new CategoryAdapter(getContext(),R.layout.fragment_search, categories,firebaseStorage);
+        myAdapter = new CategoryAdapter(getContext(),R.layout.fragment_search, categories,firebaseStorage);
 
         listview.setAdapter(myAdapter);
 

@@ -28,11 +28,14 @@ public class SignupActivity extends AppCompatActivity {
     private EditText fieldEmail;
     private EditText fieldPassword;
     private EditText fieldConfirmPassword;
+    private EditText fieldLocation;
+
 
     private String username;
     private String email;
     private String password;
     private String confirmPassword;
+    private String location;
 
     private ProgressBar progressBar;
     SharedPreferences preferences;
@@ -50,6 +53,7 @@ public class SignupActivity extends AppCompatActivity {
         fieldEmail = findViewById(R.id.emailEditText);
         fieldPassword = findViewById(R.id.passwordEditText);
         fieldConfirmPassword = findViewById(R.id.confirmPasswordEditText);
+        fieldLocation = findViewById(R.id.locationEditText);
 
         progressBar = findViewById(R.id.progressBarSignup);
 
@@ -94,6 +98,7 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*
     public void goToMainActivity(Intent intent){
         FirebaseService service = new FirebaseService(this);
         JSONObject userInfo = service.getCurrentUser();
@@ -108,6 +113,7 @@ public class SignupActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+    */
 
     /**
      * Validates the form to create the account
@@ -147,8 +153,9 @@ public class SignupActivity extends AppCompatActivity {
         ArrayList<Logro> awards = new ArrayList<>();
         /* Save user in database */
         UUID userID = UUID.randomUUID();
-        String path = "profile-pics/9bd459d9-c305-4a48-9e7b-5aee4c3ad17c.jpeg";
-        Usuario user = new Usuario("" + userID, username, "", path, 0, awards);
+        String path = "profile-pics/profilepic_default.jpeg";
+        location = fieldLocation.getText().toString();
+        Usuario user = new Usuario("" + userID, username, location, path, 0, awards);
         firebaseService.uploadUser(user);
     }
 

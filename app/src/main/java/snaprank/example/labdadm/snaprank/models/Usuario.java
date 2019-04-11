@@ -3,15 +3,15 @@ package snaprank.example.labdadm.snaprank.models;
 import java.util.ArrayList;
 
 public class Usuario {
-    private String username,localizacion;
+    private String username,location;
     private String id;
     private String profilePicUrl;
     private int score;
     private ArrayList<Logro> awards;
 
-    public Usuario(String id, String username, String localizacion, String profilePicUrl, int score, ArrayList<Logro> awards) {
+    public Usuario(String id, String username, String location, String profilePicUrl, int score, ArrayList<Logro> awards) {
         this.username = username;
-        this.localizacion = localizacion;
+        this.location = location;
         this.id = id;
         this.profilePicUrl = profilePicUrl;
         this.score = score;
@@ -27,8 +27,8 @@ public class Usuario {
         return this.username;
     }
 
-    public String getLocalizacion() {
-        return this.localizacion;
+    public String getLocation() {
+        return this.location;
     }
 
     public String getProfilePicUrl() {

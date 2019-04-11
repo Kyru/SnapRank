@@ -3,6 +3,8 @@ package snaprank.example.labdadm.snaprank.fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -17,9 +19,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +48,7 @@ import snaprank.example.labdadm.snaprank.activities.LoginActivity;
 import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class ProfileFragment extends Fragment {
@@ -52,14 +59,17 @@ public class ProfileFragment extends Fragment {
     ImageButton bt_logros;
     ImageButton bt_logout;
     ImageButton bt_settings;
-    TextView usernameText;
+    TextView usernameText, locationText;
+    String url = "";
+    Bitmap bitmap;
+    ImageView iv_profile;
 
     private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
 
-    private String username;
+    private String username, location;
     private JSONObject userInfo;
 
     @Nullable
@@ -70,10 +80,11 @@ public class ProfileFragment extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         imagenSubidaList = new ArrayList<ImagenSubida>();
+
         usernameText = view.findViewById(R.id.usernameText);
         username = getArguments().getString("username");
-
         usernameText.setText(username);
+
 
         firebaseStorage = FirebaseStorage.getInstance();
 
@@ -129,6 +140,29 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        iv_profile = view.findViewById(R.id.profile_pic);
+        locationText = view.findViewById(R.id.locationText);
+
+
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Usuario usuario = document.toObject(Usuario.class);
+                        url = usuario.getProfilePicUrl();
+                        setNewProfilePic(url);
+                        locationText.setText(usuario.getLocation());
+                        break;
+                    }
+                }
+            }
+        });
+
 
         return view;
     }
@@ -189,4 +223,26 @@ public class ProfileFragment extends Fragment {
     }
 
 
+
+    public void setNewProfilePic(String url){
+        StorageReference storageRef = firebaseStorage.getReference();
+        final StorageReference imageRef = storageRef.child(url);
+
+        final long ONE_MEGABYTE = 2048 * 2048;
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                iv_profile.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 400,
+                        400, false));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
+    }
 }

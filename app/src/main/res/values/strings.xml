@@ -66,6 +66,7 @@
     <string name="fail_getting_profile_pic">Ha habido un error al cargar la foto de perfil. Prueba en unos minutos</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="location_hint">Ubicación</string>
 
     <string name="passwords_do_not_match">Las contraseñas introducidas no coinciden. Prueba otra vez.</string>
 

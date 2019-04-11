@@ -68,5 +68,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancelar</string>
 
+    <string name="location_hint">Location</string>
+
     <string name="passwords_do_not_match">Passwords do not match. Try again.</string>
 </resources>

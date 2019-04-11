@@ -154,4 +154,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 }
