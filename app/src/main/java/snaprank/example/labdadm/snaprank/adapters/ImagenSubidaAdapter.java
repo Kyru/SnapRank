@@ -75,21 +75,15 @@ public class ImagenSubidaAdapter extends ArrayAdapter {
         StorageReference storageRef = storage.getReference();
         final StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-                // Para que tenga un pequeño delay, si no peta porque ocurre antes de que se genere el grid
-                iv_imagenSubida.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
-                                250, false));
-                        //iv_imagenSubida.setImageBitmap(bitmap);
-                    }
-                });
+                iv_imagenSubida.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
+                        250, false));
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -38,25 +38,9 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center">
 
-        <ImageButton
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/like"
-            android:background="?android:selectableItemBackground"/>
-
-        <ImageButton
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/next"
-            android:background="?android:selectableItemBackground"/>
 
         <ImageButton
             android:id="@+id/dislike"
@@ -65,6 +49,24 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/dislike"
+            android:background="?android:selectableItemBackground"
+            android:layout_marginRight="20dp"/>
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/next"
+            android:background="?android:selectableItemBackground"
+            android:layout_marginRight="20dp"/>
+        <ImageButton
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/like"
             android:background="?android:selectableItemBackground"/>
     </LinearLayout>
 </LinearLayout>

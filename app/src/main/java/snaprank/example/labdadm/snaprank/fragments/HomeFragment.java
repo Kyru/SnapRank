@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,14 +54,20 @@ public class HomeFragment extends Fragment {
     Bitmap bitmap;
     ImageView iv_imagenSubida;
 
-
-    private FirebaseFirestore firestoreDatabase;
+    private FirebaseService firebaseService = new FirebaseService(getContext());
+    SharedPreferences preferences;
+    private FirebaseDatabase database;
+    private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
+    private FirebaseFirestore firestoreDatabase;
 
     ImageButton ib_like;
     ImageButton ib_dislike;
     ImageButton ib_next;
+
+    private String username;
+    private JSONObject userInfo;
 
     Handler handler;
 
@@ -84,7 +88,7 @@ public class HomeFragment extends Fragment {
         ib_next = view.findViewById(R.id.next);
 
         firebaseStorage = FirebaseStorage.getInstance();
-        imagenSubidaList = new ArrayList<ImagenSubida>();
+        imagenSubidaList = new ArrayList<>();
 
         firestoreDatabase = FirebaseFirestore.getInstance();
         storageRef = firebaseStorage.getReference();
@@ -98,9 +102,13 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 imagenSubidaList.add( document.toObject(ImagenSubida.class));
                             }
-                            getRandomImage();
+                            if(imagenSubidaList.size() == 0){
+                                disableButtons();
+                            } else {
+                                enableButtons();
+                                getRandomImage();
+                            }
                         } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
@@ -158,6 +166,18 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void disableButtons(){
+        ib_next.setClickable(false);
+        ib_dislike.setClickable(false);
+        ib_like.setClickable(false);
+    }
+
+    public void enableButtons(){
+        ib_next.setClickable(true);
+        ib_dislike.setClickable(true);
+        ib_like.setClickable(true);
+    }
+
     public void gotoViewPic(View view){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
         intent.putExtra("imageURL",imagenSubida.getUrl());
@@ -173,6 +193,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
+                getRandomImage();
                 return true;
             }
         });
@@ -183,6 +204,15 @@ public class HomeFragment extends Fragment {
     public void uploadImage() {
         Intent intent = new Intent(getContext(), UploadImageActivity.class);
         startActivity(intent);
+    }
+
+    public void setUsername() {
+        userInfo = firebaseService.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String translateCategory(String category){
@@ -215,7 +245,7 @@ public class HomeFragment extends Fragment {
 
         StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -231,8 +261,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
     public void updateCurrentImage(){
 
         firestoreDatabase.collection("images").document(imagenSubida.getId())
@@ -246,5 +274,5 @@ public class HomeFragment extends Fragment {
                          }
         });
 
-    };
+    }
 }

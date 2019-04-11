@@ -40,6 +40,7 @@ import java.util.UUID;
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
+import snaprank.example.labdadm.snaprank.services.GalleryService;
 
 public class UploadImageActivity extends AppCompatActivity {
 
@@ -59,22 +60,23 @@ public class UploadImageActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
 
-    String[] PERMISSIONS = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.CAMERA
-    };
-
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService;
     private Uri uri;
+
+    private GalleryService galleryService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_image);
 
+        /* Initialize services */
+        galleryService = new GalleryService(this, this);
+        firebaseService = new FirebaseService(this);
+
+        /* Initialize interface */
         // Setting custom ActionBar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -134,22 +136,8 @@ public class UploadImageActivity extends AppCompatActivity {
 
     }
 
-
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public void requestPermissions() {
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE);
-        }
+    public void pickPictureFromGallery(View view) {
+        galleryService.pickPictureFromGallery();
     }
 
     @Override
@@ -161,7 +149,7 @@ public class UploadImageActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    pickPictureFromGallery(findViewById(android.R.id.content));
+                    galleryService.pickPictureFromGallery();
 
                 } else {
                     String permissionsDeniedMessage = getResources().getString(R.string.permissions_denied_message);
@@ -172,21 +160,6 @@ public class UploadImageActivity extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
-    }
-
-    public void pickPictureFromGallery(View view) {
-        int storagePermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int cameraPermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
-        if (storagePermissions != PackageManager.PERMISSION_GRANTED || cameraPermissions != PackageManager.PERMISSION_GRANTED) {
-            this.requestPermissions();
-        } else {
-            Intent photoPickerIntent = new Intent();
-            photoPickerIntent.setType("image/*");
-            photoPickerIntent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(photoPickerIntent, "Select Picture"), REQUEST_CODE);
-        }
-
     }
 
     @Override
@@ -233,8 +206,6 @@ public class UploadImageActivity extends AppCompatActivity {
         String category = categorySpinner.getSelectedItem().toString();
 
         category = translateCategory(category);
-
-        Log.d("DATA", description + location + category);
 
         if (!description.isEmpty() && !location.isEmpty() && hasImageUpload) {
             imageToUpload.setDrawingCacheEnabled(true);

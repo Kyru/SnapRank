@@ -3,26 +3,24 @@ package snaprank.example.labdadm.snaprank.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.Logro;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class SignupActivity extends AppCompatActivity {
@@ -30,8 +28,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText fieldEmail;
     private EditText fieldPassword;
     private EditText fieldConfirmPassword;
-
-    private Button signupButton;
 
     private String username;
     private String email;
@@ -41,8 +37,9 @@ public class SignupActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     SharedPreferences preferences;
 
-    private FirebaseAuth auth;
-    private FirebaseService firebaseService = new FirebaseService();
+    Bundle bundle = new Bundle();
+
+    private FirebaseService firebaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +55,7 @@ public class SignupActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance();
+        firebaseService = new FirebaseService(this);
     }
 
     public void createAccount(View view) {
@@ -86,32 +82,20 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    removeProgressBar();
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = auth.getCurrentUser();
-                    firebaseService.updateUser(username);
+        firebaseService.signUp(username, email, password);
 
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                    goToMainActivity(intent);
-                    //startActivity(intent);
-                    // updateUI(user);
-                } else {
-                    removeProgressBar();
-                    // If sign in fails, display a message to the user.
-                    createToast("Authentication failed.");
-                    // updateUI(null);
-                }
-            }
-        });
+        saveUserToDatabase();
+
+        removeProgressBar();
+        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+        bundle.putString("username", username);
+        bundle.putBoolean("goToProfile", false);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void goToMainActivity(Intent intent){
-        Bundle bundle = new Bundle();
-        FirebaseService service = new FirebaseService();
+        FirebaseService service = new FirebaseService(this);
         JSONObject userInfo = service.getCurrentUser();
         try {
             username = userInfo.get("username").toString();
@@ -157,6 +141,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void saveUserToDatabase() {
+        ArrayList<Logro> awards = new ArrayList<>();
+        /* Save user in database */
+        UUID userID = UUID.randomUUID();
+        String path = "profile-pics/9bd459d9-c305-4a48-9e7b-5aee4c3ad17c.jpeg";
+        Usuario user = new Usuario("" + userID, username, "", path, 0, awards);
+        firebaseService.uploadUser(user);
     }
 
     private void createToast(String message) {

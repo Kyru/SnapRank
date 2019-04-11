@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragments.PhotoRankingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +45,7 @@
         android:background="#303030"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageFirst"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,9 +53,9 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageSecond"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,9 +63,9 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageThird"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -71,19 +73,20 @@
             android:layout_weight="0.45"
             android:background="?android:selectableItemBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/taylor" />
+            android:src="@drawable/arenaclock" />
 
     </LinearLayout>
 
     <GridView
         android:id="@+id/photoRanking_grid"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_weight="0.45"
-        android:horizontalSpacing="10dp"
         android:numColumns="4"
-        android:verticalSpacing="10dp">
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp">
 
     </GridView>
 
