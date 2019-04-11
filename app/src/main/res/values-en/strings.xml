@@ -67,4 +67,6 @@
     <string name="fail_getting_profile_pic">There was an error loading the profile photo. Try again in a few minutes</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancelar</string>
+
+    <string name="passwords_do_not_match">Passwords do not match. Try again.</string>
 </resources>

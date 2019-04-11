@@ -120,7 +120,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void changeProfilePicture(String URLProfilePic) {
         StorageReference imageRef = storageRef.child(URLProfilePic);
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -158,7 +158,12 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(R.string.accept,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        firebaseService.changePassword(newPass.getText().toString());
+                        if (newPass.getText().toString().equals(confirmPass.getText().toString())) {
+                            firebaseService.changePassword(newPass.getText().toString());
+                        } else {
+                            createToast(getResources().getString(R.string.passwords_do_not_match));
+                        }
+
                     }
                 });
         alertDialog.setNegativeButton(R.string.cancel,
