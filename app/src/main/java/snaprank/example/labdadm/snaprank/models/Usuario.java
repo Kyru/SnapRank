@@ -17,7 +17,7 @@ public class Usuario {
         this.score = score;
         this.awards = awards;
     }
-    public Usuario() {}
+
     public String getId() {
         return this.id;
     }

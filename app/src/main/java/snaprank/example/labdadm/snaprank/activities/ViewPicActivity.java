@@ -44,7 +44,7 @@ public class ViewPicActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService;
     private FirebaseFirestore firestoreDatabase;
     String username;
     private JSONObject userInfo;
@@ -58,6 +58,7 @@ public class ViewPicActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
+        firebaseService = new FirebaseService(this);
 
         getUsername();
 
@@ -71,7 +72,6 @@ public class ViewPicActivity extends AppCompatActivity {
         tv_location_info = findViewById(R.id.tv_location_info);
         tv_descripcion_info = findViewById(R.id.tv_descripcion_info);
 
-        Log.d("PRINT", imageURL);
         firestoreDatabase.collection("images")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

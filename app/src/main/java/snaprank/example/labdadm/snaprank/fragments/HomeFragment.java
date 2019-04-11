@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,14 +54,20 @@ public class HomeFragment extends Fragment {
     Bitmap bitmap;
     ImageView iv_imagenSubida;
 
-
-    private FirebaseFirestore firestoreDatabase;
+    private FirebaseService firebaseService = new FirebaseService(getContext());
+    SharedPreferences preferences;
+    private FirebaseDatabase database;
+    private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
+    private FirebaseFirestore firestoreDatabase;
 
     ImageButton ib_like;
     ImageButton ib_dislike;
     ImageButton ib_next;
+
+    private String username;
+    private JSONObject userInfo;
 
     Handler handler;
 
@@ -84,7 +88,7 @@ public class HomeFragment extends Fragment {
         ib_next = view.findViewById(R.id.next);
 
         firebaseStorage = FirebaseStorage.getInstance();
-        imagenSubidaList = new ArrayList<ImagenSubida>();
+        imagenSubidaList = new ArrayList<>();
 
         firestoreDatabase = FirebaseFirestore.getInstance();
         storageRef = firebaseStorage.getReference();
@@ -100,7 +104,6 @@ public class HomeFragment extends Fragment {
                             }
                             getRandomImage();
                         } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
@@ -185,6 +188,15 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
+    public void setUsername() {
+        userInfo = firebaseService.getCurrentUser();
+        try {
+            username = userInfo.get("username").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String translateCategory(String category){
         switch(category){
             case "Montaña": return "Mountain";
@@ -231,9 +243,13 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
+
     public void updateCurrentImage(){
+
         firestoreDatabase.collection("images").document(imagenSubida.getId())
                 .set(imagenSubida, SetOptions.merge());
+
 
         handler.post(new Runnable() {
                          @Override
@@ -241,5 +257,6 @@ public class HomeFragment extends Fragment {
                              getRandomImage();
                          }
         });
-    };
+
+    }
 }
