@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
+import snaprank.example.labdadm.snaprank.activities.MainActivity;
 import snaprank.example.labdadm.snaprank.fragments.PhotoRankingFragment;
 import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
 import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
@@ -53,7 +55,7 @@ public class CategoryAdapter extends ArrayAdapter{
         return super.getCount();
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.search_element, null);
@@ -102,11 +104,14 @@ public class CategoryAdapter extends ArrayAdapter{
         imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Fragment fragment = new ProfileFragment();
-                    FragmentTransaction transaction = ((FragmentActivity)group).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainer, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+
+
+                    Intent intent = new Intent(group, MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", categories.get(position).getUsername());
+                    bundle.putBoolean("goToProfile", true);
+                    intent.putExtras(bundle);
+                    group.startActivity(intent);
                 }
             });
     }

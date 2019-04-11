@@ -40,7 +40,7 @@ public class UserRankingFragment extends Fragment {
     ImagenSubidaAdapter imagenSubidaAdapter;
     List<ImagenSubida> imagenSubidaList;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;

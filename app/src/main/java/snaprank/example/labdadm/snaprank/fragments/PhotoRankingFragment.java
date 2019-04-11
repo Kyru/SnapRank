@@ -62,7 +62,7 @@ public class PhotoRankingFragment extends Fragment  {
 
     final long ONE_MEGABYTE = 1024 * 1024;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
