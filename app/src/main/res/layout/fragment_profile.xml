@@ -58,7 +58,7 @@
                     android:src="@drawable/user"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:id="@+id/usernameText"
                     android:layout_height="wrap_content"
                     android:text="username"
@@ -74,7 +74,7 @@
                     android:src="@drawable/location" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="110dp"
                     android:id="@+id/locationText"
                     android:layout_height="wrap_content"
                     android:text="La Vila, España"
