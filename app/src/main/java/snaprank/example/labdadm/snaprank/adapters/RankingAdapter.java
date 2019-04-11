@@ -7,16 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,24 +20,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import snaprank.example.labdadm.snaprank.R;
-import snaprank.example.labdadm.snaprank.activities.LogrosActivity;
 import snaprank.example.labdadm.snaprank.activities.MainActivity;
-import snaprank.example.labdadm.snaprank.fragments.PhotoRankingFragment;
-import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
-import snaprank.example.labdadm.snaprank.fragments.SearchFragment;
-import snaprank.example.labdadm.snaprank.fragments.UserRankingFragment;
 import snaprank.example.labdadm.snaprank.models.Usuario;
 
-public class CategoryAdapter extends ArrayAdapter{
+public class RankingAdapter extends ArrayAdapter{
     ArrayList<Usuario> categories = new ArrayList<>();
     ArrayList<View> items=new ArrayList<>();
     private FirebaseStorage storage;
     private Bitmap bitmap;
 
-    public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Usuario> objects, FirebaseStorage storage) {
+    public RankingAdapter(Context context, int textViewResourceId, ArrayList<Usuario> objects, FirebaseStorage storage) {
         super(context, textViewResourceId, objects);
         categories=objects;
         this.storage=storage;
@@ -58,11 +47,14 @@ public class CategoryAdapter extends ArrayAdapter{
     public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.search_element, null);
+        v = inflater.inflate(R.layout.user_ranking_element, null);
         if (v!=null){
             TextView textView = (TextView) v.findViewById(R.id.name_textview);
+            TextView textView1 = (TextView) v.findViewById(R.id.pos_textview);
             TextView textView2 = (TextView) v.findViewById(R.id.location_textview);
+
             textView.setText(categories.get(position).getUsername());
+            textView1.setText("#" + (position+1));
             textView2.setText(categories.get(position).getLocation());
         StorageReference storageRef = storage.getReference();
 
@@ -74,7 +66,6 @@ public class CategoryAdapter extends ArrayAdapter{
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-                // Para que tenga un pequeño delay, si no peta porque ocurre antes de que se genere el grid
                 imageView.post(new Runnable() {
                     @Override
                     public void run() {
