@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 
 public class FirebaseService {
     private FirebaseAuth auth;
@@ -76,4 +77,7 @@ public class FirebaseService {
     public void uploadImage(ImagenSubida image, String username) {
         db.collection("images").document(image.getId()).set(image);
     }
+public void uploadUsers(Usuario user){
+        db.collection("users").document(user.getId()).set(user);
+}
 }
