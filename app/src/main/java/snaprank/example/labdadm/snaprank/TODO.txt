@@ -4,3 +4,5 @@ TODO:
     - Logros cambiarlo para que ponga si es premio a foto o a user???
 
     - ViewPic escalar la foto mejor
+
+    - Cuando cambias de categoria y no hay fotos, peta
