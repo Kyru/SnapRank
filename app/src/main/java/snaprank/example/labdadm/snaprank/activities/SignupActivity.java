@@ -15,9 +15,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.models.Logro;
 import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
@@ -142,10 +144,11 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void saveUserToDatabase() {
+        ArrayList<Logro> awards = new ArrayList<>();
         /* Save user in database */
         UUID userID = UUID.randomUUID();
         String path = "profile-pics/9bd459d9-c305-4a48-9e7b-5aee4c3ad17c.jpeg";
-        Usuario user = new Usuario("" + userID, username, "", path);
+        Usuario user = new Usuario("" + userID, username, "", path, 0, awards);
         firebaseService.uploadUser(user);
     }
 
