@@ -48,4 +48,25 @@
 
     <string name="success_upload_photo">Image correctly uploaded</string>
     <string name="permissions_denied_message">You need the permissions to make full use of the application</string>
+
+    <!-- Settings activity -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="usermane_hint">Name that identifies the user</string>
+
+    <string name="password_category">Security</string>
+    <string name="password_title">Password</string>
+    <string name="password_summary">Change password</string>
+    <string name="password_changed">Password changed successfully</string>
+    <string name="delete_account">Delete account</string>
+
+    <string name="delete_accound_message">Are you sure you want to delete your account?</string>
+    <string name="delete_accound_message_confirmation">Account successfully deleted</string>
+    <string name="profile_pic_changed_message">Profile picture updated successfully</string>
+
+    <string name="authentication_failed">Authentication failed. Check your credentials</string>
+    <string name="fail_getting_profile_pic">There was an error loading the profile photo. Try again in a few minutes</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="passwords_do_not_match">Passwords do not match. Try again.</string>
 </resources>

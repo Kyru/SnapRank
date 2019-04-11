@@ -25,8 +25,7 @@
             android:layout_height="match_parent"
             android:background="?android:selectableItemBackground"
             android:visibility="gone"
-            android:src="@drawable/back"
-            android:onClick="back"/>
+            android:src="@drawable/back"/>
 
     </LinearLayout>
     <LinearLayout
@@ -54,6 +53,15 @@
             android:layout_height = "match_parent"
             android:src = "@drawable/ic_settings_24"
             android:background="?android:selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="?android:selectableItemBackground"
+            android:visibility="gone"
+            app:srcCompat="@drawable/settings" />
 
         <ImageButton
             android:id="@+id/logoutButton"

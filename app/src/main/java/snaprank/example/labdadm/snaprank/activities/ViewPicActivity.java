@@ -28,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import snaprank.example.labdadm.snaprank.R;
-import snaprank.example.labdadm.snaprank.fragments.ProfileFragment;
-import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class ViewPicActivity extends AppCompatActivity {
@@ -41,13 +39,12 @@ public class ViewPicActivity extends AppCompatActivity {
     TextView tv_category_info;
     TextView tv_location_info;
     TextView tv_descripcion_info;
-    ImagenSubida imagenSubida;
 
 
     private FirebaseDatabase database;
     private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService;
     private FirebaseFirestore firestoreDatabase;
     String username;
     private JSONObject userInfo;
@@ -61,6 +58,7 @@ public class ViewPicActivity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
+        firebaseService = new FirebaseService(this);
 
         getUsername();
 
@@ -100,22 +98,12 @@ public class ViewPicActivity extends AppCompatActivity {
         tv_username_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("username", tv_username_info.getText().toString());
                 bundle.putBoolean("goToProfile", true);
                 intent.putExtras(bundle);
                 startActivity(intent);
-
-                /*
-                Fragment fragment = new ProfileFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("username", username);
-                fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer,fragment).commit();
-                        */
             }
 
         });
@@ -123,7 +111,7 @@ public class ViewPicActivity extends AppCompatActivity {
         StorageReference storageRef = firebaseStorage.getReference();
         final StorageReference imageRef = storageRef.child(imageURL);
 
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {

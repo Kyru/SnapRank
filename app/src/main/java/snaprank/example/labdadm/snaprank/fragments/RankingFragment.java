@@ -13,12 +13,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import snaprank.example.labdadm.snaprank.R;
 
 public class RankingFragment extends Fragment implements View.OnClickListener {
-
-    ImageButton ib_filter;
 
     @Nullable
     @Override
@@ -33,16 +32,7 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
         Button photo = (Button) view.findViewById(R.id.toPhotoRanking);
         photo.setOnClickListener(this);
 
-        ib_filter = ((AppCompatActivity)getActivity()).findViewById(R.id.custom_bar_filter);
-        ib_filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopUpMenuFilter(v, ib_filter);
-            }
-        });
-
         return view;
-
     }
 
     public void gotoUserRanking(View view){
@@ -53,22 +43,12 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
         transaction.commit();
     }
 
-    public void showPopUpMenuFilter(final View view, ImageButton filter){
-        PopupMenu popupMenu = new PopupMenu(getActivity(), filter);
-        popupMenu.getMenuInflater().inflate(R.menu.category_filter_menu, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                Fragment fragment = new PhotoRankingFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return true;
-            }
-        });
-
-        popupMenu.show();
+    public void gotoPhotoRanking(View view){
+        Fragment fragment = new PhotoRankingFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void onClick(View v) {
@@ -79,7 +59,7 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.toPhotoRanking:
-                showPopUpMenuFilter(v, ib_filter);
+                gotoPhotoRanking(v);
                 break;
         }
     }

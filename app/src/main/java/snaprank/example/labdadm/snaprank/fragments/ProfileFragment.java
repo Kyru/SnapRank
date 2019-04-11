@@ -15,27 +15,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import snaprank.example.labdadm.snaprank.activities.SettingsActivity;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
 import snaprank.example.labdadm.snaprank.activities.LoginActivity;
@@ -59,9 +51,10 @@ public class ProfileFragment extends Fragment {
     List<ImagenSubida> imagenSubidaList;
     ImageButton bt_logros;
     ImageButton bt_logout;
+    ImageButton bt_settings;
     TextView usernameText;
 
-    private FirebaseService firebaseService = new FirebaseService();
+    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
@@ -79,7 +72,7 @@ public class ProfileFragment extends Fragment {
         imagenSubidaList = new ArrayList<ImagenSubida>();
         usernameText = view.findViewById(R.id.usernameText);
         username = getArguments().getString("username");
-        Log.d("username", username);
+
         usernameText.setText(username);
 
         firebaseStorage = FirebaseStorage.getInstance();
@@ -125,6 +118,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 logout();
+            }
+        });
+
+        bt_settings = ((AppCompatActivity) Objects.requireNonNull(getActivity())).findViewById(R.id.settingsButton);
+        bt_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
