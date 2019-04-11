@@ -60,7 +60,7 @@ public class PhotoRankingFragment extends Fragment  {
     ImageButton ib_filter;
     String category="All";
 
-    final long ONE_MEGABYTE = 1024 * 1024;
+    final long ONE_MEGABYTE = 2048 * 2048;
 
     private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;

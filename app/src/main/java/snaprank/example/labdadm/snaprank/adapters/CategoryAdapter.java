@@ -68,7 +68,7 @@ public class CategoryAdapter extends ArrayAdapter{
 
         final StorageReference imageRef = storageRef.child(categories.get(position).getProfilePicUrl());
         final ImageButton imageView = (ImageButton) v.findViewById(R.id.avatar_ImageButton);
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
