@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        /*
         bt_logros = view.findViewById(R.id.ib_profile_logros);
         bt_logros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 gotoLogroActivity(v);
             }
         });
+        */
 
         bt_logout = ((AppCompatActivity) Objects.requireNonNull(getActivity())).findViewById(R.id.logoutButton);
         bt_logout.setOnClickListener(new View.OnClickListener() {

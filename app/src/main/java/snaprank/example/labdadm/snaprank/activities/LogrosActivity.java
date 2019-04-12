@@ -30,14 +30,14 @@ public class LogrosActivity extends AppCompatActivity {
 
         logroList = new ArrayList<Logro>();
 
-        for(int i = 0; i < 3; i++){
-            Logro logro = new Logro("Animals", "Marzo 2019", R.drawable.gold_trophy);
-            logroList.add(logro);
-            Logro logro1 = new Logro("Animals", "Marzo 2019", R.drawable.silver_trophy);
-            logroList.add(logro1);
-            Logro logro2 = new Logro("Animals", "Marzo 2019", R.drawable.bronze_trophy);
-            logroList.add(logro2);
-        }
+
+        Logro logro = new Logro("Animals", "Marzo 2019", R.drawable.gold_trophy);
+        logroList.add(logro);
+        Logro logro1 = new Logro("Mountain", "Agosto 2019", R.drawable.silver_trophy);
+        logroList.add(logro1);
+        Logro logro2 = new Logro("Animals", "Diciembre 2017", R.drawable.bronze_trophy);
+        logroList.add(logro2);
+
 
         logroAdapter = new LogroAdapter(this, logroList);
         recyclerView = findViewById(R.id.rv_profile_logros);

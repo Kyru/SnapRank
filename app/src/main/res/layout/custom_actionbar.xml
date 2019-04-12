@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:background="?android:selectableItemBackground"
             android:onClick="uploadImage"
+            android:padding="2dp"
             android:src="@drawable/ic_add_24" />
 
         <ImageButton
@@ -25,7 +26,8 @@
             android:layout_height="match_parent"
             android:background="?android:selectableItemBackground"
             android:visibility="gone"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back"
+            android:padding="2dp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -52,7 +54,8 @@
             android:layout_width = "wrap_content"
             android:layout_height = "match_parent"
             android:src = "@drawable/ic_settings_24"
-            android:background="?android:selectableItemBackground" />
+            android:background="?android:selectableItemBackground"
+            android:padding="2dp" />
 
         <ImageButton
             android:id="@+id/settingsButton"
@@ -61,7 +64,8 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="?android:selectableItemBackground"
             android:visibility="gone"
-            app:srcCompat="@drawable/settings" />
+            app:srcCompat="@drawable/settings"
+            android:padding="2dp" />
 
         <ImageButton
             android:id="@+id/logoutButton"
@@ -69,6 +73,7 @@
             android:layout_height="match_parent"
             android:background="?android:selectableItemBackground"
             android:visibility="gone"
-            app:srcCompat="@drawable/logout" />
+            app:srcCompat="@drawable/logout"
+            android:padding="2dp"/>
     </LinearLayout>
 </LinearLayout>

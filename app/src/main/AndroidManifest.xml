@@ -22,7 +22,7 @@
             android:name=".activities.UploadImageActivity"
             android:label="@string/upload_photo"
             android:parentActivityName=".activities.MainActivity">
-e            <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>

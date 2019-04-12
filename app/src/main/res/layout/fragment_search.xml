@@ -21,13 +21,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+>
 
         <ListView
             android:id="@+id/listviewcat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"/>
     </LinearLayout>
 
 </LinearLayout>
