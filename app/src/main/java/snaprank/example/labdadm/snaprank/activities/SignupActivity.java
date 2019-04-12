@@ -1,6 +1,5 @@
 package snaprank.example.labdadm.snaprank.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,17 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.UUID;
-
 import snaprank.example.labdadm.snaprank.R;
-import snaprank.example.labdadm.snaprank.models.Logro;
-import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class SignupActivity extends AppCompatActivity {
@@ -39,8 +28,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     SharedPreferences preferences;
-
-    Bundle bundle = new Bundle();
 
     private FirebaseService firebaseService;
 
@@ -69,11 +56,12 @@ public class SignupActivity extends AppCompatActivity {
         email = fieldEmail.getText().toString();
         password = fieldPassword.getText().toString();
         confirmPassword = fieldConfirmPassword.getText().toString();
+        location = fieldLocation.getText().toString();
 
-        createAccount(email, password, confirmPassword);
+        createAccount(email, password, confirmPassword, location);
     }
 
-    public void createAccount(String email, String password, String confirmPassword) {
+    public void createAccount(String email, String password, String confirmPassword, String location) {
 
         if (!validateForm()) {
             removeProgressBar();
@@ -86,34 +74,11 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        firebaseService.signUp(username, email, password);
-
-        saveUserToDatabase();
+        firebaseService.signUp(username, email, password, location);
 
         removeProgressBar();
-        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-        bundle.putString("username", username);
-        bundle.putBoolean("goToProfile", false);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
-    /*
-    public void goToMainActivity(Intent intent){
-        FirebaseService service = new FirebaseService(this);
-        JSONObject userInfo = service.getCurrentUser();
-        try {
-            username = userInfo.get("username").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        bundle.putString("username", username);
-        bundle.putBoolean("goToProfile", false);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
-    */
 
     /**
      * Validates the form to create the account
@@ -147,16 +112,6 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
-
-    private void saveUserToDatabase() {
-        ArrayList<Logro> awards = new ArrayList<>();
-        /* Save user in database */
-        UUID userID = UUID.randomUUID();
-        String path = "profile-pics/profilepic_default.jpeg";
-        location = fieldLocation.getText().toString();
-        Usuario user = new Usuario("" + userID, username, location, path, 0, awards);
-        firebaseService.uploadUser(user);
     }
 
     private void createToast(String message) {

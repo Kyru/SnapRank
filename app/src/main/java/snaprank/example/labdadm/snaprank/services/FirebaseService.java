@@ -1,8 +1,10 @@
 package snaprank.example.labdadm.snaprank.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -20,16 +23,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.activities.MainActivity;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Logro;
 import snaprank.example.labdadm.snaprank.models.Usuario;
 
 public class FirebaseService {
@@ -41,6 +43,7 @@ public class FirebaseService {
 
     // variable to hold context
     private Context context;
+    Bundle bundle = new Bundle();
 
     public FirebaseService(Context context) {
         this.context = context;
@@ -198,7 +201,7 @@ public class FirebaseService {
         }
     }
 
-    public void signUp(final String username, String email, String password) {
+    public void signUp(final String username, String email, String password, final String location) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -207,14 +210,32 @@ public class FirebaseService {
                     // Sign in success, update UI with the signed-in user's information
                     updateUser(username);
 
+                    saveUserToDatabase(username, location);
+
+                    Intent intent = new Intent(context, MainActivity.class);
+                    bundle.putString("username", username);
+                    bundle.putBoolean("goToProfile", false);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+
                     // updateUI(user);
-                } else {
+                } else if (!task.isSuccessful()){
+
                     // If sign in fails, display a message to the user.
                     createToast("Authentication failed.");
                     // updateUI(null);
                 }
             }
         });
+    }
+
+    public void saveUserToDatabase(String username, String location) {
+        ArrayList<Logro> awards = new ArrayList<>();
+        /* Save user in database */
+        UUID userID = UUID.randomUUID();
+        String path = "profile-pics/profilepic_default.jpeg";
+        Usuario user = new Usuario("" + userID, username, location, path, 0, awards);
+        uploadUser(user);
     }
 
     private void createToast(String message) {
