@@ -48,7 +48,7 @@ public class PhotoRankingFragment extends Fragment  {
 
     GridView gridView;
     ImagenSubidaAdapter imagenSubidaAdapter;
-    List<ImagenSubida> imagenSubidaList;
+    List<ImagenSubida> imagenRankingList;
     List<ImagenSubida> imagenesGrid;
     String imageURL;
 
@@ -75,7 +75,7 @@ public class PhotoRankingFragment extends Fragment  {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        imagenSubidaList = new ArrayList<ImagenSubida>();
+        imagenRankingList = new ArrayList<ImagenSubida>();
 
         ib_filter = ((AppCompatActivity)getActivity()).findViewById(R.id.custom_bar_filter);
         ib_filter.setVisibility(View.VISIBLE);
@@ -89,59 +89,59 @@ public class PhotoRankingFragment extends Fragment  {
         firebaseStorage = FirebaseStorage.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
 
-        firestoreDatabase.collection("images")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(category.equals(document.toObject(ImagenSubida.class).getCategory()) || category.equals("All")) {
-                                    imagenSubidaList.add(document.toObject(ImagenSubida.class));
+            firestoreDatabase.collection("images")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (category.equals(document.toObject(ImagenSubida.class).getCategory()) || category.equals("All")) {
+                                        imagenRankingList.add(document.toObject(ImagenSubida.class));
+                                    }
                                 }
+                                orderList(imagenRankingList);
+                                initializePodium();
+                                initializeGridAdapter();
+                            } else {
+                                Log.d("TAG", "Error getting documents: ", task.getException());
                             }
-                            orderList(imagenSubidaList);
-                            initializePodium();
-                            initializeGridAdapter();
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
 
-        primero = view.findViewById(R.id.imageFirst);
-        primero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoViewPic(v, 0);
-            }
-        });
+            primero = view.findViewById(R.id.imageFirst);
+            primero.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoViewPic(v, 0);
+                }
+            });
 
-        segundo = view.findViewById(R.id.imageSecond);
-        segundo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoViewPic(v, 1);
-            }
-        });
+            segundo = view.findViewById(R.id.imageSecond);
+            segundo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoViewPic(v, 1);
+                }
+            });
 
-        tercero = view.findViewById(R.id.imageThird);
-        tercero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoViewPic(v, 2);
-            }
-        });
+            tercero = view.findViewById(R.id.imageThird);
+            tercero.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoViewPic(v, 2);
+                }
+            });
 
-        gridView = view.findViewById(R.id.photoRanking_grid);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                gotoViewPic(view, (position + 3));
-            }
-        });
+            gridView = view.findViewById(R.id.photoRanking_grid);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    gotoViewPic(view, (position + 3));
+                }
+            });
 
-        return view;
+            return view;
     }
 
     public void orderList(List<ImagenSubida> list) {
@@ -159,7 +159,7 @@ public class PhotoRankingFragment extends Fragment  {
     public void initializePodium(){
         StorageReference storageRef = firebaseStorage.getReference();
 
-        imageURL = imagenSubidaList.get(0).getUrl();
+        imageURL = imagenRankingList.get(0).getUrl();
         StorageReference imageRef = storageRef.child(imageURL);
 
 
@@ -177,7 +177,7 @@ public class PhotoRankingFragment extends Fragment  {
             }
         });
 
-        imageURL = imagenSubidaList.get(1).getUrl();
+        imageURL = imagenRankingList.get(1).getUrl();
         imageRef = storageRef.child(imageURL);
 
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -194,7 +194,7 @@ public class PhotoRankingFragment extends Fragment  {
             }
         });
 
-        imageURL = imagenSubidaList.get(2).getUrl();
+        imageURL = imagenRankingList.get(2).getUrl();
         imageRef = storageRef.child(imageURL);
 
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -213,18 +213,18 @@ public class PhotoRankingFragment extends Fragment  {
     }
 
     public void initializeGridAdapter(){
-        imagenesGrid = imagenSubidaList.subList(3, imagenSubidaList.size());
+        imagenesGrid = imagenRankingList.subList(3, imagenRankingList.size());
         imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenesGrid, firebaseStorage);
         gridView.setAdapter(imagenSubidaAdapter);
     }
 
     public void gotoViewPic(View view, int position){
         Intent intent = new Intent(getContext(), ViewPicActivity.class);
-        intent.putExtra("imageURL", imagenSubidaList.get(position).getUrl());
+        intent.putExtra("imageURL", imagenRankingList.get(position).getUrl());
         startActivity(intent);
     }
 
-    public void showPopUpMenuFilter(View view, ImageButton filter){
+    public void showPopUpMenuFilter(final View view, ImageButton filter){
         PopupMenu popupMenu = new PopupMenu(getActivity(), filter);
         popupMenu.getMenuInflater().inflate(R.menu.category_filter_menu, popupMenu.getMenu());
 
