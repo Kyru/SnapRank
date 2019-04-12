@@ -61,6 +61,7 @@
 
     <string name="delete_accound_message">Are you sure you want to delete your account?</string>
     <string name="delete_accound_message_confirmation">Account successfully deleted</string>
+    <string name="delete_accound_message_fail">There was a problem deleting your account. Try again in a few minutes</string>
     <string name="profile_pic_changed_message">Profile picture updated successfully</string>
 
     <string name="authentication_failed">Authentication failed. Check your credentials</string>

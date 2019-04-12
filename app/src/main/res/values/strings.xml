@@ -60,6 +60,7 @@
 
     <string name="delete_accound_message">¿Está seguro de que desea eliminar su cuenta?</string>
     <string name="delete_accound_message_confirmation">Tu cuenta ha sido eliminada correctamente</string>
+    <string name="delete_accound_message_fail">Ha habido un problema al eliminar tu cuenta. Prueba en unos minutos</string>
     <string name="profile_pic_changed_message">Foto de perfil cambiada correctamente</string>
 
     <string name="authentication_failed">Error en la autenticación. Comprueba tus credenciales</string>

@@ -40,6 +40,7 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 import snaprank.example.labdadm.snaprank.R;
@@ -67,6 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseFirestore firestoreDatabase;
     private Object user;
     private StorageReference storageRef;
+    private String userID;
+    ArrayList<String> imagesID = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         usernameText.setText(username);
 
-        /* Get profile url */
+        /* Get profile url and user id */
         firestoreDatabase.collection("users")
                 .whereEqualTo("username", username)
                 .get()
@@ -102,11 +105,8 @@ public class SettingsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("USERTGH", " = ");
                                 URLProfilePic = document.getData().get("profilePicUrl") + "";
-                                user = document.getData();
-                                Log.d("USERTGH", "" + URLProfilePic);
-                                changeProfilePicture(URLProfilePic);
+                                userID = document.getData().get("id") + "";
                             }
                         } else {
                             createToast(getResources().getString(R.string.fail_getting_profile_pic));
@@ -114,7 +114,22 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
 
-
+        /* Get profile url and user id */
+        firestoreDatabase.collection("images")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                imagesID.add(document.getId());
+                            }
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
     }
 
     public void changeProfilePicture(String URLProfilePic) {
@@ -184,7 +199,7 @@ public class SettingsActivity extends AppCompatActivity {
         deleteAccountDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                firebaseService.deleteAccount();
+                firebaseService.deleteAccount(userID, imagesID);
                 preferences.edit().putBoolean("loggedIn", false).apply();
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 startActivity(intent);

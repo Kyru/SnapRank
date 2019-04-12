@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
@@ -146,7 +148,11 @@ public class FirebaseService {
                 });
     }
 
-    public void deleteAccount() {
+    /**
+     * Deletes user
+     * @param userID User's ID
+     */
+    public void deleteAccount(String userID, ArrayList<String> imagesID) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,9 +160,42 @@ public class FirebaseService {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             createToast(context.getString(R.string.delete_accound_message_confirmation));
+                        } else {
+                            createToast(context.getString(R.string.delete_accound_message_fail));
                         }
                     }
                 });
+
+        /* Deletes user from database */
+        db.collection("users").document(userID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // User deleted from database successfully
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error deleting user from database
+                    }
+                });
+        for (String imageID : imagesID) {
+            /* Deletes user from database */
+            db.collection("images").document(imageID)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Image deleted from database successfully
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Error deleting image from database
+                }
+            });
+        }
     }
 
     public void signUp(final String username, String email, String password) {
