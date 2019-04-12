@@ -112,7 +112,7 @@ boolean goToProfile;
             case R.id.navigation_profile:
                 if(goToProfile)goToProfile(username);
                else{ fragment = new ProfileFragment();
-                String username = "";
+                username = "";
 
                 userInfo = firebaseService.getCurrentUser();
                 try {
