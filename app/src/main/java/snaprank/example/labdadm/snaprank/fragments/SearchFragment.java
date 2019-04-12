@@ -45,6 +45,7 @@ public class SearchFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View v=inflater.inflate(R.layout.fragment_search, null);
         search=(SearchView) v.findViewById(R.id.searchView);
         listview = (ListView) v.findViewById(R.id.listviewcat);
@@ -79,31 +80,8 @@ public class SearchFragment extends Fragment  {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-               // myAdapter.clear();
-                //myAdapter.addAll(categories);
-                firestoreDatabase = FirebaseFirestore.getInstance();
 
-                firestoreDatabase.collection("users")
-                        .whereArrayContains("username",query)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    ArrayList<Usuario> temp = new ArrayList<Usuario>();
-                                    temp.clear();
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        temp.add( document.toObject(Usuario.class));
-                                    }
-                                    listview.setAdapter(new CategoryAdapter(getContext(),R.layout.fragment_search, temp,firebaseStorage));
-                                    categories=temp;
-                                } else {
-                                    Log.d("TAG", "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
-                return true;
+                return false;
             }
 
             @Override
@@ -125,7 +103,7 @@ public class SearchFragment extends Fragment  {
                     }
                 }
                 listview.setAdapter(new CategoryAdapter(getContext(),R.layout.fragment_search, temp,firebaseStorage));
-                return false;
+                return true;
 
 
             }

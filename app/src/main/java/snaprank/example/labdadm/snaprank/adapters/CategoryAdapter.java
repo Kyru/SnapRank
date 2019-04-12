@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,6 +70,7 @@ public class CategoryAdapter extends ArrayAdapter{
 
         final StorageReference imageRef = storageRef.child(categories.get(position).getProfilePicUrl());
         final ImageButton imageView = (ImageButton) v.findViewById(R.id.avatar_ImageButton);
+        final LinearLayout element=(LinearLayout)v.findViewById(R.id.elementclick);
         final long ONE_MEGABYTE = 2048 * 2048;
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
@@ -92,7 +95,18 @@ public class CategoryAdapter extends ArrayAdapter{
         });
 
         final Context group=parent.getContext();
+        element.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(group, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", categories.get(position).getUsername());
+                bundle.putBoolean("goToProfile", true);
+                intent.putExtras(bundle);
+                group.startActivity(intent);
 
+            }
+        });
         imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -101,7 +115,9 @@ public class CategoryAdapter extends ArrayAdapter{
                     bundle.putString("username", categories.get(position).getUsername());
                     bundle.putBoolean("goToProfile", true);
                     intent.putExtras(bundle);
+                   
                     group.startActivity(intent);
+
                 }
             });
     }

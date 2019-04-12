@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/mainclick"
         android:layout_width="400dp"
         android:layout_height="80dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="0dp"
         android:background="#303030"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
