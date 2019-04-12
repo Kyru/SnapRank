@@ -78,7 +78,7 @@ boolean goToProfile;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
-        switch(menuItem.getItemId()){
+        switch(menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = new HomeFragment();
                 findViewById(R.id.navigation_home).setClickable(false);
@@ -120,38 +120,39 @@ boolean goToProfile;
                 header_name.setText(R.string.title_ranking);
                 break;
             case R.id.navigation_profile:
-                if(goToProfile)goToProfile(username);
-               else{ fragment = new ProfileFragment();
-                username = "";
+                if (goToProfile) goToProfile(username);
+                else {
+                    fragment = new ProfileFragment();
+                    username = "";
 
-                userInfo = firebaseService.getCurrentUser();
-                try {
-                    username = userInfo.get("username").toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    userInfo = firebaseService.getCurrentUser();
+                    try {
+                        username = userInfo.get("username").toString();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", username);
+                    fragment.setArguments(bundle);
+
+
+                    findViewById(R.id.navigation_home).setClickable(true);
+                    findViewById(R.id.navigation_search).setClickable(true);
+                    findViewById(R.id.navigation_ranking).setClickable(true);
+                    findViewById(R.id.navigation_profile).setClickable(false);
+                    findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+                    findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+                    findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+                    findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
+                    findViewById(R.id.back).setVisibility(View.GONE);
+                    header_name = findViewById(R.id.custom_bar_name);
+                    header_name.setText(R.string.title_profile);
+                    break;
                 }
-
-                Bundle bundle = new Bundle();
-                bundle.putString("username", username);
-                fragment.setArguments(bundle);
-
-
-                findViewById(R.id.navigation_home).setClickable(true);
-                findViewById(R.id.navigation_search).setClickable(true);
-                findViewById(R.id.navigation_ranking).setClickable(true);
-                findViewById(R.id.navigation_profile).setClickable(false);
-                findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
-                findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
-                findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
-                findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
-                findViewById(R.id.back).setVisibility(View.GONE);
-                header_name = findViewById(R.id.custom_bar_name);
-                header_name.setText(R.string.title_profile);
-                break;
         }
-
-        if(fragment!=null) getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer,fragment).commit();
+        if (fragment != null) getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, fragment).commit();
         return true;
     }
 
@@ -165,8 +166,9 @@ boolean goToProfile;
         findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
         findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
         findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+        findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
         findViewById(R.id.navigation_profile).setClickable(false);
-goToProfile=false;
+        goToProfile=false;
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();

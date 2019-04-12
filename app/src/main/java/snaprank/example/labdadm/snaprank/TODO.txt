@@ -1,24 +1,8 @@
 
 TODO:
 
-Para el commit
-{
-    - Cuando cambias de categoria y no hay fotos, peta
-    - Toast cuando intentas subir una foto sin tener una foto seleccionada (darle feedback al usuario)
-}
-
-Tengo que hacer despues de comer:
-
-    - Permitir el cambio de nombredeusuario y localización (comprobar que no está el nombre cogido)
-
-
 Lo que queda por hacer:
-    - Hacer capturas de logros para la presentación y quitarlo
 
     - Arreglar error de storage exception
 
-    - Que no te deje crear 2 usuarios con el mismo email (te sale un mensaje como que la autentificación es erronea, pero entra a la aplicación)
-
-    - Que se pueda clicar t0do el cardview en el search, no solo la imagen
-
-    - Cambiar el navigation bar de settings que sigue en verde
+    - Añadir una flecha de back en el ranking
