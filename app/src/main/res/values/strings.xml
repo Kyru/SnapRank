@@ -84,6 +84,9 @@
     <string name="new_location">Nueva localización</string>
     <string name="do_click">Hiciste click en: </string>
     <string name="new_location_error">El campo de nueva localización está vacío</string>
+    <string name="rank_images">MEJORES FOTOGRAFÍAS</string>
+    <string name="rank_users">MEJORES USUARIOS</string>
+    <string name="see_rank">VER RANKING</string>
 
 
 </resources>
