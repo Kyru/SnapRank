@@ -6,3 +6,15 @@ TODO:
     - ViewPic escalar la foto mejor
 
     - Cuando cambias de categoria y no hay fotos, peta
+
+    - Arreglar: darle a ranking usuario -> ir a perfil -> volver con el back (peta el xml de ranking)
+
+    - Toast cuando intentas subir una foto sin tener una foto seleccionada (darle feedback al usuario)
+
+    - Comentar lo de los logros (quitarlos?)
+
+    - Cuando te creas una cuenta añadir la localización
+
+    - Arreglar error de storage exception
+
+    - Que no te deje crear 2 usuarios con el mismo email (te sale un mensaje como que la autentificación es erronea, pero entra a la aplicación)
