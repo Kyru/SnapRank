@@ -60,9 +60,9 @@ public class PhotoRankingFragment extends Fragment  {
     ImageButton ib_filter;
     String category="All";
 
+    View view;
     final long ONE_MEGABYTE = 2048 * 2048;
 
-    private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firestoreDatabase;
@@ -71,7 +71,8 @@ public class PhotoRankingFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photo_ranking,container, false);
+
+        view = inflater.inflate(R.layout.fragment_photo_ranking,container, false);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
@@ -86,62 +87,14 @@ public class PhotoRankingFragment extends Fragment  {
             }
         });
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        firestoreDatabase = FirebaseFirestore.getInstance();
 
-            firestoreDatabase.collection("images")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (category.equals(document.toObject(ImagenSubida.class).getCategory()) || category.equals("All")) {
-                                        imagenRankingList.add(document.toObject(ImagenSubida.class));
-                                    }
-                                }
-                                orderList(imagenRankingList);
-                                initializePodium();
-                                initializeGridAdapter();
-                            } else {
-                                Log.d("TAG", "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
 
-            primero = view.findViewById(R.id.imageFirst);
-            primero.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gotoViewPic(v, 0);
-                }
-            });
 
-            segundo = view.findViewById(R.id.imageSecond);
-            segundo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gotoViewPic(v, 1);
-                }
-            });
+        fillRanking();
 
-            tercero = view.findViewById(R.id.imageThird);
-            tercero.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gotoViewPic(v, 2);
-                }
-            });
 
-            gridView = view.findViewById(R.id.photoRanking_grid);
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    gotoViewPic(view, (position + 3));
-                }
-            });
 
-            return view;
+        return view;
     }
 
     public void orderList(List<ImagenSubida> list) {
@@ -230,9 +183,11 @@ public class PhotoRankingFragment extends Fragment  {
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                String clickaste = getResources().getString(R.string.do_click);
+                Toast.makeText(getActivity(), clickaste + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
+                fillRanking();
                 return true;
             }
         });
@@ -257,5 +212,75 @@ public class PhotoRankingFragment extends Fragment  {
             case "Todo": return "All";
             default: return category;
         }
+    }
+
+    public void fillRanking(){
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        firestoreDatabase = FirebaseFirestore.getInstance();
+
+        primero = view.findViewById(R.id.imageFirst);
+        segundo = view.findViewById(R.id.imageSecond);
+        tercero = view.findViewById(R.id.imageThird);
+        gridView = view.findViewById(R.id.photoRanking_grid);
+        imagenRankingList.clear();
+
+        firestoreDatabase.collection("images")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (category.equals(document.toObject(ImagenSubida.class).getCategory()) || category.equals("All")) {
+                                    imagenRankingList.add(document.toObject(ImagenSubida.class));
+                                }
+                            }
+                            if(imagenRankingList.size()<3){
+                                String categoryString = getResources().getString(R.string.category);
+                                String categoryMessage = getResources().getString(R.string.no_enough_photos_in_category);
+
+                                Toast.makeText(getActivity(),categoryString + " " + category + " " + categoryMessage, Toast.LENGTH_SHORT).show();
+                                category="All";
+                                fillRanking();
+                            }
+                            else{
+                                orderList(imagenRankingList);
+                                initializePodium();
+                                initializeGridAdapter();
+                                primero.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        gotoViewPic(v, 0);
+                                    }
+                                });
+
+                                segundo.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        gotoViewPic(v, 1);
+                                    }
+                                });
+                                tercero.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        gotoViewPic(v, 2);
+                                    }
+                                });
+                                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        gotoViewPic(view, (position + 3));
+                                    }
+                                });
+                            }
+
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
     }
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,14 +30,16 @@ public class UserRankingFragment extends Fragment {
     ArrayList<Usuario> usuariosRankingList;
     FirebaseFirestore firestoreDatabase;
     FirebaseStorage firebaseStorage;
+    ImageButton back;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_ranking, null);
 
-        listview = (ListView) v.findViewById(R.id.user_ranking_list);
+        listview = v.findViewById(R.id.user_ranking_list);
         usuariosRankingList = new ArrayList<Usuario>();
+
 
         firebaseStorage = FirebaseStorage.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
@@ -59,5 +62,10 @@ public class UserRankingFragment extends Fragment {
                 });
 
         return v;
+    }
+
+    public void onBackPressed(){
+
+
     }
 }

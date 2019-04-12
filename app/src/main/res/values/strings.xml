@@ -71,7 +71,8 @@
     <string name="passwords_do_not_match">Las contraseñas introducidas no coinciden o no los campos no se han rellenado. Prueba otra vez.</string>
 
     <string name="no_photos_in_category">aún no contiene fotos</string>
-    <string name="no_fields_upload_image">El campo de foto, descripción o localización esta vacio</string>
+    <string name="no_enough_photos_in_category">no tiene suficientes fotos para mostrar</string>
+    <string name="no_fields_upload_image">El campo de foto, descripción o localización esta vacío</string>
 
     <string name="username_alert">Cambiar nombre de usuario</string>
     <string name="new_username">Nuevo nombre de usuario</string>
@@ -80,6 +81,8 @@
 
     <string name="location_alert">Cambiar localización</string>
     <string name="new_location">Nueva localización</string>
-    <string name="new_location_error">El campo de nueva localización está vacio</string>
+    <string name="do_click">Hiciste click en: </string>
+    <string name="new_location_error">El campo de nueva localización está vacío</string>
+
 
 </resources>

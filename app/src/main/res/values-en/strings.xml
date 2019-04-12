@@ -73,6 +73,7 @@
     <string name="passwords_do_not_match">Passwords do not match or fields are empty. Try again.</string>
 
     <string name="no_photos_in_category">has not photos yet</string>
+    <string name="no_enough_photos_in_category">has not enough photos to show</string>
     <string name="no_fields_upload_image">Photo, description or location field is empty</string>
 
     <string name="username_alert">Change username</string>
@@ -82,6 +83,7 @@
 
     <string name="location_alert">Change location</string>
     <string name="new_location">New location</string>
+    <string name="do_click">You clicked: </string>
     <string name="new_location_error">New location field is empty</string>
 
 
