@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,13 +35,13 @@ public class UserRankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_ranking, null);
 
-        listview = (ListView) v.findViewById(R.id.userRanking_list);
+        listview = (ListView) v.findViewById(R.id.user_ranking_list);
         usuariosRankingList = new ArrayList<Usuario>();
 
         firebaseStorage = FirebaseStorage.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
 
-        firestoreDatabase.collection("users").orderBy("score")
+        firestoreDatabase.collection("users").orderBy("score", Query.Direction.DESCENDING).limit(50)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

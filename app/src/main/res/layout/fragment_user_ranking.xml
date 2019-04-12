@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/userRanking_list"
+            android:id="@+id/user_ranking_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

@@ -36,6 +36,7 @@ public class Usuario {
     }
 
     public int getScore() { return this.score; }
+    public void setScore(int s) { this.score=s; }
 
     public ArrayList<Logro> getAwards() { return this.awards; }
 }
