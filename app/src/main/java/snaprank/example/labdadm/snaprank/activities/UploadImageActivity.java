@@ -260,6 +260,8 @@ public class UploadImageActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        } else {
+            createToast(getResources().getString(R.string.no_fields_upload_image));
         }
     }
 

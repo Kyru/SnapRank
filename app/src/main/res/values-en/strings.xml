@@ -70,5 +70,19 @@
 
     <string name="location_hint">Location</string>
 
-    <string name="passwords_do_not_match">Passwords do not match. Try again.</string>
+    <string name="passwords_do_not_match">Passwords do not match or fields are empty. Try again.</string>
+
+    <string name="no_photos_in_category">has not photos yet</string>
+    <string name="no_fields_upload_image">Photo, description or location field is empty</string>
+
+    <string name="username_alert">Change username</string>
+    <string name="new_username">New username</string>
+    <string name="new_username_error">New username empty or has not changed</string>
+    <string name="new_username_taken">This username is already taken, please select another</string>
+
+    <string name="location_alert">Change location</string>
+    <string name="new_location">New location</string>
+    <string name="new_location_error">New location field is empty</string>
+
+
 </resources>

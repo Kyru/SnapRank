@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
-                getRandomImage();
+                getCategoryImage();
                 return true;
             }
         });
@@ -239,6 +239,20 @@ public class HomeFragment extends Fragment {
             default: return category;
         }
     }
+
+    public void getCategoryImage(){
+        for(int i = 0; i < imagenSubidaList.size(); i++){
+            if(imagenSubidaList.get(i).getCategory() == category){
+                getRandomImage();
+            }
+        }
+
+        String categoryString = getResources().getString(R.string.category);
+        String categoryMessge = getResources().getString(R.string.no_photos_in_category);
+
+        Toast.makeText(getActivity(),categoryString + " " + category + " " + categoryMessge, Toast.LENGTH_SHORT).show();
+    }
+
 
     public void getRandomImage(){
 

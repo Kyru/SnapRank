@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,10 +42,14 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 import snaprank.example.labdadm.snaprank.services.GalleryService;
 
@@ -62,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private String URLProfilePic;
     private String username;
+    private List<String> usernameList;
     private TextView usernameText;
     private Bitmap bitmap;
     private FirebaseFirestore firestoreDatabase;
@@ -78,11 +85,13 @@ public class SettingsActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.usernameText);
         profilePicture = findViewById(R.id.profilePicture);
 
+        usernameList = new ArrayList<>();
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         /* Initialize services */
-        firebaseService =  new FirebaseService(this);
+        firebaseService = new FirebaseService(this);
         galleryService = new GalleryService(this, this);
 
         try {
@@ -147,8 +156,9 @@ public class SettingsActivity extends AppCompatActivity {
         newPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
         confirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-        newPass.setHint("Nueva contraseña");
-        confirmPass.setHint("Confirmar contraseña");
+        newPass.setHint(getResources().getString(R.string.password));
+        confirmPass.setHint(getResources().getString(R.string.confirm_password));
+
         LinearLayout layout = new LinearLayout(SettingsActivity.this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -158,7 +168,7 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(R.string.accept,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (newPass.getText().toString().equals(confirmPass.getText().toString())) {
+                        if (newPass.getText().toString().equals(confirmPass.getText().toString()) && !newPass.getText().toString().equals("")) {
                             firebaseService.changePassword(newPass.getText().toString());
                         } else {
                             createToast(getResources().getString(R.string.passwords_do_not_match));
@@ -175,6 +185,163 @@ public class SettingsActivity extends AppCompatActivity {
 
         AlertDialog alert11 = alertDialog.create();
         alert11.show();
+    }
+
+    public void changeUserNameAlert(View view) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
+        alertDialog.setTitle(getResources().getString(R.string.username_alert));
+        final EditText newUser = new EditText(SettingsActivity.this);
+
+        newUser.setHint(getResources().getString(R.string.new_username));
+        LinearLayout layout = new LinearLayout(SettingsActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        layout.addView(newUser);
+        alertDialog.setView(layout);
+        alertDialog.setPositiveButton(R.string.accept,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (newUser.getText().toString().equals("") || newUser.getText().toString().equals(username)) {
+                            String toastMessage = getResources().getString(R.string.new_username_error);
+                            Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        } else {
+                            checkUserName(newUser.getText().toString());
+                        }
+                    }
+                });
+        alertDialog.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = alertDialog.create();
+        alert11.show();
+    }
+
+    public void checkUserName(final String newUserName) {
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", newUserName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                usernameList.add(document.toObject(Usuario.class).getUsername());
+                            }
+                            if (usernameList.size() != 0) {
+                                String toastMessage = getResources().getString(R.string.new_username_taken);
+                                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                            } else {
+                                changeUserName(newUserName);
+                            }
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
+    }
+
+    public void changeUserName(final String newUserName){
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                usuario.setUsername(newUserName);
+                                firestoreDatabase.collection("users").document(usuario.getId())
+                                        .set(usuario, SetOptions.merge());
+                            }
+                            upateUserPhotos(username, newUserName);
+                            firebaseService.updateUser(newUserName);
+                            username = newUserName;
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
+    }
+
+    public void upateUserPhotos(String oldUser, final String newUser){
+        firestoreDatabase.collection("images")
+                .whereEqualTo("username", oldUser)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ImagenSubida imagenSubida = document.toObject(ImagenSubida.class);
+                                imagenSubida.setUsername(newUser);
+                                firestoreDatabase.collection("images").document(imagenSubida.getId())
+                                        .set(imagenSubida, SetOptions.merge());
+                            }
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
+    }
+
+    public void changeLocationAlert(View view) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
+
+        alertDialog.setTitle(getResources().getString(R.string.location_alert));
+        final EditText newLocation = new EditText(SettingsActivity.this);
+
+        newLocation.setHint(getResources().getString(R.string.new_location));
+        LinearLayout layout = new LinearLayout(SettingsActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        layout.addView(newLocation);
+        alertDialog.setView(layout);
+        alertDialog.setPositiveButton(R.string.accept,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (newLocation.getText().toString().equals("")) {
+                            String toastMessage = getResources().getString(R.string.new_location_error);
+                            Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        } else {
+                            changeLocation(newLocation.getText().toString());
+                        }
+                    }
+                });
+        alertDialog.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = alertDialog.create();
+        alert11.show();
+    }
+
+    public void changeLocation(final String newLocation){
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                usuario.setLocation(newLocation);
+                                firestoreDatabase.collection("users").document(usuario.getId())
+                                        .set(usuario, SetOptions.merge());
+                            }
+                        } else {
+                            createToast(getResources().getString(R.string.fail_getting_profile_pic));
+                        }
+                    }
+                });
     }
 
     public void deleteAccount(View view) {
@@ -228,7 +395,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -261,10 +427,10 @@ public class SettingsActivity extends AppCompatActivity {
         int imageWidth = profilePicture.getDrawable().getIntrinsicWidth();
 
         Bitmap croppedBitmap;
-        if(imageHeight > imageWidth){
-            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200 , 400, true);
+        if (imageHeight > imageWidth) {
+            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 200, 400, true);
         } else {
-            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400 , 200, true);
+            croppedBitmap = Bitmap.createScaledBitmap(bitmap, 400, 200, true);
         }
 
         //bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
