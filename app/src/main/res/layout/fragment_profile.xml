@@ -77,7 +77,7 @@
                     android:layout_width="80dp"
                     android:id="@+id/locationText"
                     android:layout_height="wrap_content"
-                    android:text="La Vila, España"
+                    android:text="location"
                     android:layout_gravity="center"
                     android:layout_margin="9dp"
                     android:textSize="18dp"

@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,8 @@ import snaprank.example.labdadm.snaprank.services.FirebaseService;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     FirebaseService firebaseService;
+    TextView header_name;
+
 
     private JSONObject userInfo;
 
@@ -84,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 findViewById(R.id.back).setVisibility(View.GONE);
+                header_name = findViewById(R.id.custom_bar_name);
+                header_name.setText("SnapRank");
                 break;
             case R.id.navigation_search:
                 fragment = new SearchFragment();
@@ -95,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 findViewById(R.id.back).setVisibility(View.GONE);
+                header_name = findViewById(R.id.custom_bar_name);
+                header_name.setText(R.string.title_search);
                 break;
             case R.id.navigation_ranking:
                 fragment = new RankingFragment();
@@ -106,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
                 findViewById(R.id.settingsButton).setVisibility(View.GONE);
+                header_name = findViewById(R.id.custom_bar_name);
+                header_name.setText(R.string.title_ranking);
                 break;
             case R.id.navigation_profile:
                 fragment = new ProfileFragment();
@@ -132,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
                 findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
                 findViewById(R.id.back).setVisibility(View.GONE);
+                header_name = findViewById(R.id.custom_bar_name);
+                header_name.setText(R.string.title_profile);
                 break;
         }
 
