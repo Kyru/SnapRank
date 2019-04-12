@@ -2,7 +2,7 @@
     <string name="app_name">SnapRank</string>
     <string name="title_home">Inicio</string>
     <string name="title_search">Buscar</string>
-    <string name="title_ranking">Ranking</string>
+    <string name="title_ranking">Ránking</string>
     <string name="title_profile">Perfil</string>
     <string name="email">Correo electrónico</string>
     <string name="username">Usuario</string>
@@ -69,6 +69,21 @@
     <string name="cancel">Cancelar</string>
     <string name="location_hint">Ubicación</string>
 
-    <string name="passwords_do_not_match">Las contraseñas introducidas no coinciden. Prueba otra vez.</string>
+    <string name="passwords_do_not_match">Las contraseñas introducidas no coinciden o no los campos no se han rellenado. Prueba otra vez.</string>
+
+    <string name="no_photos_in_category">aún no contiene fotos</string>
+    <string name="no_enough_photos_in_category">no tiene suficientes fotos para mostrar</string>
+    <string name="no_fields_upload_image">El campo de foto, descripción o localización esta vacío</string>
+
+    <string name="username_alert">Cambiar nombre de usuario</string>
+    <string name="new_username">Nuevo nombre de usuario</string>
+    <string name="new_username_error">Nombre de usuario vacio o no ha cambiado</string>
+    <string name="new_username_taken">Este nombre de usuario ya existe, por favor seleccione otro</string>
+
+    <string name="location_alert">Cambiar localización</string>
+    <string name="new_location">Nueva localización</string>
+    <string name="do_click">Hiciste click en: </string>
+    <string name="new_location_error">El campo de nueva localización está vacío</string>
+
 
 </resources>

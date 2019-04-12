@@ -1,4 +1,5 @@
 package snaprank.example.labdadm.snaprank.fragments;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,19 +35,21 @@ import snaprank.example.labdadm.snaprank.models.ImagenSubida;
 import snaprank.example.labdadm.snaprank.models.Usuario;
 
 
-public class SearchFragment extends Fragment  {
+public class SearchFragment extends Fragment {
     ListView listview;
-    ArrayList<Usuario> categories = new ArrayList<>(), categories2=new ArrayList<>();
-    ArrayList<View> items=new ArrayList<>();
+    ArrayList<Usuario> categories = new ArrayList<>(), categories2 = new ArrayList<>();
+    ArrayList<View> items = new ArrayList<>();
     SearchView search;
     CategoryAdapter myAdapter;
     FirebaseFirestore firestoreDatabase;
     FirebaseStorage firebaseStorage;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_search, null);
-        search=(SearchView) v.findViewById(R.id.searchView);
+
+        View v = inflater.inflate(R.layout.fragment_search, null);
+        search = (SearchView) v.findViewById(R.id.searchView);
         listview = (ListView) v.findViewById(R.id.listviewcat);
 
         firebaseStorage = FirebaseStorage.getInstance();
@@ -62,48 +65,23 @@ public class SearchFragment extends Fragment  {
                             temp.clear();
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                temp.add( document.toObject(Usuario.class));
+                                temp.add(document.toObject(Usuario.class));
                             }
-                            listview.setAdapter(new CategoryAdapter(getContext(),R.layout.fragment_search, temp,firebaseStorage));
-                            categories=temp;
+                            listview.setAdapter(new CategoryAdapter(getContext(), R.layout.fragment_search, temp, firebaseStorage));
+                            categories = temp;
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-        myAdapter = new CategoryAdapter(getContext(),R.layout.fragment_search, categories,firebaseStorage);
+        myAdapter = new CategoryAdapter(getContext(), R.layout.fragment_search, categories, firebaseStorage);
 
         listview.setAdapter(myAdapter);
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-               // myAdapter.clear();
-                //myAdapter.addAll(categories);
-                firestoreDatabase = FirebaseFirestore.getInstance();
-
-                firestoreDatabase.collection("users")
-                        .whereArrayContains("username",query)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    ArrayList<Usuario> temp = new ArrayList<Usuario>();
-                                    temp.clear();
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        temp.add( document.toObject(Usuario.class));
-                                    }
-                                    listview.setAdapter(new CategoryAdapter(getContext(),R.layout.fragment_search, temp,firebaseStorage));
-                                    categories=temp;
-                                } else {
-                                    Log.d("TAG", "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
-                return true;
+                return false;
             }
 
             @Override
@@ -111,27 +89,19 @@ public class SearchFragment extends Fragment  {
                 ArrayList<Usuario> temp = new ArrayList<Usuario>();
                 int textlength = newText.length();
                 temp.clear();
-                for (int i = 0; i < categories.size(); i++)
-                {
-                    if (textlength <= categories.get(i).getUsername().length())
-                    {
-                        if(newText.equalsIgnoreCase(
-                                (String)
-                                        categories.get(i).getUsername().subSequence(0,
-                                                textlength)))
-                        {
+                for (int i = 0; i < categories.size(); i++) {
+                    if (textlength <= categories.get(i).getUsername().length()) {
+                        if (newText.equalsIgnoreCase((String) categories.get(i).getUsername().subSequence(0, textlength))) {
                             temp.add(categories.get(i));
                         }
                     }
                 }
-                listview.setAdapter(new CategoryAdapter(getContext(),R.layout.fragment_search, temp,firebaseStorage));
-                return false;
+                listview.setAdapter(new CategoryAdapter(getContext(), R.layout.fragment_search, temp, firebaseStorage));
+                return true;
 
 
             }
         });
-
-
 
         return v;
 

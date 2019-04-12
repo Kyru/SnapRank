@@ -27,8 +27,16 @@ public class Usuario {
         return this.username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getLocation() {
         return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getProfilePicUrl() {
@@ -36,6 +44,7 @@ public class Usuario {
     }
 
     public int getScore() { return this.score; }
+    public void setScore(int s) { this.score=s; }
 
     public ArrayList<Logro> getAwards() { return this.awards; }
 }

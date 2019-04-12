@@ -43,6 +43,7 @@ import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.UploadImageActivity;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Usuario;
 import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class HomeFragment extends Fragment {
@@ -53,6 +54,8 @@ public class HomeFragment extends Fragment {
     List<ImagenSubida> imagenSubidaList;
     Bitmap bitmap;
     ImageView iv_imagenSubida;
+    String username_pic;
+    Usuario usuario_pic;
 
     private FirebaseService firebaseService = new FirebaseService(getContext());
     SharedPreferences preferences;
@@ -125,6 +128,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 imagenSubida.setLikes(imagenSubida.getLikes()+1);
+                usuario_pic.setScore(usuario_pic.getScore()+1);
                 updateCurrentImage();
             }
         });
@@ -133,6 +137,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 imagenSubida.setDislikes(imagenSubida.getDislikes()+1);
+                usuario_pic.setScore(usuario_pic.getScore()-1);
                 updateCurrentImage();
             }
         });
@@ -194,7 +199,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
-                getRandomImage();
+                getCategoryImage();
                 return true;
             }
         });
@@ -235,14 +240,44 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public void getCategoryImage(){
+        for(int i = 0; i < imagenSubidaList.size(); i++){
+            if(imagenSubidaList.get(i).getCategory() == category){
+                getRandomImage();
+            }
+        }
+
+        String categoryString = getResources().getString(R.string.category);
+        String categoryMessge = getResources().getString(R.string.no_photos_in_category);
+
+        Toast.makeText(getActivity(),categoryString + " " + category + " " + categoryMessge, Toast.LENGTH_SHORT).show();
+    }
+
+
     public void getRandomImage(){
 
         while(true) {
             Random randomGenerator = new Random();
             int i = randomGenerator.nextInt(imagenSubidaList.size());
             imagenSubida = imagenSubidaList.get(i);
+            username_pic = imagenSubida.getUsername();
             if (imagenSubida.getCategory().equals(category) || category.equals("All")) break;
         }
+
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username_pic)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                usuario_pic = document.toObject(Usuario.class);
+                                break;
+                            }
+                        }
+                    }
+                });
 
         StorageReference imageRef = storageRef.child(imagenSubida.getUrl());
 
@@ -266,6 +301,10 @@ public class HomeFragment extends Fragment {
 
         firestoreDatabase.collection("images").document(imagenSubida.getId())
                 .set(imagenSubida, SetOptions.merge());
+
+
+        firestoreDatabase.collection("users").document(usuario_pic.getId())
+                .set(usuario_pic, SetOptions.merge());
 
 
         handler.post(new Runnable() {
