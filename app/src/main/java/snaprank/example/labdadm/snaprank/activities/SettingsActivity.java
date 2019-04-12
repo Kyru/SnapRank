@@ -7,12 +7,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences preferences;
 
     private ImageView profilePicture;
+    ImageButton back;
 
     private FirebaseStorage storage;
     private String URLProfilePic;
@@ -74,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseFirestore firestoreDatabase;
     private Object user;
     private StorageReference storageRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,34 @@ public class SettingsActivity extends AppCompatActivity {
         profilePicture = findViewById(R.id.profilePicture);
 
         usernameList = new ArrayList<>();
+
+        // Setting custom ActionBar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+        // Cambiar el color del ActionBar
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xeeeeeeee));
+
+        findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
+        findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
+        findViewById(R.id.logoutButton).setVisibility(View.GONE);
+        findViewById(R.id.back).setVisibility(View.VISIBLE);
+
+        back = findViewById(R.id.back);
+
+        ((View) back).setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                     Bundle bundle = new Bundle();
+                     bundle.putString("username", username);
+                     bundle.putBoolean("goToProfile", true);
+                     intent.putExtras(bundle);
+                     startActivity(intent);
+                 }
+             }
+        );
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         storage = FirebaseStorage.getInstance();
@@ -244,7 +277,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 
-    public void changeUserName(final String newUserName){
+    public void changeUserName(final String newUserName) {
         firestoreDatabase.collection("users")
                 .whereEqualTo("username", username)
                 .get()
@@ -268,7 +301,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 
-    public void upateUserPhotos(String oldUser, final String newUser){
+    public void upateUserPhotos(String oldUser, final String newUser) {
         firestoreDatabase.collection("images")
                 .whereEqualTo("username", oldUser)
                 .get()
@@ -323,7 +356,7 @@ public class SettingsActivity extends AppCompatActivity {
         alert11.show();
     }
 
-    public void changeLocation(final String newLocation){
+    public void changeLocation(final String newLocation) {
         firestoreDatabase.collection("users")
                 .whereEqualTo("username", username)
                 .get()
