@@ -1,13 +1,17 @@
 package snaprank.example.labdadm.snaprank.services;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,15 +23,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import snaprank.example.labdadm.snaprank.R;
+import snaprank.example.labdadm.snaprank.activities.MainActivity;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
+import snaprank.example.labdadm.snaprank.models.Logro;
 import snaprank.example.labdadm.snaprank.models.Usuario;
 
 public class FirebaseService {
@@ -39,6 +43,8 @@ public class FirebaseService {
 
     // variable to hold context
     private Context context;
+    Bundle bundle = new Bundle();
+    SharedPreferences preferences;
 
     public FirebaseService(Context context) {
         this.context = context;
@@ -146,7 +152,11 @@ public class FirebaseService {
                 });
     }
 
-    public void deleteAccount() {
+    /**
+     * Deletes user
+     * @param userID User's ID
+     */
+    public void deleteAccount(String userID, ArrayList<String> imagesID) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,28 +164,81 @@ public class FirebaseService {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             createToast(context.getString(R.string.delete_accound_message_confirmation));
+                        } else {
+                            createToast(context.getString(R.string.delete_accound_message_fail));
                         }
                     }
                 });
+
+        /* Deletes user from database */
+        db.collection("users").document(userID)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // User deleted from database successfully
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error deleting user from database
+                    }
+                });
+        for (String imageID : imagesID) {
+            /* Deletes user from database */
+            db.collection("images").document(imageID)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Image deleted from database successfully
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Error deleting image from database
+                }
+            });
+        }
     }
 
-    public void signUp(final String username, String email, String password) {
+    public void signUp(final String username, String email, String password, final String location) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
+                    preferences = PreferenceManager.getDefaultSharedPreferences(context);
                     // Sign in success, update UI with the signed-in user's information
                     updateUser(username);
 
+                    preferences.edit().putBoolean("loggedIn", true).apply();
+                    saveUserToDatabase(username, location);
+
+                    Intent intent = new Intent(context, MainActivity.class);
+                    bundle.putString("username", username);
+                    bundle.putBoolean("goToProfile", false);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+
                     // updateUI(user);
-                } else {
+                } else if (!task.isSuccessful()){
+
                     // If sign in fails, display a message to the user.
                     createToast("Authentication failed.");
                     // updateUI(null);
                 }
             }
         });
+    }
+
+    public void saveUserToDatabase(String username, String location) {
+        ArrayList<Logro> awards = new ArrayList<>();
+        /* Save user in database */
+        UUID userID = UUID.randomUUID();
+        String path = "profile-pics/profilepic_default.jpeg";
+        Usuario user = new Usuario("" + userID, username, location, path, 0, awards);
+        uploadUser(user);
     }
 
     private void createToast(String message) {
