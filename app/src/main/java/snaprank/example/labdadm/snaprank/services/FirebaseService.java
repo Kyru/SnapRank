@@ -2,9 +2,10 @@ package snaprank.example.labdadm.snaprank.services;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,7 +16,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -44,6 +44,7 @@ public class FirebaseService {
     // variable to hold context
     private Context context;
     Bundle bundle = new Bundle();
+    SharedPreferences preferences;
 
     public FirebaseService(Context context) {
         this.context = context;
@@ -207,9 +208,11 @@ public class FirebaseService {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
+                    preferences = PreferenceManager.getDefaultSharedPreferences(context);
                     // Sign in success, update UI with the signed-in user's information
                     updateUser(username);
 
+                    preferences.edit().putBoolean("loggedIn", true).apply();
                     saveUserToDatabase(username, location);
 
                     Intent intent = new Intent(context, MainActivity.class);
