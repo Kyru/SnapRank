@@ -154,7 +154,7 @@ boolean goToProfile;
         findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
         findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
         findViewById(R.id.navigation_profile).setClickable(false);
-
+goToProfile=false;
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
