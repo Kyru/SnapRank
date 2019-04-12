@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,7 @@ public class CategoryAdapter extends ArrayAdapter{
                 bundle.putBoolean("goToProfile", true);
                 intent.putExtras(bundle);
                 group.startActivity(intent);
+
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +115,9 @@ public class CategoryAdapter extends ArrayAdapter{
                     bundle.putString("username", categories.get(position).getUsername());
                     bundle.putBoolean("goToProfile", true);
                     intent.putExtras(bundle);
+                   
                     group.startActivity(intent);
+
                 }
             });
     }

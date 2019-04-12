@@ -3,6 +3,7 @@ package snaprank.example.labdadm.snaprank.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -23,9 +24,9 @@ import snaprank.example.labdadm.snaprank.services.FirebaseService;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     FirebaseService firebaseService;
-
+String username;
     private JSONObject userInfo;
-
+boolean goToProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +44,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         firebaseService = new FirebaseService(this);
 
-        String username = getIntent().getExtras().getString("username");
-        boolean goToProfile = getIntent().getExtras().getBoolean("goToProfile");
+         username = getIntent().getExtras().getString("username");
+         goToProfile = getIntent().getExtras().getBoolean("goToProfile");
         if(goToProfile){
-            goToProfile(username);
+            ((BottomNavigationView)findViewById(R.id.navigation)).setSelectedItemId(R.id.navigation_profile);
+
         } else {
 
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
@@ -108,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 break;
             case R.id.navigation_profile:
-                fragment = new ProfileFragment();
+                if(goToProfile)goToProfile(username);
+               else{ fragment = new ProfileFragment();
                 String username = "";
 
                 userInfo = firebaseService.getCurrentUser();
@@ -131,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
                 findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
-                findViewById(R.id.back).setVisibility(View.GONE);
+                findViewById(R.id.back).setVisibility(View.GONE);}
                 break;
         }
 
@@ -150,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
         findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
         findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+        findViewById(R.id.navigation_profile).setClickable(false);
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer,fragment).commit();
