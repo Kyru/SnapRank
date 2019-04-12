@@ -62,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private Uri uri;
 
+    String url;
     SharedPreferences preferences;
 
     private ImageView profilePicture;
@@ -128,11 +129,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         try {
             username = firebaseService.getCurrentUser().get("username").toString();
+            usernameText.setText(username);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        usernameText.setText(username);
+
+
+        firestoreDatabase.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Usuario usuario = document.toObject(Usuario.class);
+                                url = usuario.getProfilePicUrl();
+                                setNewProfilePic(url);
+                                break;
+                            }
+                        }
+                    }
+                });
+
 
         /* Get profile url and user id */
         firestoreDatabase.collection("users")
@@ -170,26 +190,6 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 
-    public void changeProfilePicture(String URLProfilePic) {
-        StorageReference imageRef = storageRef.child(URLProfilePic);
-
-        final long ONE_MEGABYTE = 2048 * 2048;
-        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-                profilePicture.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 350,
-                        250, false));
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-    }
 
     public void changePassword(View view) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SettingsActivity.this);
@@ -513,5 +513,26 @@ public class SettingsActivity extends AppCompatActivity {
     public void createToast(String message) {
         Toast.makeText(SettingsActivity.this, message,
                 Toast.LENGTH_LONG).show();
+    }
+    public void setNewProfilePic(String url){
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageRef = firebaseStorage.getReference();
+        final StorageReference imageRef = storageRef.child(url);
+
+        final long ONE_MEGABYTE = 2048 * 2048;
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                profilePicture.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 400,
+                        400, false));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
     }
 }

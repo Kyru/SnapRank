@@ -5,4 +5,8 @@ Lo que queda por hacer:
 
     - Arreglar error de storage exception
 
-    - Añadir una flecha de back en el ranking
+    - Ver lo de carga más rápida de imágenes
+
+    - Texto de usuario en settings no se ve
+
+    - Llenar la app de imágenes y demás... para la presentación

@@ -86,6 +86,9 @@
     <string name="new_location">New location</string>
     <string name="do_click">You clicked: </string>
     <string name="new_location_error">New location field is empty</string>
+    <string name="rank_images">BEST PHOTOGRAPHIES</string>
+    <string name="rank_users">BEST USERS</string>
+    <string name="see_rank">SHOW RANKING</string>
 
 
 </resources>
