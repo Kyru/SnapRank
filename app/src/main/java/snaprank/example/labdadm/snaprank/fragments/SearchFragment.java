@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
         firebaseStorage = FirebaseStorage.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
 
-        firestoreDatabase.collection("users").orderBy("score").limit(10)
+        firestoreDatabase.collection("users").orderBy("score")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -77,6 +77,7 @@ public class SearchFragment extends Fragment {
         myAdapter = new CategoryAdapter(getContext(), R.layout.fragment_search, categories, firebaseStorage);
 
         listview.setAdapter(myAdapter);
+        listview.setScrollBarSize(10);
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -98,8 +99,6 @@ public class SearchFragment extends Fragment {
                 }
                 listview.setAdapter(new CategoryAdapter(getContext(), R.layout.fragment_search, temp, firebaseStorage));
                 return true;
-
-
             }
         });
 
