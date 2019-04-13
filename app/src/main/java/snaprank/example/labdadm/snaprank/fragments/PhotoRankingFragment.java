@@ -59,6 +59,7 @@ public class PhotoRankingFragment extends Fragment  {
     ImageButton ib_filter;
     ImageButton ib_back;
     String category="All";
+    int counter;
 
     View view;
     final long ONE_MEGABYTE = 2048 * 2048;
@@ -228,6 +229,7 @@ public class PhotoRankingFragment extends Fragment  {
         tercero = view.findViewById(R.id.imageThird);
         gridView = view.findViewById(R.id.photoRanking_grid);
         imagenRankingList.clear();
+        counter=0;
 
         firestoreDatabase.collection("images")
                 .get()
@@ -238,6 +240,8 @@ public class PhotoRankingFragment extends Fragment  {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if (category.equals(document.toObject(ImagenSubida.class).getCategory()) || category.equals("All")) {
                                     imagenRankingList.add(document.toObject(ImagenSubida.class));
+                                    counter++;
+                                    if(counter>22) break;
                                 }
                             }
                             if(imagenRankingList.size()<3){
@@ -293,4 +297,6 @@ public class PhotoRankingFragment extends Fragment  {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
 }
