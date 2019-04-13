@@ -219,7 +219,7 @@ public class PhotoRankingFragment extends Fragment  {
             case "Mar": return "Sea";
             case "Planetas y satélites": return "Planets";
             case "Amigos": return "Friends";
-            case "Animales": return "Animales";
+            case "Animales": return "Animals";
             case "Calles": return "Streets";
             case "Vehículos": return "Vehicles";
             case "Comida": return "Food";
