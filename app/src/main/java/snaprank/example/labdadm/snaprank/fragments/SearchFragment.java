@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
         firebaseStorage = FirebaseStorage.getInstance();
         firestoreDatabase = FirebaseFirestore.getInstance();
 
-        firestoreDatabase.collection("users").orderBy("score")
+        firestoreDatabase.collection("users").orderBy("score").limit(10)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

@@ -57,10 +57,6 @@ public class HomeFragment extends Fragment {
     String username_pic;
     Usuario usuario_pic;
 
-    private FirebaseService firebaseService = new FirebaseService(getContext());
-    SharedPreferences preferences;
-    private FirebaseDatabase database;
-    private DatabaseReference dbref_img;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
     private FirebaseFirestore firestoreDatabase;
@@ -68,9 +64,6 @@ public class HomeFragment extends Fragment {
     ImageButton ib_like;
     ImageButton ib_dislike;
     ImageButton ib_next;
-
-    private String username;
-    private JSONObject userInfo;
 
     Handler handler;
 
@@ -111,7 +104,6 @@ public class HomeFragment extends Fragment {
                                 enableButtons();
                                 getRandomImage();
                             }
-                        } else {
                         }
                     }
                 });
@@ -194,9 +186,12 @@ public class HomeFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(getActivity(), filter);
         popupMenu.getMenuInflater().inflate(R.menu.category_filter_menu, popupMenu.getMenu());
 
+
+        final String clickaste = getResources().getString(R.string.do_click);
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),clickaste + item.getTitle(), Toast.LENGTH_SHORT).show();
                 category = (String) item.getTitle();
                 category = translateCategory(category);
                 getCategoryImage();
@@ -212,22 +207,13 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void setUsername() {
-        userInfo = firebaseService.getCurrentUser();
-        try {
-            username = userInfo.get("username").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String translateCategory(String category){
         switch(category){
             case "Montaña": return "Mountain";
             case "Mar": return "Sea";
             case "Planetas y satélites": return "Planets";
             case "Amigos": return "Friends";
-            case "Animales": return "Animales";
+            case "Animales": return "Animals";
             case "Calles": return "Streets";
             case "Vehículos": return "Vehicles";
             case "Comida": return "Food";
@@ -242,15 +228,19 @@ public class HomeFragment extends Fragment {
 
     public void getCategoryImage(){
         for(int i = 0; i < imagenSubidaList.size(); i++){
-            if(imagenSubidaList.get(i).getCategory() == category){
+            if(translateCategory(imagenSubidaList.get(i).getCategory()).equals(category)){
                 getRandomImage();
+                break;
             }
+            if(i==imagenSubidaList.size()-1){
+                String categoryString = getResources().getString(R.string.category);
+                String categoryMessge = getResources().getString(R.string.no_photos_in_category);
+
+                Toast.makeText(getActivity(),categoryString + " " + category + " " + categoryMessge, Toast.LENGTH_SHORT).show();
+            }
+
         }
 
-        String categoryString = getResources().getString(R.string.category);
-        String categoryMessge = getResources().getString(R.string.no_photos_in_category);
-
-        Toast.makeText(getActivity(),categoryString + " " + category + " " + categoryMessge, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -261,7 +251,7 @@ public class HomeFragment extends Fragment {
             int i = randomGenerator.nextInt(imagenSubidaList.size());
             imagenSubida = imagenSubidaList.get(i);
             username_pic = imagenSubida.getUsername();
-            if (imagenSubida.getCategory().equals(category) || category.equals("All")) break;
+            if (translateCategory(imagenSubida.getCategory()).equals(category) || category.equals("All")) break;
         }
 
         firestoreDatabase.collection("users")
