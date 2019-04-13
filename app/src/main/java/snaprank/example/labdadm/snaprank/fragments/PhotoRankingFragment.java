@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
 
 import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
@@ -55,6 +57,8 @@ public class PhotoRankingFragment extends Fragment  {
     ImageView primero;
     ImageView segundo;
     ImageView tercero;
+
+    Handler handler;
 
     ImageButton ib_filter;
     ImageButton ib_back;
@@ -80,7 +84,7 @@ public class PhotoRankingFragment extends Fragment  {
         imagenRankingList = new ArrayList<ImagenSubida>();
 
         ib_filter = ((AppCompatActivity)getActivity()).findViewById(R.id.custom_bar_filter);
-        ib_filter.setVisibility(View.VISIBLE);
+        ib_filter.setVisibility(View.INVISIBLE);
         ib_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,9 +175,17 @@ public class PhotoRankingFragment extends Fragment  {
     }
 
     public void initializeGridAdapter(){
+
         imagenesGrid = imagenRankingList.subList(3, imagenRankingList.size());
         imagenSubidaAdapter = new ImagenSubidaAdapter(getContext(), R.layout.profile_grid_item, imagenesGrid, firebaseStorage);
         gridView.setAdapter(imagenSubidaAdapter);
+
+        ib_filter.postDelayed(new Runnable() {
+            public void run() {
+                ib_filter.setVisibility(View.VISIBLE);
+            }
+        }, 5000);
+
     }
 
     public void gotoViewPic(View view, int position){
@@ -190,6 +202,7 @@ public class PhotoRankingFragment extends Fragment  {
             public boolean onMenuItemClick(MenuItem item) {
                 String clickaste = getResources().getString(R.string.do_click);
                 Toast.makeText(getActivity(), clickaste + item.getTitle(), Toast.LENGTH_SHORT).show();
+                ib_filter.setVisibility(View.INVISIBLE);
                 category = (String) item.getTitle();
                 category = translateCategory(category);
                 fillRanking();
