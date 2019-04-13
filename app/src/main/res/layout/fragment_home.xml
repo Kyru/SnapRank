@@ -24,7 +24,7 @@
         <ImageView
             android:id="@+id/main_pic"
             android:layout_width="match_parent"
-            android:layout_height="370dp"
+            android:layout_height="400dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="30dp"
@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_gravity="center">
@@ -51,15 +52,16 @@
             android:src="@drawable/dislike"
             android:background="?android:selectableItemBackground"
             android:layout_marginRight="20dp"/>
+
         <ImageButton
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/next"
             android:background="?android:selectableItemBackground"
-            android:layout_marginRight="20dp"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/next" />
         <ImageButton
             android:id="@+id/like"
             android:layout_width="wrap_content"

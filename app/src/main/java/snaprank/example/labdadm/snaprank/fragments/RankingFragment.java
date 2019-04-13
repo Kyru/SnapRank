@@ -6,14 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import snaprank.example.labdadm.snaprank.R;
 
@@ -31,6 +27,8 @@ public class RankingFragment extends Fragment implements View.OnClickListener {
 
         Button photo = (Button) view.findViewById(R.id.toPhotoRanking);
         photo.setOnClickListener(this);
+
+        ((AppCompatActivity)getActivity()).findViewById(R.id.back).setVisibility(View.GONE);
 
         return view;
     }

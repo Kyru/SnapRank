@@ -42,7 +42,6 @@ import snaprank.example.labdadm.snaprank.R;
 import snaprank.example.labdadm.snaprank.activities.ViewPicActivity;
 import snaprank.example.labdadm.snaprank.adapters.ImagenSubidaAdapter;
 import snaprank.example.labdadm.snaprank.models.ImagenSubida;
-import snaprank.example.labdadm.snaprank.services.FirebaseService;
 
 public class PhotoRankingFragment extends Fragment  {
 
@@ -58,6 +57,7 @@ public class PhotoRankingFragment extends Fragment  {
     ImageView tercero;
 
     ImageButton ib_filter;
+    ImageButton ib_back;
     String category="All";
 
     View view;
@@ -87,12 +87,16 @@ public class PhotoRankingFragment extends Fragment  {
             }
         });
 
-
-
+        ib_back = ((AppCompatActivity)getActivity()).findViewById(R.id.back);
+        ib_back.setVisibility(View.VISIBLE);
+        ib_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnBack(v);
+            }
+        });
 
         fillRanking();
-
-
 
         return view;
     }
@@ -280,7 +284,13 @@ public class PhotoRankingFragment extends Fragment  {
                         }
                     }
                 });
+    }
 
-
+    public void returnBack(View view){
+        Fragment fragment = new RankingFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
