@@ -45,6 +45,7 @@ public class FirebaseService {
     private Context context;
     Bundle bundle = new Bundle();
     SharedPreferences preferences;
+    boolean exists;
 
     public FirebaseService(Context context) {
         this.context = context;

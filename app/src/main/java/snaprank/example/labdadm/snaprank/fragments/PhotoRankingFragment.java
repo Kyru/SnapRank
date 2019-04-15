@@ -97,6 +97,7 @@ public class PhotoRankingFragment extends Fragment  {
         ib_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ib_filter.setVisibility(View.GONE);
                 returnBack(v);
             }
         });
