@@ -102,6 +102,7 @@ boolean goToProfile;
                 findViewById(R.id.custom_bar_add).setVisibility(View.GONE);
                 findViewById(R.id.custom_bar_filter).setVisibility(View.GONE);
                 findViewById(R.id.logoutButton).setVisibility(View.GONE);
+                findViewById(R.id.settingsButton).setVisibility(View.GONE);
                 findViewById(R.id.back).setVisibility(View.GONE);
                 header_name = findViewById(R.id.custom_bar_name);
                 header_name.setText(R.string.title_search);
